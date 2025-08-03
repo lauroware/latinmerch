@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cotizador de Llaveros</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; }
+    label, select, input { display: block; margin-top: 10px; width: 100%; }
+    #resultado { margin-top: 20px; font-weight: bold; white-space: pre-line; font-size: 1.2em; }
+    #btnPDF { margin-top: 15px; display: none; }
+  </style>
+</head>
+<body>
+  <h2>Cotizador de Llaveros</h2>
+
+  <label>Ancho de cinta</label>
+  <select id="cinta">
+    <option value="4">4 cm</option>
+    <option value="2.5">2.5 cm</option>
+  </select>
+
+  <label>Material</label>
+  <select id="material">
+    <option value="cuero">Cuero</option>
+    <option value="pu">PU</option>
+  </select>
+
+  <label>Puntera</label>
+  <select id="enganche">
+    <option value="niquel">Mosquetón Niquelado</option>
+    <option value="negro">Mosquetón Negro</option>
+    <option value="aro">Aro Infinito</option>
+  </select>
+
+  <label>Tipo de llavero</label>
+  <select id="tipo">
+    <option value="corto">Corto 15 cm</option>
+    <option value="largo">Largo 40 cm</option>
+  </select>
+
+  <label>Holder para celular</label>
+  <select id="holder">
+    <option value="no" data-precio="0">No</option>
+    <option value="goma" data-precio="400">Holder de goma $400</option>
+    <option value="cuero" data-precio="150">Holder de cuero $150</option>
+    <option value="pu" data-precio="100">Holder PU $100</option>
+    <option value="cristal" data-precio="80">Holder cristal $80</option>
+  </select>
+
+  <label>Cantidad</label>
+  <input type="number" id="cantidad" min="1">
+
+  <button onclick="calcularPrecio()">Calcular precio</button>
+  <button id="btnPDF" onclick="generarPDF()">Descargar PDF</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    const preciosCorto = {
+      cuero: {
+        niquel: [10000, 3000, 2500, 2200],
+        negro: [10000, 3000, 2550, 2250],
+        aro:   [10000, 2800, 2300, 2000]
+      },
+      pu: {
+        niquel: [9850, 2850, 2350, 2050],
+        negro: [9850, 2850, 2400, 2100],
+        aro:   [9850, 2650, 2150, 1850]
+      }
+    };
+
+    const preciosLargoBase = {
+      cuero: [15000, 6000, 4000, 2700],
+      pu:    [14850, 5850, 3850, 2550]
+    };
+
+    let resumenGlobal = '';
+
+    function calcularPrecio() {
+      const material = document.getElementById('material').value;
+      const enganche = document.getElementById('enganche').value;
+      const cantidad = parseInt(document.getElementById('cantidad').value);
+      const tipo = document.getElementById('tipo').value;
+      const cinta = parseFloat(document.getElementById('cinta').value);
+      const holder = document.getElementById('holder');
+      const holderSeleccionado = holder.options[holder.selectedIndex];
+      const holderNombre = holderSeleccionado.text;
+      const precioHolder = parseInt(holderSeleccionado.dataset.precio);
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+        alert("Por favor, ingresá una cantidad válida.");
+        return;
+      }
+
+      let precioUnitario;
+
+      if (tipo === 'largo') {
+        const precios = preciosLargoBase[material];
+        if (cantidad >= 200)      precioUnitario = precios[3];
+        else if (cantidad >= 100) precioUnitario = precios[2];
+        else if (cantidad >= 30)  precioUnitario = precios[1];
+        else                      precioUnitario = precios[0];
+
+        if (enganche === 'negro') precioUnitario += 50;
+        if (enganche === 'aro')   precioUnitario -= 200;
+      }
+      else if (tipo === 'corto' && cinta === 4) {
+        const precios = preciosCorto[material][enganche];
+        if (cantidad >= 600)      precioUnitario = precios[3];
+        else if (cantidad >= 100) precioUnitario = precios[2];
+        else if (cantidad >= 15)  precioUnitario = precios[1];
+        else                      precioUnitario = precios[0];
+      }
+      else {
+        alert('Por ahora solo se calcula el precio para:\n- Llavero corto con cinta de 4 cm\n- Llavero largo con cualquier cinta');
+        return;
+      }
+
+      precioUnitario += precioHolder;
+      const total = precioUnitario * cantidad;
+
+      resumenGlobal =
+        `Te Pasamos un resumen de la cotización válida por 7 días\n\n` +
+        `Selección:\n` +
+        `- Tipo de llavero: ${tipo}\n` +
+        `- Ancho de cinta: ${cinta} cm\n` +
+        `- Material: ${material}\n` +
+        `- Enganche: ${enganche}\n` +
+        `- Holder: ${holderNombre}\n` +
+        `- Cantidad: ${cantidad}\n\n` +
+        `Precio unitario: $${precioUnitario}\n` +
+        `Precio total: $${total}`;
+
+      document.getElementById('resultado').innerText = resumenGlobal;
+      document.getElementById('btnPDF').style.display = 'inline-block'; // mostrar botón PDF
+    }
+
+    function generarPDF() {
+      if (!resumenGlobal) {
+        alert("Primero calculá el precio antes de descargar el PDF.");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Fecha actual
+      const hoy = new Date();
+      const dia = String(hoy.getDate()).padStart(2, '0');
+      const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+      const anio = hoy.getFullYear();
+      const fechaTexto = `Fecha: ${dia}/${mes}/${anio}`;
+
+      doc.setFontSize(12);
+      doc.text(fechaTexto, 10, 10);
+      doc.text(resumenGlobal, 10, 20);
+      doc.save("cotizacion_llavero.pdf");
+    }
+
+    // Al cargar la página, ocultamos el botón PDF
+    window.onload = () => {
+      document.getElementById('btnPDF').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
