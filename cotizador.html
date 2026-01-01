@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cotizador de Llaveros</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 480px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9fb;
+      color: #333;
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 20px;
+      color: #34495e;
+      display: block;
+      margin-bottom: 6px;
+    }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1em;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input[type="number"]:focus {
+      border-color: #2980b9;
+      outline: none;
+      background: #eaf3fc;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 1.1em;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #2980b9;
+      color: white;
+      box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3);
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #1c5980;
+    }
+    #btnPDF {
+      background: #27ae60;
+      margin-top: 12px;
+      box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+    }
+    #btnPDF:hover {
+      background: #1e8449;
+    }
+    #resultado {
+      margin-top: 30px;
+      font-weight: 600;
+      white-space: pre-line;
+      font-size: 1.15em;
+      background: #dff0d8;
+      border: 2px solid #a6d785;
+      padding: 15px 20px;
+      border-radius: 6px;
+      color: #3c763d;
+      min-height: 90px;
+    } img {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+    <img src="/assets/img/logolatin1.jpg" alt="Logo de la empresa">
+  <h2>Cotizador de Llaveros</h2>
+
+  <label>Ancho de cinta</label>
+  <select id="cinta">
+    <option value="4">4 cm</option>
+    <option value="2.5">2.5 cm</option>
+  </select>
+
+  <label>Material</label>
+  <select id="material">
+    <option value="cuero">Cuero</option>
+    <option value="pu">PU</option>
+  </select>
+
+  <label>Puntera</label>
+  <select id="enganche">
+    <option value="niquel">Mosquetón Niquelado</option>
+    <option value="negro">Mosquetón Negro</option>
+    <option value="aro">Aro Infinito</option>
+  </select>
+
+  <label>Tipo de llavero</label>
+  <select id="tipo">
+    <option value="corto">Corto 15 cm</option>
+    <option value="largo">Largo 40 cm</option>
+  </select>
+
+  <label>Holder para celular</label>
+  <select id="holder">
+    <option value="no" data-precio="0">No</option>
+    <option value="goma" data-precio="400">Holder de goma</option>
+    <option value="cuero" data-precio="150">Holder de cuero</option>
+    <option value="pu" data-precio="100">Holder PU</option>
+    <option value="cristal" data-precio="80">Holder cristal</option>
+  </select>
+
+  <label>Cantidad</label>
+  <input type="number" id="cantidad" min="1" />
+
+  <button onclick="calcularPrecio()">Calcular precio</button>
+  <button id="btnPDF" onclick="generarPDF()">Descargar PDF</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    let resumenGlobal = '';
+
+    function calcularPrecio() {
+      const material = document.getElementById('material').value;
+      const enganche = document.getElementById('enganche').value;
+      const cantidad = parseInt(document.getElementById('cantidad').value);
+      const tipo = document.getElementById('tipo').value;
+      const cinta = parseFloat(document.getElementById('cinta').value);
+      const holder = document.getElementById('holder');
+      const holderSeleccionado = holder.options[holder.selectedIndex];
+      const holderNombre = holderSeleccionado.text;
+      const precioHolder = parseInt(holderSeleccionado.dataset.precio);
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+        alert("Por favor, ingresá una cantidad válida.");
+        return;
+      }
+
+      let precioUnitario = 0;
+
+      // LLAVEROS LARGOS
+      if (tipo === 'largo') {
+        if (cantidad <= 14) {
+          precioUnitario = 15000;
+        } else if (cantidad < 200) {
+          precioUnitario = (material === 'cuero') ? 5000 : 4950;
+        } else {
+          precioUnitario = 2000;
+        }
+      }
+
+      // LLAVEROS CORTOS - 4 cm (los originales)
+      else if (tipo === 'corto' && cinta === 4) {
+        const preciosCorto = {
+          cuero: {
+            niquel: [10000, 3000, 2500, 2200],
+            negro:  [10000, 3000, 2550, 2250],
+            aro:    [10000, 2800, 2300, 2000]
+          },
+          pu: {
+            niquel: [9850, 2850, 2350, 2050],
+            negro:  [9850, 2850, 2400, 2100],
+            aro:    [9850, 2650, 2150, 1850]
+          }
+        };
+
+        const precios = preciosCorto[material][enganche];
+        if (cantidad >= 600)      precioUnitario = precios[3];
+        else if (cantidad >= 100) precioUnitario = precios[2];
+        else if (cantidad >= 15)  precioUnitario = precios[1];
+        else                      precioUnitario = precios[0];
+      }
+
+      // LLAVEROS CORTOS - 2.5 cm (nuevos)
+      else if (tipo === 'corto' && cinta === 2.5) {
+        if (cantidad <= 14) {
+          precioUnitario = 10000;
+        } else if (cantidad <= 100) {
+          if (enganche === 'aro') {
+            precioUnitario = (material === 'cuero') ? 2000 : 1950;
+          } else {
+            precioUnitario = (material === 'cuero') ? 2200 : 2150;
+          }
+        } else if (cantidad < 800) {
+          if (enganche === 'aro') {
+            precioUnitario = (material === 'cuero') ? 1700 : 1650;
+          } else {
+            precioUnitario = (material === 'cuero') ? 1900 : 1850;
+          }
+        } else {
+          // Precios especiales a partir de 800 unidades
+          if (enganche === 'aro') {
+            precioUnitario = (material === 'cuero') ? 1550 : 1500;
+          } else {
+            precioUnitario = (material === 'cuero') ? 1550 : 1800;
+          }
+        }
+      }
+
+      else {
+        alert('Combinación no válida. Revisá tipo, cinta y cantidad.');
+        return;
+      }
+
+      precioUnitario += precioHolder;
+      const total = precioUnitario * cantidad;
+
+      resumenGlobal =
+        `Latinmerch te agradece por cotizar tu producto.\n` +
+        `te facilitamos un resumen de la cotización válida por 15 días desde la fecha de emisión:\n` +
+        `Ponete en contacto con nosotros para coordinar detalles\n` +
+        `Selección:\n` +
+        `- Tipo de llavero: ${tipo}\n` +
+        `- Ancho de cinta: ${cinta} cm\n` +
+        `- Material: ${material}\n` +
+        `- Enganche: ${enganche}\n` +
+        `- Holder: ${holderNombre}\n` +
+        `- Cantidad: ${cantidad}\n\n` +
+        `Precio unitario: $${precioUnitario}\n` +
+        `Precio total: $${total}`;
+
+      document.getElementById('resultado').innerText = resumenGlobal;
+      document.getElementById('btnPDF').style.display = 'inline-block';
+    }
+
+    function generarPDF() {
+      if (!resumenGlobal) {
+        alert("Primero calculá el precio antes de descargar el PDF.");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const hoy = new Date();
+      const dia = String(hoy.getDate()).padStart(2, '0');
+      const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+      const anio = hoy.getFullYear();
+      const fechaTexto = `Fecha: ${dia}/${mes}/${anio}`;
+
+      doc.setFontSize(12);
+      doc.text(fechaTexto, 10, 10);
+      doc.text(resumenGlobal, 10, 20);
+      doc.save("cotizacion_llavero.pdf");
+    }
+
+    window.onload = () => {
+      document.getElementById('btnPDF').style.display = 'none';
+    };
+  </script>
+</body>
+</html>
