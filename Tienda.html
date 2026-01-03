@@ -37,6 +37,44 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <style>
+  .embed-wrapper{
+  width: 100%;
+  max-width: 1100px;
+  height: 520px;                /* menos gigante */
+  margin: 18px auto 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  background: #fff;
+  position: relative;
+}
+
+/* Fade abajo para que se note que continúa */
+.embed-wrapper:after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:80px;
+  pointer-events:none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+}
+
+.embed-wrapper iframe{
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 768px){
+  .embed-wrapper{
+    height: 70vh;               /* menos que 85vh */
+    border-radius: 12px;
+  }
+}
+
+</style>
+
 
   <!-- =======================================================
   * Template Name: Dewi
@@ -73,196 +111,201 @@
 
   <main class="main">
 
-    <!-- Hero Section -->
 
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
-      
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Productos</h2>
-        <p>Hacé tu pedido</p>
-        </div><!-- End Section Title -->
+<section id="portfolio" class="portfolio section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Productos</h2>
+    <p>Hacé tu pedido</p>
+  </div>
 
-      <div class="container">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row g-4 justify-content-center">
 
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+      <!-- PACK 1 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:16px; overflow:hidden;">
+          <img
+            src="https://ar.mitienda.la/assets/sources/uploads/productos/6958b53dc4faf_d_nq_np_2x_648791-mla72801170404_112023-f.webp"
+            class="img-fluid"
+            alt="Pack x 30 llaveros personalizados"
+            style="height:220px; width:100%; object-fit:cover;"
+          >
+          <div class="card-body">
+            <h3 class="h5 mb-2">Pack x 30 llaveros personalizados</h3>
+            <p class="text-muted mb-3" style="font-size:0.95rem;">
+              Ideal para eventos, regalos o merchandising. Personalizá con tu logo o diseño.
+            </p>
 
-          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">Llaveros</li>
-            <li data-filter=".filter-product">Necesers y Mochilas</li>
-            <li data-filter=".filter-branding">Toallas</li>
-            <li data-filter=".filter-books">Cintas</li>
-          </ul><!-- End Portfolio Filters -->
+            <div class="d-grid gap-2">
+              <a class="btn btn-dark"
+                 href="https://ar.mitienda.la/latinmerch-tienda/producto/landing/47763/pack-x-30-llaveros-personalizados"
+                 target="_blank" rel="noopener">
+                Comprar ahora
+              </a>
 
-          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-1.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Llavero 2.5</h4>
-                  <a href="https://latinmerch.mercadoshops.com.ar/MLA-2021543204-llavero-personalizado-x60-ancho-25-mosqueton-anzuelo-niquel-_JM#item_id=MLA2021543204&component=collection_grid&page_from=home&custom_categories=false&item_id=MLA2021543204&component=collection_grid&page_from=home&custom_categories=false"><p>Llavero Kiara Rios</p></a>
-                  <a href="assets/img/portfolio/app-1.png" title="Llavero Kiara Rios" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                   </div>
-
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-2.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Llavero 2.5</h4>
-                  <a href="https://latinmerch.mercadoshops.com.ar/MLA-2021543204-llavero-personalizado-x60-ancho-25-mosqueton-anzuelo-niquel-_JM#item_id=MLA2021543204&component=collection_grid&page_from=home&custom_categories=false&item_id=MLA2021543204&component=collection_grid&page_from=home&custom_categories=false"> <p>Trabajo para Jiu Gitsu Villa Adelina</p></a>
-                  <a href="assets/img/portfolio/app-2.png" title="Trabajo para Jiu Gitsu Villa Adelina" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                 </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-3.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Llavero 2,5</h4> <a href="https://latinmerch.mercadoshops.com.ar/MLA-2021543204-llavero-personalizado-x60-ancho-25-mosqueton-anzuelo-niquel-_JM#item_id=MLA2021543204&component=collection_grid&page_from=home&custom_categories=false&item_id=MLA2021543204&component=collection_grid&page_from=home&custom_categories=false">
-                  <p>Frente y dorso sublimado</p></a>
-                  <a href="assets/img/portfolio/app-3.png" title="Llavero 2,5" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-5.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Llavero Largo Tap</h4><a href="https://latinmerch.mercadoshops.com.ar/MLA-1481468209-llavero-publictario-x80-4cmx55cm-aprox-puntera-de-cuero-_JM#item_id=MLA1481468209&component=collection_grid&page_from=home&custom_categories=false&item_id=MLA1481468209&component=collection_grid&page_from=home&custom_categories=false">
-                  <p>Llavero para empresa de logistica 40 Cm de largo</p></a>
-                  <a href="assets/img/portfolio/app-5.png" title="Llavero Tap" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                 </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-4.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info"><a href="https://latinmerch.mercadoshops.com.ar/MLA-1600747404-llavero-sublimado-personalizado-x-20-_JM">
-                  <h4>Llavero Mc Donalds</h4></a>
-                  <p>Llavero de 4CM de ancho para mc Donalds</p>
-                  <a href="assets/img/portfolio/app-4.png" title="Llavero Mc Donalds" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                 </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-6.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info"><a href="https://latinmerch.mercadoshops.com.ar/MLA-1600747404-llavero-sublimado-personalizado-x-20-_JM">
-                  <h4>Llavero Anestatto</h4></a>
-                  <p>De 4 cm para empresa de tatuajes</p>
-                  <a href="assets/img/portfolio/app-6.png" title="Llavero Anestatto" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/app-7.jpg" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Llavero y Holder para celular</h4><a href="https://latinmerch.mercadoshops.com.ar/MLA-1484237863-x10-holder-personalizado-para-celular-llavero-cinta-_JM?variation=183173264466#reco_item_pos=0&reco_backend=seller_shops_odin&reco_backend_type=function&reco_client=vip-seller_items_above-shops&reco_id=7a63e0c8-68f8-47e9-8848-44ea37964037&reco_model=rk_entity_sameseller">
-                  <p>Fabricado para Cherry Ice</p></a>
-
-                  <a href="assets/img/portfolio/app-7.jpg" title="Llavero y Holder" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/books-1.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Correa para celular</h4><a href="https://latinmerch.mercadoshops.com.ar/MLA-2053266718-colgante-para-celular-correa-ajustable-puntera-de-cuero-_JM#item_id=MLA2053266718&component=collection_grid&page_from=home&custom_categories=false&item_id=MLA2053266718&component=collection_grid&page_from=home&custom_categories=false  ">
-                  <p>Usa el celular como bandolera! Personalizá la cinta o el holder</p></a>
-                  <a href="assets/img/portfolio/books-1.png" title="Corra para celular" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                    </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/branding-1.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Toallas</h4><a href="https://latinmerch.mercadoshops.com.ar/MLA-1894842746-toalla-sublimadas-_JM?searchVariation=184537039473#polycard_client=search-nordic-mshops&searchVariation=184537039473&position=10&search_layout=stack&type=item&tracking_id=75c53ead-c2fd-48aa-907b-4b3eb663516e">
-                  <p>Toallas de secado rapido para gimnasio</p></a>
-                  <a href="assets/img/portfolio/branding-1.png" title="Toallas" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                      </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/product-2.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Mochila Sublimada</h4>
-                  <p>Mochila sublimada, para gremio de municipales Sitram</p>
-                  <a href="assets/img/portfolio/product-2.png" title="Mochila sublimada" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/product-3.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Neceser</h4>
-                  <p>Neceser fabricado para Mc Donalds</p>
-                  <a href="assets/img/portfolio/product-3.png" title="Neceser Mc Donalds" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/product-1.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Mochila</h4><a href="https://latinmerch.mercadoshops.com.ar/MLA-1393980651-mochila-de-pu-fabricacion-propia-olibull-_JM">
-                  <p>Mochila PU</p></a>
-                  <a href="assets/img/portfolio/product-1.png" title="Mochila PU" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                   </div>
-              </div>
-            
-            </div><!-- End Portfolio Item -->
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/portfolio/product-4.png" class="img-fluid" alt="Foto de producto">
-                <div class="portfolio-info">
-                  <h4>Identificador de equipaje</h4><a href="https://latinmerch.mercadoshops.com.ar/MLA-1474399789-x10-identificador-de-equipaje-personalizado-_JM#item_id=MLA1474399789&component=collection_grid&page_from=home&custom_categories=false&item_id=MLA1474399789&component=collection_grid&page_from=home&custom_categories=false">
-                  <p>Identificador De Equipaje</p></a>
-                  <a href="assets/img/portfolio/product-4.png" title="Identificador de equipaje" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                   </div>
-              </div>
-            </div><!-- End Portfolio Item -->
-              <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-                <div class="portfolio-content h-100">
-                  <img src="assets/img/portfolio/app-8.png" class="img-fluid" alt="Foto de producto">
-                  <div class="portfolio-info">
-                    <h4>Llavero</h4>
-                    <p>Llavero cinta 4 corto </p>
-                    <a href="assets/img/portfolio/app-8.png" title="Mochila PU" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                     </div>
-                </div>
-              </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
-
+              <a class="btn btn-outline-dark"
+                 href="https://wa.me/541162366175?text=Hola%20Latin%20Merch!%20Quiero%20consultar%20por%20el%20Pack%20x%2030%20llaveros%20personalizados."
+                 target="_blank" rel="noopener">
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
         </div>
-
       </div>
 
-    </section><!-- /Portfolio Section -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:16px; overflow:hidden;">
+          <img
+            src="https://http2.mlstatic.com/D_NQ_NP_2X_650513-MLA77656553215_072024-F.webp"
+            class="img-fluid"
+            alt="Pack x 15 identificadores de valija personalizados"
+            style="height:220px; width:100%; object-fit:cover;"
+          >
+          <div class="card-body">
+            <h3 class="h5 mb-2">Pack x 15 identificadores de valija personalizadas</h3>
+            <p class="text-muted mb-3" style="font-size:0.95rem;">
+              Ideal para eventos, regalos o merchandising. Personalizá con tu logo o diseño.
+            </p>
 
+            <div class="d-grid gap-2">
+              <a class="btn btn-dark"
+                 href="https://ar.mitienda.la/latinmerch-tienda/producto/landing/47768/identificador-de-equipajes-personalizado-x-15"
+                 target="_blank" rel="noopener">
+                Comprar ahora
+              </a>
+
+              <a class="btn btn-outline-dark"
+                 href="https://wa.me/541162366175?text=Hola%20Latin%20Merch!%20Quiero%20consultar%20por%20el%20Pack%20x%2030%20llaveros%20personalizados."
+                 target="_blank" rel="noopener">
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div><div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:16px; overflow:hidden;">
+          <img
+            src="https://ar.mitienda.la/assets/sources/uploads/productos/6958b53dc4faf_d_nq_np_2x_648791-mla72801170404_112023-f.webp"
+            class="img-fluid"
+            alt="Pack x 30 llaveros personalizados"
+            style="height:220px; width:100%; object-fit:cover;"
+          >
+          <div class="card-body">
+            <h3 class="h5 mb-2">Pack x 30 llaveros personalizados</h3>
+            <p class="text-muted mb-3" style="font-size:0.95rem;">
+              Ideal para eventos, regalos o merchandising. Personalizá con tu logo o diseño.
+            </p>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-dark"
+                 href="https://ar.mitienda.la/latinmerch-tienda/producto/landing/47763/pack-x-30-llaveros-personalizados"
+                 target="_blank" rel="noopener">
+                Comprar ahora
+              </a>
+
+              <a class="btn btn-outline-dark"
+                 href="https://wa.me/541162366175?text=Hola%20Latin%20Merch!%20Quiero%20consultar%20por%20el%20Pack%20x%2030%20llaveros%20personalizados."
+                 target="_blank" rel="noopener">
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div><div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:16px; overflow:hidden;">
+          <img
+            src="https://ar.mitienda.la/assets/sources/uploads/productos/6958b53dc4faf_d_nq_np_2x_648791-mla72801170404_112023-f.webp"
+            class="img-fluid"
+            alt="Pack x 30 llaveros personalizados"
+            style="height:220px; width:100%; object-fit:cover;"
+          >
+          <div class="card-body">
+            <h3 class="h5 mb-2">Pack x 30 llaveros personalizados</h3>
+            <p class="text-muted mb-3" style="font-size:0.95rem;">
+              Ideal para eventos, regalos o merchandising. Personalizá con tu logo o diseño.
+            </p>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-dark"
+                 href="https://ar.mitienda.la/latinmerch-tienda/producto/landing/47763/pack-x-30-llaveros-personalizados"
+                 target="_blank" rel="noopener">
+                Comprar ahora
+              </a>
+
+              <a class="btn btn-outline-dark"
+                 href="https://wa.me/541162366175?text=Hola%20Latin%20Merch!%20Quiero%20consultar%20por%20el%20Pack%20x%2030%20llaveros%20personalizados."
+                 target="_blank" rel="noopener">
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div><div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:16px; overflow:hidden;">
+          <img
+            src="https://ar.mitienda.la/assets/sources/uploads/productos/6958b53dc4faf_d_nq_np_2x_648791-mla72801170404_112023-f.webp"
+            class="img-fluid"
+            alt="Pack x 30 llaveros personalizados"
+            style="height:220px; width:100%; object-fit:cover;"
+          >
+          <div class="card-body">
+            <h3 class="h5 mb-2">Pack x 30 llaveros personalizados</h3>
+            <p class="text-muted mb-3" style="font-size:0.95rem;">
+              Ideal para eventos, regalos o merchandising. Personalizá con tu logo o diseño.
+            </p>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-dark"
+                 href="https://ar.mitienda.la/latinmerch-tienda/producto/landing/47763/pack-x-30-llaveros-personalizados"
+                 target="_blank" rel="noopener">
+                Comprar ahora
+              </a>
+
+              <a class="btn btn-outline-dark"
+                 href="https://wa.me/541162366175?text=Hola%20Latin%20Merch!%20Quiero%20consultar%20por%20el%20Pack%20x%2030%20llaveros%20personalizados."
+                 target="_blank" rel="noopener">
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div><div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:16px; overflow:hidden;">
+          <img
+            src="https://ar.mitienda.la/assets/sources/uploads/productos/6958b53dc4faf_d_nq_np_2x_648791-mla72801170404_112023-f.webp"
+            class="img-fluid"
+            alt="Pack x 30 llaveros personalizados"
+            style="height:220px; width:100%; object-fit:cover;"
+          >
+          <div class="card-body">
+            <h3 class="h5 mb-2">Pack x 30 llaveros personalizados</h3>
+            <p class="text-muted mb-3" style="font-size:0.95rem;">
+              Ideal para eventos, regalos o merchandising. Personalizá con tu logo o diseño.
+            </p>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-dark"
+                 href="https://ar.mitienda.la/latinmerch-tienda/producto/landing/47763/pack-x-30-llaveros-personalizados"
+                 target="_blank" rel="noopener">
+                Comprar ahora
+              </a>
+
+              <a class="btn btn-outline-dark"
+                 href="https://wa.me/541162366175?text=Hola%20Latin%20Merch!%20Quiero%20consultar%20por%20el%20Pack%20x%2030%20llaveros%20personalizados."
+                 target="_blank" rel="noopener">
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUPLICÁ ESTE BLOQUE PARA MÁS PACKS -->
+
+    </div>
+  </div>
+</section>
 
 
   </main>
