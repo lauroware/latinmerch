@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos - Cuero & Accesorios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        /* Grid de productos */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        /* Tarjeta de producto */
+        .producto-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .producto-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .producto-header h2 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .observacion {
+            font-size: 0.85em;
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tabla-precios {
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .precio {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .precio-base {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .material {
+            font-weight: 500;
+        }
+
+        /* Sección de condiciones */
+        .condiciones {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .condiciones h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .condiciones ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .condiciones li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .condiciones li:before {
+            content: "✓";
+            color: #28a745;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .productos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-nuevo {
+            background: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏷️ Catálogo de Productos</h1>
+        <div class="subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
+
+        <div class="productos-grid">
+            <!-- Holder para celular -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>📱 Holder para celular</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr>
+                            <th>Material</th>
+                            <th>Precio</th>
+                        </tr>
+                        <tr><td>Cristal</td><td class="precio">$250</td></tr>
+                        <tr><td>Cuero</td><td class="precio">$500</td></tr>
+                        <tr><td>Goma</td><td class="precio">$550</td></tr>
+                        <tr><td>PU</td><td class="precio">$300</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 4cm x 15 -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔑 Llavero 4cm x 15</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>600u</th><th>2000u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$3000</td><td>$2500</td><td>$2250</td><td>$2000</td></tr>
+                        <tr><td>PU</td><td>$2850</td><td>$2350</td><td>$2000</td><td>$1800</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 4cm x 10 -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔑 Llavero 4cm x 10</h2>
+                </div>
+                <div class="observacion">
+                    ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th><th>2000u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2850</td><td>$2350</td><td>$2100</td><td>$1900</td></tr>
+                        <tr><td>PU</td><td>$2700</td><td>$2100</td><td>$1850</td><td>$1700</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 2.5 x 10 mosquetón -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔑 Llavero 2.5 x 10 (Mosquetón)</h2>
+                </div>
+                <div class="observacion">
+                    ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td>$2000</td><td>$1500</td></tr>
+                        <tr><td>PU</td><td>$2250</td><td>$1950</td><td>$1450</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 2.5 x 10 aro sin fin -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔑 Llavero 2.5 x 10 (Aro sin fin)</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td>$1900</td><td>$1450</td></tr>
+                        <tr><td>PU</td><td>$2250</td><td>$1850</td><td>$1350</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 4cm x 45 -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔑 Llavero 4cm x 45</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>200u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$4900</td><td>$3200</td><td>$2400</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 2.5cm x 45 -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔑 Llavero 2.5cm x 45</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>200u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$4700</td><td>$3050</td><td>$2200</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Correa simple con regulador -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🎀 Correa simple con regulador</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio (130 unidades)</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$4900</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Correa premium con regulador -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>✨ Correa premium con regulador</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio (130 unidades)</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$7500</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llave ro 2.5 mosquetón altipino -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🔐 Llave ro 2.5 mosquetón altipino</h2>
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio (25 unidades)</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$3700</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero Soga 4mm -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🪢 Llavero Soga 4mm</h2>
+                </div>
+                <div class="observacion">
+                    📏 Aprox 14 cm de largo
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio</th></tr>
+                        <tr><td>500 unidades</td><td class="precio">$2200</td></tr>
+                        <tr><td>1000 unidades</td><td class="precio">$1800</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Condiciones de venta -->
+        <div class="condiciones">
+            <h3>📋 Condiciones de venta</h3>
+            <ul>
+                <li>Los precios son finales</li>
+                <li>Trabajamos con adelanto del 50% y resto contra despacho de la mercadería</li>
+                <li>Los plazos dependen del modelo y de las cantidades. La fecha de entrega se pacta y compromete al momento de la señala</li>
+                <li>No incluye envío - Enviamos por Correo Argentino</li>
+                <li>Los productos se pueden retirar por Paternal</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
