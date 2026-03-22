@@ -277,73 +277,89 @@
         }
 
         /* Estilos para impresión/PDF */
-        @media print {
-            .btn-pdf {
-                display: none;
-            }
-            
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            
-            .container {
-                max-width: 100%;
-                padding: 10px;
-            }
-            
-            .producto-card {
-                break-inside: avoid;
-                page-break-inside: avoid;
-                margin-bottom: 20px;
-                box-shadow: none;
-                border: 1px solid #e0e0e0;
-            }
-            
-            .productos-grid {
-                gap: 15px;
-            }
-            
-            .condiciones {
-                break-inside: avoid;
-                page-break-inside: avoid;
-            }
-        }
+@media print {
+    .btn-pdf {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        max-width: 100%;
+        padding: 10px;
+    }
+    
+    .producto-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+        box-shadow: none;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .productos-grid {
+        gap: 15px;
+    }
+    
+    .condiciones {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    /* 🔥 Fotos sin deformación en PDF 🔥 */
+    .producto-imagen {
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+        background: #f8f9fa;
+    }
+    
+    .producto-imagen img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block;
+    }
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .productos-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-            }
-            
-            .header-section {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .btn-pdf {
-                align-self: center;
-            }
-            
-            .producto-header h2 {
-                font-size: 1em;
-            }
-            
-            th, td {
-                padding: 8px;
-                font-size: 0.8em;
-            }
-            
-            .producto-imagen {
-                aspect-ratio: 16 / 9;
-            }
-        }
+     /* Responsive */
+@media (max-width: 768px) {
+    .productos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .header-section {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .btn-pdf {
+        align-self: center;
+    }
+    
+    .producto-header h2 {
+        font-size: 1em;
+    }
+    
+    th, td {
+        padding: 8px;
+        font-size: 0.8em;
+    }
+    
+    /* En móvil mantenemos altura fija para pantalla */
+    .producto-imagen {
+        height: 100px;
+        aspect-ratio: auto; /* Anula cualquier aspect-ratio en móvil */
+    }
+}
     </style>
 </head>
 <body>
@@ -396,7 +412,7 @@
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>600u</th><th>2000u</th></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>300u</th><th>600u</th></tr>
                         <tr><td>Cuero genuino</td><td>$3000</td><td class="precio">$2500</td><td class="precio">$2250</td><td class="precio">$2000</td></tr>
                         <tr><td>PU</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2000</td><td class="precio">$1800</td></tr>
                     </table>
@@ -416,7 +432,7 @@
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th><th>2000u</th></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>400u</th><th>600u</th></tr>
                         <tr><td>Cuero genuino</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2100</td><td class="precio">$1900</td></tr>
                         <tr><td>PU</td><td>$2700</td><td class="precio">$2100</td><td class="precio">$1850</td><td class="precio">$1700</td></tr>
                     </table>
@@ -436,9 +452,9 @@
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$2000</td><td class="precio">$1500</td></tr>
-                        <tr><td>PU</td><td>$2250</td><td class="precio">$1950</td><td class="precio">$1450</td></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>400u</th><th>800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$2000</td><td class="precio">$1850</td><td class="precio">$1500</td></tr>
+                        <tr><td>PU</td><td>$2100</td><td class="precio">$1950</td><td class="precio">$1750</td><td class="precio">$1450</td></tr>
                     </table>
                 </div>
             </div>
@@ -453,9 +469,9 @@
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$1900</td><td class="precio">$1450</td></tr>
-                        <tr><td>PU</td><td>$2250</td><td class="precio">$1850</td><td class="precio">$1350</td></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>400u</th><th>800u</th></tr> 
+                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$1900</td><td class="precio">$1550</td><td class="precio">$1450</td></tr>
+                        <tr><td>PU</td><td>$2250</td><td class="precio">$1850</td><td class="precio">$1450</td><td class="precio">$1350</td></tr>
                     </table>
                 </div>
             </div>
@@ -495,15 +511,15 @@
             <!-- Correa simple con regulador -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <h2> Correa simple con regulador</h2>
+                    <h2> Correa simple con regulador (valor del hold no incluido)</h2>
                 </div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa simple">
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Precio (130 unidades)</th></tr>
-                        <tr><td>Cuero genuino</td><td class="precio">$4900</td></tr>
+                        <tr><th>Material</th><th>70u</th>><th>100u</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$4900</td><td class="precio">$4400</td></tr>
                     </table>
                 </div>
             </div>
@@ -511,15 +527,15 @@
             <!-- Correa premium con regulador -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <h2> Correa premium con regulador</h2>
+                    <h2> Correa premium con regulador (valor del hold no incluido)</h2>
                 </div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
-                    <img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa premium">
+                    <img src="https://i.ibb.co/rKWLPykF/Dise-o-sin-t-tulo-43.png" alt="Correa premium">
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Precio (130 unidades)</th></tr>
-                        <tr><td>Cuero genuino</td><td class="precio">$7500</td></tr>
+                        <tr><th>Material</th><th>70u</th><th>130u</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$7500</td><td class="precio">$7000</td></tr>
                     </table>
                 </div>
             </div>
@@ -556,6 +572,25 @@
                         <tr><th>Cantidad</th><th>Precio</th></tr>
                         <tr><td>500 unidades</td><td class="precio">$2200</td></tr>
                         <tr><td>1000 unidades</td><td class="precio">$1800</td></tr>
+                    </table>
+                </div>
+            </div>
+
+              <!-- Llavero Soga 4mm -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>Identificador de Equipaje</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/C3kGpxFs/Dise-o-sin-t-tulo-46.png" alt="Tag identificador de equipaje">
+                </div>
+
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio</th></tr>
+                        <tr><td>30 unidades</td><td class="precio">$3000</td></tr>
+                        <tr><td>100 unidades</td><td class="precio">$2500</td></tr>
+                        <tr><td>Otras unidades</td><td class="precio">Cotizar</td></tr>
                     </table>
                 </div>
             </div>
