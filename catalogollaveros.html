@@ -81,16 +81,17 @@
             margin-bottom: 40px;
         }
 
-        /* Tarjeta de producto - IMPORTANTE para PDF */
+        /* Tarjeta rediseñada */
         .producto-card {
             background: white;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* Evita que se corte la tarjeta en el PDF */
             break-inside: avoid;
             page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
         }
 
         .producto-card:hover {
@@ -98,37 +99,47 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
+        /* Header solo con título */
         .producto-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .producto-icono {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            background: white;
-            padding: 5px;
-            border: 2px solid white;
-        }
-
-        .producto-icono:hover {
-            transform: scale(1.05);
+            padding: 15px 20px;
         }
 
         .producto-header h2 {
             color: white;
             font-size: 1.2em;
             margin: 0;
-            flex: 1;
+            text-align: center;
         }
 
+        /* Contenedor de imagen - ocupa todo el ancho */
+       /* Contenedor de imagen - más compacto */
+.producto-imagen {
+    background: #f8f9fa;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100px;  /* Alto fijo más pequeño */
+    /* Si preferís proporción: aspect-ratio: 21 / 9;  (más panorámico) */
+}
+
+.producto-imagen:hover {
+    background: #e9ecef;
+}
+
+.producto-imagen:hover img {
+    transform: scale(1.02);
+}
+
+.producto-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Mantiene la imagen completa */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+        /* Observaciones */
         .observacion {
             background: #fff3cd;
             color: #856404;
@@ -139,9 +150,11 @@
             font-size: 0.85em;
         }
 
+        /* Tablas de precios */
         .tabla-precios {
             padding: 20px;
             overflow-x: auto;
+            flex: 1;
         }
 
         table {
@@ -263,7 +276,7 @@
             font-weight: bold;
         }
 
-        /* Estilos específicos para impresión/PDF */
+        /* Estilos para impresión/PDF */
         @media print {
             .btn-pdf {
                 display: none;
@@ -322,14 +335,13 @@
                 font-size: 1em;
             }
             
-            .producto-icono {
-                width: 50px;
-                height: 50px;
-            }
-            
             th, td {
                 padding: 8px;
                 font-size: 0.8em;
+            }
+            
+            .producto-imagen {
+                aspect-ratio: 16 / 9;
             }
         }
     </style>
@@ -358,15 +370,17 @@
             <!-- Holder para celular -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://http2.mlstatic.com/D_NQ_NP_2X_740839-MLA91132047519_082025-F.webp" alt="Holder" class="producto-icono" onclick="abrirModal(this.src)">
-                    <h2> Holder para celular</h2>
+                    <h2>Holder para celular</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/kV3S2Dkp/Dise-o-sin-t-tulo-37.png" alt="Holder para celular">
                 </div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Material</th><th>Precio</th></tr>
                         <tr><td>Cristal</td><td class="precio">$250</td></tr>
                         <tr><td>Cuero</td><td class="precio">$500</td></tr>
-                        <tr><td>Goma</td><td class="precio">$600</td></tr>
+                        <tr><td>Goma</td><td class="precio">$550</td></tr>
                         <tr><td>PU</td><td class="precio">$300</td></tr>
                     </table>
                 </div>
@@ -375,14 +389,16 @@
             <!-- Llavero 4cm x 15 -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://http2.mlstatic.com/D_NQ_NP_2X_961172-MLA72800941224_112023-F.webp" alt="Llavero 4x15" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 4cm x 15</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/gFd455XC/Dise-o-sin-t-tulo-34.png" alt="Llavero 4cm x 15">
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>300u</th><th>600u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$3000</td><td>$2500</td><td>$2250</td><td>$2000</td></tr>
-                        <tr><td>PU</td><td>$2850</td><td>$2350</td><td>$2000</td><td>$1800</td></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>600u</th><th>2000u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$3000</td><td class="precio">$2500</td><td class="precio">$2250</td><td class="precio">$2000</td></tr>
+                        <tr><td>PU</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2000</td><td class="precio">$1800</td></tr>
                     </table>
                 </div>
             </div>
@@ -390,17 +406,19 @@
             <!-- Llavero 4cm x 10 -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Llavero+4x10" alt="Llavero 4x10" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 4cm x 10</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/6JBgDG6z/Dise-o-sin-t-tulo-35.png" alt="Llavero 4cm x 10">
                 </div>
                 <div class="observacion">
                     ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>400u</th><th>8000u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$2850</td><td>$2350</td><td>$2100</td><td>$1900</td></tr>
-                        <tr><td>PU</td><td>$2700</td><td>$2100</td><td>$1850</td><td>$1700</td></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th><th>2000u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2100</td><td class="precio">$1900</td></tr>
+                        <tr><td>PU</td><td>$2700</td><td class="precio">$2100</td><td class="precio">$1850</td><td class="precio">$1700</td></tr>
                     </table>
                 </div>
             </div>
@@ -408,17 +426,19 @@
             <!-- Llavero 2.5 x 10 mosquetón -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Mosqueton" alt="Mosquetón" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 2.5 x 10 (Mosquetón)</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/vxDVR8H4/Dise-o-sin-t-tulo-38.png" alt="Llavero mosquetón">
                 </div>
                 <div class="observacion">
                     ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>400u</th><th>800u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$2300</td><td>$2000</td><td>$1800</td><td>$1500</td></tr>
-                        <tr><td>PU</td><td>$2250</td><td>$1950</td><td>$1700</td><td>$1450</td></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$2000</td><td class="precio">$1500</td></tr>
+                        <tr><td>PU</td><td>$2250</td><td class="precio">$1950</td><td class="precio">$1450</td></tr>
                     </table>
                 </div>
             </div>
@@ -426,14 +446,16 @@
             <!-- Llavero 2.5 x 10 aro sin fin -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Aro+sin+fin" alt="Aro sin fin" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 2.5 x 10 (Aro sin fin)</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/vxDVR8H4/Dise-o-sin-t-tulo-38.png" alt="Llavero aro sin fin">
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Base</th><th>100u</th><th>400u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$2300</td><td>$1900</td><td>$1450</td></tr>
-                        <tr><td>PU</td><td>$2250</td><td>$1850</td><td>$1350</td></tr>
+                        <tr><th>Material</th><th>Base</th><th>100u</th><th>800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$1900</td><td class="precio">$1450</td></tr>
+                        <tr><td>PU</td><td>$2250</td><td class="precio">$1850</td><td class="precio">$1350</td></tr>
                     </table>
                 </div>
             </div>
@@ -441,14 +463,15 @@
             <!-- Llavero 4cm x 45 -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Llavero+4x45" alt="Llavero 4x45" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 4cm x 45</h2>
-                    <h2> Cantidades menores a 100 medida máxima: 4cm x40</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/9H3rWvkw/Dise-o-sin-t-tulo-40.png" alt="Llavero 4cm x 45">
                 </div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Material</th><th>Base</th><th>100u</th><th>200u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$4900</td><td>$3200</td><td>$2400</td></tr>
+                        <tr><td>Cuero genuino</td><td>$4900</td><td class="precio">$3200</td><td class="precio">$2400</td></tr>
                     </table>
                 </div>
             </div>
@@ -456,14 +479,15 @@
             <!-- Llavero 2.5cm x 45 -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Llavero+2.5x45" alt="Llavero 2.5x45" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 2.5cm x 45</h2>
-                    <h2> Cantidades menores a 100 medida máxima: 2.5cm x 40</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/M5BY6xnm/Dise-o-sin-t-tulo-41.png" alt="Llavero 2.5cm x 45">
                 </div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Material</th><th>Base</th><th>100u</th><th>200u</th></tr>
-                        <tr><td>Cuero genuino</td><td>$4700</td><td>$3050</td><td>$2200</td></tr>
+                        <tr><td>Cuero genuino</td><td>$4700</td><td class="precio">$3050</td><td class="precio">$2200</td></tr>
                     </table>
                 </div>
             </div>
@@ -471,13 +495,15 @@
             <!-- Correa simple con regulador -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Correa+Simple" alt="Correa simple" class="producto-icono" onclick="abrirModal(this.src)">
-                    <h2> Correa simple con regulador (no incluye valor de hold)</h2>
+                    <h2> Correa simple con regulador</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa simple">
                 </div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>70u</th><th>140u</th></tr>
-                        <tr><td>Cuero genuino</td><td class="precio">$4900</td><td class="precio">$4400</td></tr>
+                        <tr><th>Material</th><th>Precio (130 unidades)</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$4900</td></tr>
                     </table>
                 </div>
             </div>
@@ -485,13 +511,15 @@
             <!-- Correa premium con regulador -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Correa+Premium" alt="Correa premium" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Correa premium con regulador</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa premium">
                 </div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Material</th><th>Precio (130 unidades)</th></tr>
-                        <tr><td>Cuero genuino</td><td class="precio">$7000</td></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$7500</td></tr>
                     </table>
                 </div>
             </div>
@@ -499,8 +527,10 @@
             <!-- Llave ro 2.5 mosquetón altipino -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=Llave+Altipino" alt="Llave altipino" class="producto-icono" onclick="abrirModal(this.src)">
                     <h2> Llavero 2.5 mosquetón altipino</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/qMMPww0c/Dise-o-sin-t-tulo-44.png" alt="Llave altipino">
                 </div>
                 <div class="tabla-precios">
                     <table>
@@ -513,8 +543,10 @@
             <!-- Llavero Soga 4mm -->
             <div class="producto-card">
                 <div class="producto-header">
-                    <img src="https://placehold.co/200x200/667eea/white?text=LlaveroSoga" alt="Llavero soga" class="producto-icono" onclick="abrirModal(this.src)">
-                    <h2> Llavero Soga 4mm</h2>
+                    <h2>Llavero Soga 4mm</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/RG6dPWCZ/Dise-o-sin-t-tulo-45.png" alt="Llavero soga">
                 </div>
                 <div class="observacion">
                     📏 Aprox 14 cm de largo
@@ -567,12 +599,11 @@
             if (e.key === 'Escape' && modal.style.display === 'block') cerrarModalFunc();
         });
 
-        // Función para descargar PDF mejorada - SIN CORTES
+        // Función para descargar PDF
         function descargarPDF() {
             const element = document.querySelector('.container');
             const btn = document.querySelector('.btn-pdf');
             
-            // Ocultar botón temporalmente
             btn.style.display = 'none';
             
             const opt = {
@@ -590,10 +621,8 @@
                     orientation: 'portrait'
                 },
                 pagebreak: { 
-                    mode: ['avoid-all', 'css'],  // Evita cortes dentro de elementos
-                    before: '.page-break-before',
-                    after: '.page-break-after',
-                    avoid: ['.producto-card', '.condiciones']  // Elementos que NO deben cortarse
+                    mode: ['avoid-all', 'css'],
+                    avoid: ['.producto-card', '.condiciones']
                 }
             };
             
