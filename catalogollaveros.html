@@ -115,12 +115,16 @@
         /* Contenedor de imagen - ocupa todo el ancho */
        /* Contenedor de imagen - más compacto */
         /* Contenedor de imagen - con aspect-ratio para consistencia */
+              /* Contenedor de imagen - con altura fija en pantalla */
         .producto-imagen {
             background: #f8f9fa;
             cursor: pointer;
             overflow: hidden;
             transition: all 0.3s ease;
-            aspect-ratio: 21 / 9;  /* Proporción panorámica (más bajo que 16:9) */
+            height: 100px;  /* Altura fija que te gustaba */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .producto-imagen:hover {
@@ -132,8 +136,9 @@
         }
 
         .producto-imagen img {
-            width: 100%;
+            width: auto;
             height: 100%;
+            max-width: 100%;
             object-fit: contain;
             display: block;
             transition: transform 0.3s ease;
@@ -310,14 +315,18 @@
                 page-break-inside: avoid;
             }
             
-            /* Fotos en PDF - mantener misma proporción */
+            /* Fotos en PDF - respetar proporción original */
             .producto-imagen {
-                aspect-ratio: 21 / 9 !important;
+                height: auto !important;
+                min-height: 80px;
+                padding: 10px 0;
             }
             
             .producto-imagen img {
-                width: 100% !important;
-                height: 100% !important;
+                width: auto !important;
+                height: auto !important;
+                max-width: 100% !important;
+                max-height: 120px !important;
                 object-fit: contain !important;
             }
         }
@@ -351,9 +360,9 @@
                 font-size: 0.8em;
             }
             
-            /* En móvil mantener misma proporción */
+            /* En móvil mantener altura fija */
             .producto-imagen {
-                aspect-ratio: 21 / 9;
+                height: 100px;
             }
         }
     </style>
