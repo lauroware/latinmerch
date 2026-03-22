@@ -114,30 +114,30 @@
 
         /* Contenedor de imagen - ocupa todo el ancho */
        /* Contenedor de imagen - más compacto */
-.producto-imagen {
-    background: #f8f9fa;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    height: 100px;  /* Alto fijo más pequeño */
-    /* Si preferís proporción: aspect-ratio: 21 / 9;  (más panorámico) */
-}
+        /* Contenedor de imagen - con aspect-ratio para consistencia */
+        .producto-imagen {
+            background: #f8f9fa;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            aspect-ratio: 21 / 9;  /* Proporción panorámica (más bajo que 16:9) */
+        }
 
-.producto-imagen:hover {
-    background: #e9ecef;
-}
+        .producto-imagen:hover {
+            background: #e9ecef;
+        }
 
-.producto-imagen:hover img {
-    transform: scale(1.02);
-}
+        .producto-imagen:hover img {
+            transform: scale(1.02);
+        }
 
-.producto-imagen img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;  /* Mantiene la imagen completa */
-    display: block;
-    transition: transform 0.3s ease;
-}
+        .producto-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
         /* Observaciones */
         .observacion {
@@ -277,89 +277,85 @@
         }
 
         /* Estilos para impresión/PDF */
-@media print {
-    .btn-pdf {
-        display: none;
-    }
-    
-    body {
-        background: white;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .container {
-        max-width: 100%;
-        padding: 10px;
-    }
-    
-    .producto-card {
-        break-inside: avoid;
-        page-break-inside: avoid;
-        margin-bottom: 20px;
-        box-shadow: none;
-        border: 1px solid #e0e0e0;
-    }
-    
-    .productos-grid {
-        gap: 15px;
-    }
-    
-    .condiciones {
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }
-    
-    /* 🔥 Fotos sin deformación en PDF 🔥 */
-    .producto-imagen {
-        height: auto !important;
-        aspect-ratio: 16 / 9 !important;
-        background: #f8f9fa;
-    }
-    
-    .producto-imagen img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: contain !important;
-        display: block;
-    }
-}
+        @media print {
+            .btn-pdf {
+                display: none;
+            }
+            
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            
+            .producto-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+                box-shadow: none;
+                border: 1px solid #e0e0e0;
+            }
+            
+            .productos-grid {
+                gap: 15px;
+            }
+            
+            .condiciones {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            /* Fotos en PDF - mantener misma proporción */
+            .producto-imagen {
+                aspect-ratio: 21 / 9 !important;
+            }
+            
+            .producto-imagen img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: contain !important;
+            }
+        }
 
-     /* Responsive */
-@media (max-width: 768px) {
-    .productos-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    h1 {
-        font-size: 1.8em;
-    }
-    
-    .header-section {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    .btn-pdf {
-        align-self: center;
-    }
-    
-    .producto-header h2 {
-        font-size: 1em;
-    }
-    
-    th, td {
-        padding: 8px;
-        font-size: 0.8em;
-    }
-    
-    /* En móvil mantenemos altura fija para pantalla */
-    .producto-imagen {
-        height: 100px;
-        aspect-ratio: auto; /* Anula cualquier aspect-ratio en móvil */
-    }
-}
+        /* Responsive */
+        @media (max-width: 768px) {
+            .productos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .header-section {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .btn-pdf {
+                align-self: center;
+            }
+            
+            .producto-header h2 {
+                font-size: 1em;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 0.8em;
+            }
+            
+            /* En móvil mantener misma proporción */
+            .producto-imagen {
+                aspect-ratio: 21 / 9;
+            }
+        }
     </style>
 </head>
 <body>
