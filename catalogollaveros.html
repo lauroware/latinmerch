@@ -30,6 +30,7 @@
             align-items: center;
             flex-wrap: wrap;
             margin-bottom: 20px;
+            gap: 15px;
         }
 
         .titulos {
@@ -47,9 +48,8 @@
             font-size: 1.1em;
         }
 
-        /* Botón PDF */
-        .btn-pdf {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        /* Botones estilo */
+        .btn-pdf, .btn-trabajos {
             color: white;
             border: none;
             padding: 12px 24px;
@@ -61,15 +61,33 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
             box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
         }
 
-        .btn-pdf:hover {
+        .btn-trabajos {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-pdf:hover, .btn-trabajos:hover {
             transform: translateY(-2px);
+        }
+
+        .btn-pdf:hover {
             box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
         }
 
-        .btn-pdf:active {
+        .btn-trabajos:hover {
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-pdf:active, .btn-trabajos:active {
             transform: translateY(0);
         }
 
@@ -112,16 +130,13 @@
             text-align: center;
         }
 
-        /* Contenedor de imagen - ocupa todo el ancho */
-       /* Contenedor de imagen - más compacto */
-        /* Contenedor de imagen - con aspect-ratio para consistencia */
-              /* Contenedor de imagen - con altura fija en pantalla */
+        /* Contenedor de imagen */
         .producto-imagen {
             background: #f8f9fa;
             cursor: pointer;
             overflow: hidden;
             transition: all 0.3s ease;
-            height: 100px;  /* Altura fija que te gustaba */
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -283,7 +298,7 @@
 
         /* Estilos para impresión/PDF */
         @media print {
-            .btn-pdf {
+            .btn-pdf, .btn-trabajos {
                 display: none;
             }
             
@@ -315,7 +330,6 @@
                 page-break-inside: avoid;
             }
             
-            /* Fotos en PDF - respetar proporción original */
             .producto-imagen {
                 height: auto !important;
                 min-height: 80px;
@@ -343,12 +357,17 @@
             
             .header-section {
                 flex-direction: column;
-                gap: 15px;
                 text-align: center;
             }
             
-            .btn-pdf {
+            .titulos {
+                text-align: center;
+            }
+            
+            .btn-pdf, .btn-trabajos {
                 align-self: center;
+                padding: 10px 20px;
+                font-size: 0.9em;
             }
             
             .producto-header h2 {
@@ -360,7 +379,6 @@
                 font-size: 0.8em;
             }
             
-            /* En móvil mantener altura fija */
             .producto-imagen {
                 height: 100px;
             }
@@ -374,15 +392,17 @@
                 <h1>🏷️ Lista de precios - Marzo 2026</h1>
                 <div class="subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
             </div>
-           
-            <button class="btn-pdf" onclick="descargarPDF()">
-                📄 Descargar Catálogo PDF
-            </button>
-            <button class="btn-pdf" onclick="window.location.href='trabajos.html'">
-                Ver trabajos realizados
-            </button>
+            <div style="display: flex; gap: 15px;">
+                <a href="trabajos.html" class="btn-trabajos">
+                    🖼️ Ver trabajos realizados
+                </a>
+                <button class="btn-pdf" onclick="descargarPDF()">
+                    📄 Descargar Catálogo PDF
+                </button>
+            </div>
         </div>
-        </div>
+
+     
 
         <!-- Modal/Lightbox -->
         <div id="modal" class="modal">
@@ -629,6 +649,7 @@
         </div>
     </div>
 
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <script>
@@ -663,12 +684,13 @@
             
             const opt = {
                 margin: [0.5, 0.5, 0.5, 0.5],
-                filename: 'catalogo_productos.pdf',
+                filename: 'lista_precios_marzo_2026.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    letterRendering: true
+                    letterRendering: true,
+                    logging: false
                 },
                 jsPDF: { 
                     unit: 'in', 
