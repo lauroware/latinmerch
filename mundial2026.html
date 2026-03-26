@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merch Oficial - Mundial Argentina 🇦🇷</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+            padding: 20px;
+            color: #1a2a3a;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header con botón PDF */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 15px;
+            background: rgba(255,255,255,0.95);
+            padding: 20px 30px;
+            border-radius: 60px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .titulos {
+            flex: 1;
+        }
+
+        h1 {
+            color: #1a3c5e;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 span {
+            font-size: 1.2em;
+        }
+
+        .subtitulo {
+            color: #2c5a7a;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        /* Botones estilo argenta */
+        .btn-pdf, .btn-trabajos {
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+            box-shadow: 0 4px 15px rgba(0, 119, 182, 0.4);
+        }
+
+        .btn-trabajos {
+            background: linear-gradient(135deg, #6c63ff 0%, #4c3bcf 100%);
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-pdf:hover, .btn-trabajos:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+        }
+
+        .btn-pdf:active, .btn-trabajos:active {
+            transform: translateY(0);
+        }
+
+        /* Grid de productos - ajustado para fotos cuadradas */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        /* Tarjeta rediseñada con bandera argenta */
+        .producto-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            position: relative;
+        }
+
+        .producto-card::before {
+            content: "⭐";
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 24px;
+            background: rgba(255,215,0,0.9);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* Header con degradado celeste y blanco */
+        .producto-header {
+            background: linear-gradient(135deg, #75c7ff 0%, #ffffff 100%);
+            padding: 16px 20px;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .producto-header h2 {
+            color: #1a3c5e;
+            font-size: 1.25em;
+            margin: 0;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        /* Contenedor de imagen - CUADRADO */
+        .producto-imagen {
+            background: #f0f4fa;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .producto-imagen:hover {
+            background: #e6edf5;
+        }
+
+        .producto-imagen:hover img {
+            transform: scale(1.05);
+        }
+
+        .producto-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* Observaciones con estilo argento */
+        .observacion {
+            background: #fff9e0;
+            color: #b45f06;
+            padding: 10px 15px;
+            margin: 12px 16px 0 16px;
+            border-radius: 20px;
+            border-left: 5px solid #ffc107;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        /* Tablas de precios con estilo moderno */
+        .tabla-precios {
+            padding: 18px 16px 20px 16px;
+            overflow-x: auto;
+            flex: 1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9em;
+        }
+
+        th {
+            background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+            font-weight: 700;
+            color: #023e8a;
+        }
+
+        tr:hover {
+            background-color: #f1f9ff;
+        }
+
+        .precio {
+            font-weight: 800;
+            color: #2c6e2f;
+            font-size: 1.05em;
+        }
+
+        /* Bandera sutil en cards */
+        .producto-card:after {
+            content: "🇦🇷";
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            font-size: 28px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Modal/Lightbox */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.92);
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-contenido {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .modal-img {
+            width: 100%;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+            animation: zoomIn 0.2s ease;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .cerrar-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 44px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            z-index: 1001;
+        }
+
+        .cerrar-modal:hover {
+            color: #ffc107;
+        }
+
+        /* Condiciones de venta con temática mundial */
+        .condiciones {
+            background: white;
+            border-radius: 30px;
+            padding: 28px 32px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border-top: 8px solid #ffc107;
+            border-bottom: 3px solid #75c7ff;
+        }
+
+        .condiciones h3 {
+            color: #023e8a;
+            margin-bottom: 18px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .condiciones ul {
+            list-style: none;
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .condiciones li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .condiciones li:before {
+            content: "⚽";
+            color: #ffc107;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* Estilos para impresión/PDF */
+        @media print {
+            .btn-pdf, .btn-trabajos {
+                display: none;
+            }
+            
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            
+            .producto-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 18px;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            .productos-grid {
+                gap: 18px;
+            }
+            
+            .condiciones {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            .producto-imagen {
+                aspect-ratio: 1 / 1 !important;
+                min-height: 180px;
+            }
+            
+            .producto-imagen img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+            
+            .header-section {
+                background: none;
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .productos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.7em;
+            }
+            
+            .header-section {
+                flex-direction: column;
+                text-align: center;
+                border-radius: 32px;
+                padding: 18px;
+            }
+            
+            .titulos {
+                text-align: center;
+            }
+            
+            .btn-pdf, .btn-trabajos {
+                padding: 10px 20px;
+                font-size: 0.85em;
+            }
+            
+            .producto-header h2 {
+                font-size: 1em;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <div class="titulos">
+                <h1>
+                    <span>🏆</span> MERCH - MUNDIAL 2026 <span>🇦🇷</span>
+                </h1>
+                <div class="subtitulo">✨ Colección Argentina: cuero premium + detalles celestes y blancos ✨</div>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-pdf" onclick="descargarPDF()">
+                    📄 Descargar PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal/Lightbox -->
+        <div id="modal" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal">&times;</span>
+                <img id="modal-img" class="modal-img" src="" alt="Producto ampliado">
+            </div>
+        </div>
+
+        <div class="productos-grid">
+            <!-- 1. Pulsera Copa del Mundo - Cuero con tiento -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>Correa con holder para celular.</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial1.jpeg" alt="Pulsera Copa del Mundo" onerror="this.src='https://placehold.co/400x400?text=Pulsera+Argentina'">
+                </div>
+                <div class="observacion">
+                    🇦🇷 Opción cinta de 3 o 4 cm de ancho. Doble mosqueton y mosqueton redondo. Producto premium.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio unitario</th></tr>
+                        <tr><td>Desde 70 unidades</td><td class="precio">7500</td></tr>
+                        <tr><td>Desde 140 unidades</td><td class="precio">6500</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 2. Llavero escudo AFA cuadrado -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🏅 Llavero Personalizable 4x15</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial2.jpeg" alt="Llavero escudo AFA" onerror="this.src='https://placehold.co/400x400?text=Escudo+AFA'">
+                </div>
+                <div class="observacion">
+                    ⚽ Cuero o PU y cinta razo sublimada.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio unitario</th><th>Desde 20u</th><th>Desde 100u</th><th>Desde 400u</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$12000</td><td class="precio">$3000</td><td class="precio">$2,500</td><td class="precio">$2,050</td></tr>
+                        <tr><td>PU premium</td><td class="precio">$10000</td><td class="precio">$2,350</td><td class="precio">$1,850</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. Lanyard Argentina selección -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2> Bolsas papeleras para el auto</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial3.jpeg" alt="Bolsas papeleras para el auto" onerror="this.src='https://placehold.co/400x400?text=Bolsas+Papeleras'">
+                </div>
+                <div class="observacion">
+                    📎 Papeleras para el auto 100% personalizables. Material: cuero ecologico o cordura melange.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio unitario</th><th>Desde 10u</th><th>Desde 50u</th></tr>
+                        <tr><td>Cuero ecológico o cordura melange</td><td class="precio">$20,000</td><td class="precio">$13,000</td><td class="precio">$10,500</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Monedero / cardholder tricolor -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>💳 Portalentes </h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial4.jpeg" alt="Portalentes" onerror="this.src='https://placehold.co/400x400?text=Cardholder+ARG'">
+                </div>
+                <div class="observacion">
+                    🔵 Simil neoprene sublimado
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio Unitario</th><th>Desde 20u</th><th>Desde 500u</th></tr>
+                        <tr><td>Simil neoprene</td><td class="precio">$14,000</td><td class="precio">$9,000</td><td class="precio">$8,000</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 5. Llavero "3 Estrellas" 4cm x 10 -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>⭐ Cartuchera / Neceser</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial5.jpeg" alt="Cartuchera / Neceser" onerror="this.src='https://placehold.co/400x400?text=Cartuchera+Neceser'">
+                </div>
+                <div class="observacion">
+                    ✨ Sublimada en simil neoprene.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio Unitario</th><th>Desde 20u</th><th>Desde 50u</th></tr>
+                         <tr><td>Simil neoprene</td><td class="precio">$14,000</td><td class="precio">$9,000</td><td class="precio">$8,000</td></tr>
+                        </table>
+                </div>
+            </div>
+
+            <!-- 6. Correa deportiva para reloj / pulsera mundial -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>⌚ Matera  cordura</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial6.jpeg" alt="Matera cordura" onerror="this.src='https://placehold.co/400x400?text=Correa+Reloj'">
+                </div>
+                <div class="observacion">
+                    Fabricada en cordura, sublimada con materiales de calidad.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio unitario</th><th>Desde 20u</th></tr>
+                        <tr><td>Cordura</td><td class="precio">$85,000</td><td class="precio">$45,500</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 7. Llavero mosquetón alpino + cinta Argentina -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>⛰️ Portapasaporte</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial7.jpeg" alt="Portapasaporte" onerror="this.src='https://placehold.co/400x400?text=Mosqueton+ARG'">
+                </div>
+                <div class="observacion">
+                    Viaja con estilo luciendo tus colores con orgullo.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio unitario</th><th>10 unidades</th><th>50 unidades</th></tr>
+                        <tr><td>Cordura</td><td class="precio">$20.000</td><td class="precio">$10.000</td><td class="precio">$8.000</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 9. Llavero 2.5 x 10 con argolla infinita + sol de mayo -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>☀️ Set de mate</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial8.jpeg" alt="Set de mate" onerror="this.src='https://placehold.co/400x400?text=Set+de+Mate'">
+                </div>
+                <div class="observacion">
+                    🌟 Inluye mate de vidrio. Bombilla tipo tambor, yerbero y estuche personalizado. Opción a cotizar mate de calabaza.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio Unitario</th><th>Desde 20u</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$35.000</td><td class="precio">$20500</td></tr>
+                      </table>
+                </div>
+            </div>
+
+            <!-- 10. Identificador de equipaje Argentina 2026 -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>✈️ Tag equipaje "Mundial 2026"</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial9.jpeg" alt="Tag equipaje" onerror="this.src='https://placehold.co/400x400?text=Tag+Mundial'">
+                </div>
+                <div class="observacion">
+                    🧳 Cinta estampada a ambos lados. Cuero genuino y cordon
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio unitario</th><th>Desde 30u</th><th>Otras cantidades</th></tr>
+                        <tr><td>Precio</td><td class="precio">$14.000</td><td class="precio">$3.000</td><td class="precio">Cotizar</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 11. Llavero soga celeste y blanca 4mm -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>🧵 Llavero soga tricolor · 14cm</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/JmjjpZN/llavero-soga-arg.jpg" alt="Llavero soga" onerror="this.src='https://placehold.co/400x400?text=Soga+Argentina'">
+                </div>
+                <div class="observacion">
+                    ⚪ Trenzado artesanal, colores patrios. Muy resistente.
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Desde 500u</th><th>Desde 1000u</th></tr>
+                        <tr><td>Precio por unidad</td><td class="precio">$2,350</td><td class="precio">$1,950</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 12. Llavero 4cm x 45 con diseño de camiseta -->
+            <div class="producto-card">
+                <div class="producto-header">
+                    <h2>👕 Botinero neceser</h2>
+                </div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="assets/img/portfolio/trabajos/mundial10.jpeg" alt="Llavero camiseta" onerror="this.src='https://placehold.co/400x400?text=Camiseta+ARG'">
+                </div>
+                <div class="observacion">
+                    🔹 Simil neoprene sublimado
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio unitario</th><th>Desde 10u</th><th>Desde 50u</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$32000</td><td class="precio">$18000</td><td class="precio">$2,800</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Condiciones de venta renovadas estilo mundial -->
+        <div class="condiciones">
+            <h3>🏆 CONDICIONES PARA LA MERCH MUNDIAL 2026 🇦🇷</h3>
+            <div class="observacion" style="margin: 0 0 15px 0; background:#eef2ff;">
+                ⚡ Los precios por columna aplican desde la cantidad mínima hasta el límite de la próxima columna. Consultá descuentos por volumen mayor.
+            </div>
+            <ul>
+                <li>🇦🇷 No cobramos diseño de piezas, pero si tenés arte propio te damos las medidas exactas para grabado.</li>
+                <li>💸 Precios finales sin impuestos ocultos. Factura C (monotributo/consumidor final).</li>
+                <li>📦 Seña del 50% al realizar el pedido; saldo contra entrega.</li>
+                <li>⏱️ Plazos de producción: Depende del producto y de las cantidades. Consultar!</li>
+                <li>🚚 Envíos a todo el país por Correo Argentino o mensajería. Retiro sin cargo en CABA (Paternal).</li>
+                </ul>
+            <br>
+            <div style="background: #75c7ff20; padding: 12px; border-radius: 28px; text-align: center; font-weight: bold;">
+                ⭐ ¡Llevá la pasión argentina a tu marca! Stock limitado por temporada ⭐
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        // Modal/Lightbox funcionalidad mejorada
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+        const cerrarModal = document.querySelector('.cerrar-modal');
+
+        function abrirModal(src) {
+            modal.style.display = 'block';
+            modalImg.src = src;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModalFunc() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        cerrarModal.onclick = cerrarModalFunc;
+        modal.onclick = function(e) {
+            if (e.target === modal) cerrarModalFunc();
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') cerrarModalFunc();
+        });
+
+        // Función para descargar PDF manteniendo todas las imágenes cuadradas
+        function descargarPDF() {
+            const element = document.querySelector('.container');
+            const btn = document.querySelector('.btn-pdf');
+            const btnTrabajos = document.querySelector('.btn-trabajos');
+            
+            btn.style.display = 'none';
+            if(btnTrabajos) btnTrabajos.style.display = 'none';
+            
+            const opt = {
+                margin: [0.45, 0.45, 0.45, 0.45],
+                filename: 'catalogo_merch_mundial_argentina_2026.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2.2, 
+                    useCORS: true,
+                    letterRendering: true,
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait'
+                },
+                pagebreak: { 
+                    mode: ['avoid-all', 'css'],
+                    avoid: ['.producto-card', '.condiciones']
+                }
+            };
+            
+            html2pdf().set(opt).from(element).save()
+                .then(() => {
+                    btn.style.display = 'flex';
+                    if(btnTrabajos) btnTrabajos.style.display = 'flex';
+                })
+                .catch((error) => {
+                    console.error('Error PDF:', error);
+                    btn.style.display = 'flex';
+                    if(btnTrabajos) btnTrabajos.style.display = 'flex';
+                    alert('Error al generar PDF. Por favor, recargue e intente.');
+                });
+        }
+    </script>
+</body>
+</html>
