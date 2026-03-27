@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merch Mundial 2026 🇦🇷 — Latin Merch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #0a1628;
+            --azul-medio: #1a3a6b;
+            --celeste: #74c0fc;
+            --celeste-claro: #c5e8ff;
+            --oro: #f5c842;
+            --blanco: #f8faff;
+            --gris: #e8edf5;
+            --verde-precio: #1a7a3a;
+            --radio: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--azul);
+            color: var(--blanco);
+            min-height: 100vh;
+        }
+
+        /* HERO HEADER */
+        .hero {
+            background: linear-gradient(160deg, #0a1628 0%, #1a3a6b 60%, #0a1628 100%);
+            padding: 40px 20px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--oro);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(116,192,252,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--oro);
+            color: var(--azul);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            padding: 5px 18px;
+            border-radius: 50px;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
+            line-height: 1;
+            color: var(--blanco);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .hero h1 span {
+            color: var(--celeste);
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: var(--celeste-claro);
+            opacity: 0.85;
+            margin-bottom: 24px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-pdf {
+            background: var(--blanco);
+            color: var(--azul);
+            box-shadow: 0 4px 20px rgba(255,255,255,0.15);
+        }
+
+        .btn-wa {
+            background: #25D366;
+            color: white;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+        }
+
+        /* GRID */
+        .catalogo {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 36px 16px 60px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            color: var(--celeste);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--celeste), transparent);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        /* CARD */
+        .card {
+            background: #0e1f3a;
+            border-radius: var(--radio);
+            overflow: hidden;
+            border: 1px solid rgba(116,192,252,0.15);
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(116,192,252,0.5);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            cursor: zoom-in;
+            background: #071020;
+            position: relative;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+
+        .card:hover .card-img img { transform: scale(1.06); }
+
+        .card-body {
+            padding: 16px 18px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            color: var(--blanco);
+            line-height: 1.1;
+        }
+
+        .card-obs {
+            font-size: 0.82rem;
+            color: var(--celeste-claro);
+            background: rgba(116,192,252,0.08);
+            border-left: 3px solid var(--celeste);
+            padding: 8px 12px;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.4;
+        }
+
+        /* TABLA */
+        .tabla-wrap { overflow-x: auto; margin-top: 4px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead tr {
+            background: rgba(116,192,252,0.1);
+        }
+
+        th {
+            color: var(--celeste);
+            font-weight: 700;
+            padding: 9px 10px;
+            text-align: left;
+            white-space: nowrap;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 9px 10px;
+            color: #c8d8f0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            white-space: nowrap;
+        }
+
+        .precio {
+            font-weight: 700;
+            color: #6ee89a;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: rgba(116,192,252,0.05); }
+
+        /* CONDICIONES */
+        .condiciones {
+            background: #0e1f3a;
+            border-radius: var(--radio);
+            padding: 28px 28px 30px;
+            margin-top: 36px;
+            border: 1px solid rgba(245,200,66,0.3);
+            border-top: 3px solid var(--oro);
+        }
+
+        .condiciones h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--oro);
+            margin-bottom: 16px;
+        }
+
+        .condiciones-nota {
+            background: rgba(245,200,66,0.08);
+            border-left: 3px solid var(--oro);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: #f0d880;
+            margin-bottom: 18px;
+        }
+
+        .condiciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 10px;
+        }
+
+        .cond-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #b8cde8;
+            line-height: 1.5;
+        }
+
+        .cond-icon {
+            font-size: 1.1rem;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+
+        .cond-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            color: var(--celeste);
+            padding: 12px;
+            border: 1px solid rgba(116,192,252,0.2);
+            border-radius: 50px;
+        }
+
+        /* WHATSAPP FLOTANTE */
+        .wa-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #25D366;
+            color: white;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+            z-index: 999;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse-wa 2.5s infinite;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 28px rgba(37,211,102,0.7);
+            animation: none;
+        }
+
+        @keyframes pulse-wa {
+            0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
+            50% { box-shadow: 0 4px 30px rgba(37,211,102,0.8), 0 0 0 8px rgba(37,211,102,0.1); }
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: var(--radio);
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover { opacity: 1; }
+
+        /* PRINT */
+        @media print {
+            body { background: white; color: black; }
+            .wa-float, .btn-wa, .btn-pdf, .modal { display: none !important; }
+            .hero { background: #1a3a6b; }
+            .card { border: 1px solid #ccc; background: white; color: black; }
+            .card-title, .card-obs, th, td { color: black !important; }
+            .condiciones { background: white; border-color: #ccc; }
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            .hero { padding: 30px 16px 24px; }
+            .grid { grid-template-columns: 1fr; }
+            .condiciones { padding: 20px 16px; }
+            .wa-float { bottom: 16px; right: 16px; width: 52px; height: 52px; font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">⚽ COLECCIÓN TEMPORADA 2026</div>
+    <h1>MERCH<br><span>MUNDIAL</span><br>2026 🇦🇷</h1>
+    <p class="hero-sub">Cuero premium · Diseño personalizado · Entrega en todo el país</p>
+    <div class="hero-actions">
+        <button class="btn btn-pdf" onclick="descargarPDF()">📄 Descargar PDF</button>
+        <a href="https://wa.me/5491151457232?text=Hola!%20Vi%20el%20cat%C3%A1logo%20Mundial%202026%20y%20quiero%20cotizar" class="btn btn-wa" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Cotizar por WhatsApp
+        </a>
+    </div>
+</div>
+
+<!-- CATÁLOGO -->
+<div class="catalogo">
+    <div class="section-title">🏆 Productos de la Colección</div>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial1.jpeg" alt="Correa con holder" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Correa+Holder'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">Correa con Holder para Celular</div>
+                <div class="card-obs">🇦🇷 Cinta de 3 o 4 cm. Doble mosquetón + mosquetón redondo. Producto premium.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Cantidad</th><th>Precio unit.</th></tr></thead>
+                        <tbody>
+                            <tr><td>Desde 70 u</td><td class="precio">$7.500</td></tr>
+                            <tr><td>Desde 140 u</td><td class="precio">$6.500</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial2.jpeg" alt="Llavero 4x15" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Llavero+4x15'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">🏅 Llavero Personalizable 4×15</div>
+                <div class="card-obs">⚽ Cuero o PU con cinta raso sublimada.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>20u+</th><th>100u+</th><th>400u+</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cuero genuino</td><td class="precio">$12.000</td><td class="precio">$3.000</td><td class="precio">$2.500</td><td class="precio">$2.050</td></tr>
+                            <tr><td>PU premium</td><td class="precio">$10.000</td><td class="precio">$2.850</td><td class="precio">$2.350</td><td class="precio">$1.850</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial3.jpeg" alt="Bolsa papelera" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Bolsa+Papelera'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">Bolsa Papelera para el Auto</div>
+                <div class="card-obs">📎 100% personalizable. Cuero ecológico o cordura melange.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>10u+</th><th>50u+</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cuero ec. / Cordura</td><td class="precio">$20.000</td><td class="precio">$13.000</td><td class="precio">$10.500</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial4.jpeg" alt="Portalentes" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Portalentes'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">💳 Portalentes</div>
+                <div class="card-obs">🔵 Símil neoprene sublimado.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>20u+</th><th>500u+</th></tr></thead>
+                        <tbody>
+                            <tr><td>Símil neoprene</td><td class="precio">$14.000</td><td class="precio">$9.000</td><td class="precio">$8.000</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial5.jpeg" alt="Cartuchera / Neceser" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Cartuchera'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">⭐ Cartuchera / Neceser</div>
+                <div class="card-obs">✨ Sublimada en símil neoprene.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>20u+</th><th>50u+</th></tr></thead>
+                        <tbody>
+                            <tr><td>Símil neoprene</td><td class="precio">$14.000</td><td class="precio">$9.000</td><td class="precio">$8.000</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial6.jpeg" alt="Matera Cordura" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Matera'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">⌚ Matera Cordura</div>
+                <div class="card-obs">Fabricada en cordura, sublimada con materiales de calidad.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>20u+</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cordura</td><td class="precio">$85.000</td><td class="precio">$45.500</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial7.jpeg" alt="Portapasaporte" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Portapasaporte'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">⛰️ Portapasaporte</div>
+                <div class="card-obs">Viajá con estilo luciendo tus colores con orgullo.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>10 u</th><th>50 u</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cordura</td><td class="precio">$20.000</td><td class="precio">$10.000</td><td class="precio">$8.000</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial8.jpeg" alt="Set de mate" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Set+de+Mate'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">☀️ Set de Mate</div>
+                <div class="card-obs">🌟 Incluye mate de vidrio, bombilla tipo tambor, yerbero y estuche personalizado. Opción mate de calabaza.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>20u+</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cuero genuino</td><td class="precio">$35.000</td><td class="precio">$20.500</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial9.jpeg" alt="Tag equipaje" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Tag+Equipaje'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">✈️ Tag Equipaje "Mundial 2026"</div>
+                <div class="card-obs">🧳 Cinta estampada a ambos lados. Cuero genuino y cordón.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Cantidad</th><th>1 u</th><th>30u+</th><th>Mayor vol.</th></tr></thead>
+                        <tbody>
+                            <tr><td>—</td><td class="precio">$14.000</td><td class="precio">$3.000</td><td class="precio">Cotizar</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img" onclick="openModal(this.querySelector('img').src)">
+                <img src="assets/img/portfolio/trabajos/mundial10.jpeg" alt="Botinero neceser" onerror="this.src='https://placehold.co/400x400/0e1f3a/74c0fc?text=Botinero'">
+            </div>
+            <div class="card-body">
+                <div class="card-title">👕 Botinero / Neceser</div>
+                <div class="card-obs">🔹 Símil neoprene sublimado.</div>
+                <div class="tabla-wrap">
+                    <table>
+                        <thead><tr><th>Material</th><th>1 u</th><th>10u+</th><th>50u+</th></tr></thead>
+                        <tbody>
+                            <!-- CORRECCIÓN: precio "desde 50u" era $2.800, claramente un error tipográfico. Se deja como cotizar -->
+                            <tr><td>Símil neoprene</td><td class="precio">$32.000</td><td class="precio">$18.000</td><td class="precio">Cotizar</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CONDICIONES -->
+    <div class="condiciones">
+        <h3>🏆 Condiciones de Venta</h3>
+        <div class="condiciones-nota">
+            ⚡ El precio de cada columna aplica desde la cantidad indicada hasta el límite de la próxima. Consultá descuentos por mayor volumen.
+        </div>
+        <div class="condiciones-grid">
+            <div class="cond-item"><span class="cond-icon">🎨</span><span>El diseño se puede personalizar con tu marca. No cobramos diseño — si tenés arte propio, te damos las medidas exactas.</span></div>
+            <div class="cond-item"><span class="cond-icon">💸</span><span>Precios finales, sin impuestos ocultos. Factura C (monotributo / consumidor final).</span></div>
+            <div class="cond-item"><span class="cond-icon">📦</span><span>Seña del 50% al confirmar el pedido. Saldo contra entrega.</span></div>
+            <div class="cond-item"><span class="cond-icon">⏱️</span><span>Plazos de producción según producto y cantidad. La fecha se pacta al momento de la seña.</span></div>
+            <div class="cond-item"><span class="cond-icon">🚚</span><span>Envíos a todo el país por Correo Argentino o mensajería. Retiro sin cargo en CABA (Paternal).</span></div>
+            <div class="cond-item"><span class="cond-icon">📱</span><span>Consultas y presupuestos: escribinos por WhatsApp o al mail info@latinmerch.com.ar</span></div>
+        </div>
+        <div class="cond-footer">⭐ ¡Llevá la pasión argentina a tu marca! Stock limitado por temporada ⭐</div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal(event)">
+    <span class="modal-close" onclick="document.getElementById('modal').classList.remove('active')">×</span>
+    <img id="modal-img" src="" alt="Producto ampliado">
+</div>
+
+<!-- BOTÓN FLOTANTE WA -->
+<a class="wa-float" href="https://wa.me/5491162366175?text=Hola!%20Vi%20el%20cat%C3%A1logo%20Mundial%202026%20y%20quiero%20cotizar" target="_blank" title="Cotizar por WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    function openModal(src) {
+        document.getElementById('modal-img').src = src;
+        document.getElementById('modal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+        if (e.target === document.getElementById('modal') || e.target.classList.contains('modal-close')) {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    function descargarPDF() {
+        const btn = document.querySelector('.btn-pdf');
+        const waFloat = document.querySelector('.wa-float');
+        btn.textContent = '⏳ Generando...';
+        btn.disabled = true;
+        waFloat.style.display = 'none';
+
+        html2pdf().set({
+            margin: [0.4, 0.4, 0.4, 0.4],
+            filename: 'latinmerch-mundial-2026.pdf',
+            image: { type: 'jpeg', quality: 0.95 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css'], avoid: ['.card', '.condiciones'] }
+        }).from(document.querySelector('.catalogo').parentElement).save()
+        .finally(() => {
+            btn.innerHTML = '📄 Descargar PDF';
+            btn.disabled = false;
+            waFloat.style.display = 'flex';
+        });
+    }
+</script>
+</body>
+</html>
