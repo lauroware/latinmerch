@@ -2,8 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos - Cuero & Accesorios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LatinMerch · Catálogo</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="LatinMerch">
+    <meta name="description" content="Catálogo de precios y cotizador - LatinMerch">
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LatinMerch">
+
+    <!-- Apple touch icon SVG inline como data URI -->
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAADaDylAAAABmJLR0QA/wD/AP+gvaeTAAADXklEQVR4nO3BMQEAAADCoPVP7WsIoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAMBuAABHgAAAABJRU5ErkJggg==">
+
+    <!-- PWA Manifest como blob -->
+    <script>
+    (function() {
+        const manifest = {
+            name: "LatinMerch · Catálogo",
+            short_name: "LatinMerch",
+            description: "Catálogo de precios y cotizador de accesorios en cuero",
+            start_url: "./",
+            display: "standalone",
+            orientation: "portrait",
+            background_color: "#f5f7fa",
+            theme_color: "#667eea",
+            icons: [{
+                src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="80" fill="#667eea"/><text x="256" y="320" font-size="300" text-anchor="middle" fill="white">🏷</text></svg>'),
+                sizes: "512x512",
+                type: "image/svg+xml",
+                purpose: "any maskable"
+            }]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = url;
+        document.head.appendChild(link);
+    })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -1707,5 +1747,86 @@
     // ===================== INIT =====================
     initCotizador();
     </script>
+    <!-- ===================== PWA SERVICE WORKER + INSTALL BANNER ===================== -->
+    <script>
+    // Service Worker para cache offline
+    if ('serviceWorker' in navigator) {
+        const swCode = `
+            const CACHE = 'latinmerch-v1';
+            const ASSETS = [self.location.href];
+            self.addEventListener('install', e => {
+                e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+                self.skipWaiting();
+            });
+            self.addEventListener('activate', e => {
+                e.waitUntil(caches.keys().then(keys =>
+                    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+                ));
+                self.clients.claim();
+            });
+            self.addEventListener('fetch', e => {
+                e.respondWith(
+                    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => cached))
+                );
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    // Banner de instalación personalizado
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('install-banner').style.display = 'flex';
+    });
+
+    function instalarApp() {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            document.getElementById('install-banner').style.display = 'none';
+        });
+    }
+
+    function cerrarBanner() {
+        document.getElementById('install-banner').style.display = 'none';
+    }
+
+    // En iOS mostrar instrucción manual
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+    const isInStandalone = window.navigator.standalone;
+    if (isIOS && !isInStandalone) {
+        setTimeout(() => {
+            document.getElementById('install-banner-ios').style.display = 'flex';
+        }, 1500);
+    }
+    </script>
+
+    <!-- Banner Android/Chrome -->
+    <div id="install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.2);">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;">
+            <div style="font-weight:700;font-size:0.95em;">Instalá LatinMerch</div>
+            <div style="font-size:0.78em;opacity:0.85;">Agregá el catálogo a tu pantalla de inicio</div>
+        </div>
+        <button onclick="instalarApp()" style="background:white;color:#667eea;border:none;padding:9px 18px;border-radius:50px;font-weight:700;font-size:0.88em;cursor:pointer;white-space:nowrap;">Instalar</button>
+        <button onclick="cerrarBanner()" style="background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
+    <!-- Banner iOS (Safari) -->
+    <div id="install-banner-ios" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#2c3e50;color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.3);border-radius:16px 16px 0 0;">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;">
+            <div style="font-weight:700;font-size:0.92em;">Agregá LatinMerch a tu inicio</div>
+            <div style="font-size:0.78em;opacity:0.8;margin-top:2px;">Tocá <strong>□↑</strong> (Compartir) y luego <strong>"Agregar a pantalla de inicio"</strong></div>
+        </div>
+        <button onclick="document.getElementById('install-banner-ios').style.display='none'" style="background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
 </body>
 </html>
