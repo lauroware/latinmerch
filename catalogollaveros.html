@@ -2,8 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos - Cuero & Accesorios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LatinMerch · Catálogo</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="LatinMerch">
+    <meta name="description" content="Catálogo de precios y cotizador - LatinMerch">
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LatinMerch">
+
+    <!-- Apple touch icon SVG inline como data URI -->
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAADaDylAAAABmJLR0QA/wD/AP+gvaeTAAADXklEQVR4nO3BMQEAAADCoPVP7WsIoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAMBuAABHgAAAABJRU5ErkJggg==">
+
+    <!-- PWA Manifest como blob -->
+    <script>
+    (function() {
+        const manifest = {
+            name: "LatinMerch · Catálogo",
+            short_name: "LatinMerch",
+            description: "Catálogo de precios y cotizador de accesorios en cuero",
+            start_url: "./",
+            display: "standalone",
+            orientation: "portrait",
+            background_color: "#f5f7fa",
+            theme_color: "#667eea",
+            icons: [{
+                src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="80" fill="#667eea"/><text x="256" y="320" font-size="300" text-anchor="middle" fill="white">🏷</text></svg>'),
+                sizes: "512x512",
+                type: "image/svg+xml",
+                purpose: "any maskable"
+            }]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = url;
+        document.head.appendChild(link);
+    })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -23,7 +63,6 @@
             margin: 0 auto;
         }
 
-        /* Header con botón PDF */
         .header-section {
             display: flex;
             justify-content: space-between;
@@ -33,9 +72,7 @@
             gap: 15px;
         }
 
-        .titulos {
-            flex: 1;
-        }
+        .titulos { flex: 1; }
 
         h1 {
             color: #2c3e50;
@@ -48,8 +85,7 @@
             font-size: 1.1em;
         }
 
-        /* Botones estilo */
-        .btn-pdf, .btn-trabajos {
+        .btn-pdf, .btn-trabajos, .btn-cotizar {
             color: white;
             border: none;
             padding: 12px 24px;
@@ -75,23 +111,30 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .btn-pdf:hover, .btn-trabajos:hover {
+        .btn-cotizar {
+            background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+            animation: pulse-btn 2.5s infinite;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4); }
+            50% { box-shadow: 0 6px 25px rgba(230, 126, 34, 0.7); }
+        }
+
+        .btn-pdf:hover, .btn-trabajos:hover, .btn-cotizar:hover {
             transform: translateY(-2px);
         }
 
-        .btn-pdf:hover {
-            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        .btn-cotizar:hover {
+            box-shadow: 0 6px 25px rgba(230, 126, 34, 0.6);
+            animation: none;
         }
 
-        .btn-trabajos:hover {
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-pdf:active, .btn-trabajos:active {
+        .btn-pdf:active, .btn-trabajos:active, .btn-cotizar:active {
             transform: translateY(0);
         }
 
-        /* Grid de productos */
         .productos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -99,7 +142,6 @@
             margin-bottom: 40px;
         }
 
-        /* Tarjeta rediseñada */
         .producto-card {
             background: white;
             border-radius: 15px;
@@ -117,7 +159,6 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        /* Header solo con título */
         .producto-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 15px 20px;
@@ -130,7 +171,6 @@
             text-align: center;
         }
 
-        /* Contenedor de imagen */
         .producto-imagen {
             background: #f8f9fa;
             cursor: pointer;
@@ -142,13 +182,8 @@
             justify-content: center;
         }
 
-        .producto-imagen:hover {
-            background: #e9ecef;
-        }
-
-        .producto-imagen:hover img {
-            transform: scale(1.02);
-        }
+        .producto-imagen:hover { background: #e9ecef; }
+        .producto-imagen:hover img { transform: scale(1.02); }
 
         .producto-imagen img {
             width: auto;
@@ -159,7 +194,6 @@
             transition: transform 0.3s ease;
         }
 
-        /* Observaciones */
         .observacion {
             background: #fff3cd;
             color: #856404;
@@ -170,17 +204,13 @@
             font-size: 0.85em;
         }
 
-        /* Tablas de precios */
         .tabla-precios {
             padding: 20px;
             overflow-x: auto;
             flex: 1;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         th, td {
             padding: 10px;
@@ -195,9 +225,7 @@
             color: #495057;
         }
 
-        tr:hover {
-            background-color: #f8f9fa;
-        }
+        tr:hover { background-color: #f8f9fa; }
 
         .precio {
             font-weight: bold;
@@ -256,11 +284,8 @@
             z-index: 1001;
         }
 
-        .cerrar-modal:hover {
-            color: #f44336;
-        }
+        .cerrar-modal:hover { color: #f44336; }
 
-        /* Condiciones de venta */
         .condiciones {
             background: white;
             border-radius: 15px;
@@ -277,10 +302,7 @@
             font-size: 1.3em;
         }
 
-        .condiciones ul {
-            list-style: none;
-            padding-left: 0;
-        }
+        .condiciones ul { list-style: none; padding-left: 0; }
 
         .condiciones li {
             padding: 8px 0;
@@ -296,92 +318,362 @@
             font-weight: bold;
         }
 
-        /* Estilos para impresión/PDF */
-        @media print {
-            .btn-pdf, .btn-trabajos {
-                display: none;
-            }
-            
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            
-            .container {
-                max-width: 100%;
-                padding: 10px;
-            }
-            
-            .producto-card {
-                break-inside: avoid;
-                page-break-inside: avoid;
-                margin-bottom: 20px;
-                box-shadow: none;
-                border: 1px solid #e0e0e0;
-            }
-            
-            .productos-grid {
-                gap: 15px;
-            }
-            
-            .condiciones {
-                break-inside: avoid;
-                page-break-inside: avoid;
-            }
-            
-            .producto-imagen {
-                height: auto !important;
-                min-height: 80px;
-                padding: 10px 0;
-            }
-            
-            .producto-imagen img {
-                width: auto !important;
-                height: auto !important;
-                max-width: 100% !important;
-                max-height: 120px !important;
-                object-fit: contain !important;
-            }
+        /* ===================== COTIZADOR FLOTANTE ===================== */
+
+        #cotizador-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%);
+            color: white;
+            border: none;
+            font-size: 1.6em;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(230,126,34,0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-fab 2.5s infinite;
         }
 
-        /* Responsive */
+        #cotizador-fab:hover {
+            transform: scale(1.1);
+            animation: none;
+            box-shadow: 0 8px 28px rgba(230,126,34,0.7);
+        }
+
+        @keyframes pulse-fab {
+            0%, 100% { box-shadow: 0 6px 20px rgba(230,126,34,0.5); }
+            50% { box-shadow: 0 6px 32px rgba(230,126,34,0.85); }
+        }
+
+        #cotizador-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.7em;
+            font-weight: bold;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #cotizador-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 9001;
+            width: 420px;
+            max-height: 80vh;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            user-select: none;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        #cotizador-panel.visible {
+            display: flex;
+        }
+
+        .cotizador-header {
+            background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%);
+            color: white;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: grab;
+            border-radius: 18px 18px 0 0;
+        }
+
+        .cotizador-header:active { cursor: grabbing; }
+
+        .cotizador-header h3 {
+            font-size: 1.05em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cotizador-header-btns {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-min, .btn-close-cot {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-min:hover, .btn-close-cot:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .cotizador-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .cot-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: end;
+        }
+
+        .cot-row label {
+            font-size: 0.8em;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .cot-select, .cot-input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-family: inherit;
+            color: #333;
+            background: #fafafa;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .cot-select:focus, .cot-input:focus {
+            border-color: #f7971e;
+            background: white;
+        }
+
+        .cot-qty-wrap { width: 90px; }
+
+        .cot-qty-wrap label {
+            font-size: 0.8em;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .btn-add-item {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 14px;
+            font-family: inherit;
+        }
+
+        .btn-add-item:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .cot-separator {
+            border: none;
+            border-top: 1.5px dashed #e0e0e0;
+            margin: 12px 0;
+        }
+
+        .cot-items-title {
+            font-size: 0.8em;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .cot-items-list {
+            list-style: none;
+            margin: 0 0 12px 0;
+            padding: 0;
+        }
+
+        .cot-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 9px 12px;
+            margin-bottom: 7px;
+            font-size: 0.84em;
+            gap: 8px;
+            animation: fadeInItem 0.2s ease;
+        }
+
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cot-item-info { flex: 1; min-width: 0; }
+
+        .cot-item-name {
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cot-item-detail { color: #888; font-size: 0.9em; }
+
+        .cot-item-price {
+            font-weight: 700;
+            color: #28a745;
+            white-space: nowrap;
+        }
+
+        .btn-remove-item {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 5px;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .btn-remove-item:hover { color: #e74c3c; }
+
+        .cot-empty {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.85em;
+            padding: 15px 0;
+        }
+
+        .cotizador-footer {
+            background: #f8f9fa;
+            padding: 14px 16px;
+            border-top: 1.5px solid #eee;
+        }
+
+        .cot-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cot-total-label {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .cot-total-val {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .cot-total-items {
+            font-size: 0.78em;
+            color: #999;
+        }
+
+        .btn-limpiar {
+            width: 100%;
+            padding: 10px;
+            background: white;
+            color: #e74c3c;
+            border: 1.5px solid #e74c3c;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-limpiar:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .cot-precio-info {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 0.8em;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* Resaltar precio seleccionado en tabla */
+        .precio-activo {
+            background: #fff3cd !important;
+        }
+
+        /* Print */
+        @media print {
+            .btn-pdf, .btn-trabajos, .btn-cotizar, #cotizador-panel, #cotizador-fab { display: none !important; }
+            body { background: white; padding: 0; margin: 0; }
+            .container { max-width: 100%; padding: 10px; }
+            .producto-card { break-inside: avoid; page-break-inside: avoid; margin-bottom: 20px; box-shadow: none; border: 1px solid #e0e0e0; }
+            .productos-grid { gap: 15px; }
+            .condiciones { break-inside: avoid; page-break-inside: avoid; }
+            .producto-imagen { height: auto !important; min-height: 80px; padding: 10px 0; }
+            .producto-imagen img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 120px !important; object-fit: contain !important; }
+        }
+
         @media (max-width: 768px) {
-            .productos-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-            }
-            
-            .header-section {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .titulos {
-                text-align: center;
-            }
-            
-            .btn-pdf, .btn-trabajos {
-                align-self: center;
-                padding: 10px 20px;
-                font-size: 0.9em;
-            }
-            
-            .producto-header h2 {
-                font-size: 1em;
-            }
-            
-            th, td {
-                padding: 8px;
-                font-size: 0.8em;
-            }
-            
-            .producto-imagen {
-                height: 100px;
-            }
+            .productos-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8em; }
+            .header-section { flex-direction: column; text-align: center; }
+            .titulos { text-align: center; }
+            .btn-pdf, .btn-trabajos, .btn-cotizar { align-self: center; padding: 10px 20px; font-size: 0.9em; }
+            .producto-header h2 { font-size: 1em; }
+            th, td { padding: 8px; font-size: 0.8em; }
+            .producto-imagen { height: 100px; }
+            #cotizador-panel { width: calc(100vw - 20px); right: 10px; bottom: 90px; }
         }
     </style>
 </head>
@@ -392,17 +684,12 @@
                 <h1>🏷️ Lista de precios - Marzo 2026</h1>
                 <div class="subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
             </div>
-            <div style="display: flex; gap: 15px;">
-                <a href="trabajos.html" class="btn-trabajos">
-                    🖼️ Ver trabajos realizados
-                </a>
-                <button class="btn-pdf" onclick="descargarPDF()">
-                    📄 Descargar Catálogo PDF
-                </button>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <a href="trabajos.html" class="btn-trabajos">🖼️ Ver trabajos realizados</a>
+                <button class="btn-cotizar" onclick="toggleCotizador()">🧮 Cotizador</button>
+                <button class="btn-pdf" onclick="descargarPDF()">📄 Descargar PDF</button>
             </div>
         </div>
-
-     
 
         <!-- Modal/Lightbox -->
         <div id="modal" class="modal">
@@ -415,9 +702,7 @@
         <div class="productos-grid">
             <!-- Holder para celular -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2>Holder para celular</h2>
-                </div>
+                <div class="producto-header"><h2>Holder para celular</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/kV3S2Dkp/Dise-o-sin-t-tulo-37.png" alt="Holder para celular">
                 </div>
@@ -433,11 +718,8 @@
             </div>
 
             <!-- Llavero 4cm x 15 -->
-             
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 4cm x 15</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 4cm x 15</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/gFd455XC/Dise-o-sin-t-tulo-34.png" alt="Llavero 4cm x 15">
                 </div>
@@ -452,15 +734,11 @@
 
             <!-- Llavero 4cm x 10 -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 4cm x 10</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 4cm x 10</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/6JBgDG6z/Dise-o-sin-t-tulo-35.png" alt="Llavero 4cm x 10">
                 </div>
-                <div class="observacion">
-                    ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
-                </div>
+                <div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 600u</th></tr>
@@ -472,15 +750,11 @@
 
             <!-- Llavero 2.5 x 10 mosquetón -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 2.5 x 10 (Mosquetón)</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 2.5 x 10 (Mosquetón)</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/vxDVR8H4/Dise-o-sin-t-tulo-38.png" alt="Llavero mosquetón">
                 </div>
-                <div class="observacion">
-                    ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
-                </div>
+                <div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr>
@@ -492,18 +766,14 @@
 
             <!-- Llavero 2.5 x 10 aro sin fin -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 2.5 x 10 (Aro sin fin)</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 2.5 x 10 (Aro sin fin)</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/d0Y5z4vK/Dise-o-sin-t-tulo-47.png" alt="Llavero aro sin fin">
                 </div>
-                <div class="observacion">
-                    ⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.
-                </div>
+                <div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div>
                 <div class="tabla-precios">
                     <table>
-                        <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr> 
+                        <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr>
                         <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$1900</td><td class="precio">$1550</td><td class="precio">$1450</td></tr>
                         <tr><td>PU</td><td>$2250</td><td class="precio">$1850</td><td class="precio">$1450</td><td class="precio">$1350</td></tr>
                     </table>
@@ -512,9 +782,7 @@
 
             <!-- Llavero 4cm x 45 -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 4cm x 45 - (de 10 a 100 unidades la medida es 4x40)</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 4cm x 45 (de 10 a 100u: 4x40)</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/9H3rWvkw/Dise-o-sin-t-tulo-40.png" alt="Llavero 4cm x 45">
                 </div>
@@ -528,9 +796,7 @@
 
             <!-- Llavero 2.5cm x 45 -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 2.5cm x 45 (de 10 a 100 unidades la medida es 2.5x40)</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 2.5cm x 45 (de 10 a 100u: 2.5x40)</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/M5BY6xnm/Dise-o-sin-t-tulo-41.png" alt="Llavero 2.5cm x 45">
                 </div>
@@ -542,11 +808,9 @@
                 </div>
             </div>
 
-            <!-- Correa simple con regulador -->
+            <!-- Correa simple -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Correa simple, cuero genuino, con regulador (valor del hold no incluido)</h2>
-                </div>
+                <div class="producto-header"><h2>Correa simple cuero genuino con regulador (hold no incluido)</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa simple">
                 </div>
@@ -555,16 +819,13 @@
                         <tr><th>Material</th><th>Desde 70u</th><th>Desde 100u</th></tr>
                         <tr><td>Ancho 4cm</td><td class="precio">$4900</td><td class="precio">$4400</td></tr>
                         <tr><td>Ancho 3cm</td><td class="precio">$4650</td><td class="precio">$4150</td></tr>
-            
                     </table>
                 </div>
             </div>
 
-            <!-- Correa premium con regulador -->
+            <!-- Correa premium -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Correa premium con regulador (valor del hold no incluido)</h2>
-                </div>
+                <div class="producto-header"><h2>Correa premium con regulador (hold no incluido)</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/rKWLPykF/Dise-o-sin-t-tulo-43.png" alt="Correa premium">
                 </div>
@@ -576,13 +837,11 @@
                 </div>
             </div>
 
-            <!-- Llave ro 2.5 mosquetón altipino -->
+            <!-- Llavero mosquetón alpino -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2> Llavero 2.5 mosquetón alpino</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero 2.5 mosquetón alpino</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
-                    <img src="https://i.ibb.co/qMMPww0c/Dise-o-sin-t-tulo-44.png" alt="Llave altipino">
+                    <img src="https://i.ibb.co/qMMPww0c/Dise-o-sin-t-tulo-44.png" alt="Llavero alpino">
                 </div>
                 <div class="tabla-precios">
                     <table>
@@ -594,15 +853,11 @@
 
             <!-- Llavero Soga 4mm -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2>Llavero Soga 4mm</h2>
-                </div>
+                <div class="producto-header"><h2>Llavero Soga 4mm</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/RG6dPWCZ/Dise-o-sin-t-tulo-45.png" alt="Llavero soga">
                 </div>
-                <div class="observacion">
-                    📏 Aprox 14 cm de largo
-                </div>
+                <div class="observacion">📏 Aprox 14 cm de largo</div>
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Cantidad</th><th>Precio</th></tr>
@@ -612,15 +867,12 @@
                 </div>
             </div>
 
-              <!-- Llavero Soga 4mm -->
+            <!-- Identificador de Equipaje -->
             <div class="producto-card">
-                <div class="producto-header">
-                    <h2>Identificador de Equipaje</h2>
-                </div>
+                <div class="producto-header"><h2>Identificador de Equipaje</h2></div>
                 <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
                     <img src="https://i.ibb.co/C3kGpxFs/Dise-o-sin-t-tulo-46.png" alt="Tag identificador de equipaje">
                 </div>
-
                 <div class="tabla-precios">
                     <table>
                         <tr><th>Cantidad</th><th>Precio</th></tr>
@@ -636,9 +888,7 @@
         <div class="condiciones">
             <h3>📋 Condiciones de venta y preguntas frecuentes</h3>
             <br>
-             <div class="observacion">
-                    ⚠️ El precio de cada columna se corresponde al precio "desde" hasta la cantidad de la próxima columna. Consultar cantidades mayores.
-                </div>
+            <div class="observacion">⚠️ El precio de cada columna se corresponde al precio "desde" hasta la cantidad de la próxima columna. Consultar cantidades mayores.</div>
             <ul>
                 <li>No cobramos el diseño de la cinta, no obstante si contas con diseñador, podes realizar vos mismo el diseño. Solicitanos las medidas!</li>
                 <li>Los precios son finales</li>
@@ -651,70 +901,653 @@
         </div>
     </div>
 
-  
+    <!-- ===================== COTIZADOR FLOTANTE ===================== -->
+
+    <!-- Botón FAB -->
+    <button id="cotizador-fab" onclick="toggleCotizador()" title="Abrir cotizador">
+        🧮
+        <span id="cotizador-badge"></span>
+    </button>
+
+    <!-- Panel cotizador -->
+    <div id="cotizador-panel">
+        <div class="cotizador-header" id="cotizador-drag-handle">
+            <h3>🧮 Cotizador de productos</h3>
+            <div class="cotizador-header-btns">
+                <button class="btn-min" onclick="toggleCotizador()" title="Minimizar">—</button>
+                <button class="btn-close-cot" onclick="cerrarCotizador()" title="Cerrar">✕</button>
+            </div>
+        </div>
+
+        <div class="cotizador-body">
+            <!-- Selector de producto -->
+            <div>
+                <label style="font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;">Producto</label>
+                <select id="cot-producto" class="cot-select" onchange="actualizarOpciones()">
+                    <option value="">— Seleccioná un producto —</option>
+                </select>
+            </div>
+
+            <div style="margin-top:10px;" id="cot-opciones-wrap">
+                <!-- Opciones dinámicas (material/variante) -->
+            </div>
+
+            <div class="cot-precio-info" id="cot-precio-info"></div>
+            <div class="cot-min-aviso" id="cot-min-aviso" style="display:none;background:#fff3cd;color:#856404;border-left:4px solid #ffc107;border-radius:8px;padding:8px 12px;font-size:0.82em;margin-top:8px;align-items:center;gap:6px;"></div>
+
+            <div class="cot-row" style="margin-top:12px;">
+                <div>
+                    <label>Cantidad</label>
+                    <input type="number" id="cot-cantidad" class="cot-input" min="1" value="1" oninput="actualizarPrecioInfo()">
+                </div>
+            </div>
+
+            <button class="btn-add-item" id="btn-agregar" onclick="agregarItem()">➕ Agregar al presupuesto</button>
+
+            <hr class="cot-separator">
+            <div class="cot-items-title">Presupuesto</div>
+
+            <ul class="cot-items-list" id="cot-items-list">
+                <li class="cot-empty" id="cot-empty-msg">Aún no agregaste productos.</li>
+            </ul>
+        </div>
+
+        <div class="cotizador-footer">
+            <div class="cot-total-row">
+                <div>
+                    <div class="cot-total-label">Total</div>
+                    <div class="cot-total-items" id="cot-total-items">0 productos</div>
+                </div>
+                <div class="cot-total-val" id="cot-total-val">$0</div>
+            </div>
+            <button class="btn-limpiar" onclick="limpiarCotizador()">🗑️ Limpiar presupuesto</button>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
+
     <script>
-        // Modal/Lightbox
-        const modal = document.getElementById('modal');
-        const modalImg = document.getElementById('modal-img');
-        const cerrarModal = document.querySelector('.cerrar-modal');
+    // ===================== DATOS DE PRODUCTOS =====================
+    const PRODUCTOS = [
+        {
+            id: 'holder',
+            nombre: 'Holder para celular',
+            minimo: 1,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cristal', escalas: [{ desde: 1, precio: 250 }] },
+                { nombre: 'Cuero',   escalas: [{ desde: 1, precio: 500 }] },
+                { nombre: 'Goma',    escalas: [{ desde: 1, precio: 550 }] },
+                { nombre: 'PU',      escalas: [{ desde: 1, precio: 300 }] },
+            ]
+        },
+        {
+            id: 'llav4x15',
+            nombre: 'Llavero 4cm x 15',
+            minimo: 20,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 20, precio: 3000 }, { desde: 100, precio: 2500 }, { desde: 300, precio: 2250 }, { desde: 600, precio: 2000 }] },
+                { nombre: 'PU',            escalas: [{ desde: 20, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 300, precio: 2000 }, { desde: 600, precio: 1800 }] },
+            ]
+        },
+        {
+            id: 'llav4x10',
+            nombre: 'Llavero 4cm x 10',
+            minimo: 30,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 400, precio: 2100 }, { desde: 600, precio: 1900 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2700 }, { desde: 100, precio: 2100 }, { desde: 400, precio: 1850 }, { desde: 600, precio: 1700 }] },
+            ]
+        },
+        {
+            id: 'llav25x10mosq',
+            nombre: 'Llavero 2.5 x 10 (Mosquetón)',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2300 }, { desde: 100, precio: 2000 }, { desde: 400, precio: 1850 }, { desde: 800, precio: 1500 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2100 }, { desde: 100, precio: 1950 }, { desde: 400, precio: 1750 }, { desde: 800, precio: 1450 }] },
+            ]
+        },
+        {
+            id: 'llav25x10aro',
+            nombre: 'Llavero 2.5 x 10 (Aro sin fin)',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2300 }, { desde: 100, precio: 1900 }, { desde: 400, precio: 1550 }, { desde: 800, precio: 1450 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2250 }, { desde: 100, precio: 1850 }, { desde: 400, precio: 1450 }, { desde: 800, precio: 1350 }] },
+            ]
+        },
+        {
+            id: 'llav4x45',
+            nombre: 'Llavero 4cm x 45',
+            minimo: 10,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 10, precio: 4900 }, { desde: 100, precio: 3200 }, { desde: 200, precio: 2400 }] },
+            ]
+        },
+        {
+            id: 'llav25x45',
+            nombre: 'Llavero 2.5cm x 45',
+            minimo: 10,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 10, precio: 4700 }, { desde: 100, precio: 3050 }, { desde: 200, precio: 2200 }] },
+            ]
+        },
+        {
+            id: 'correa_simple',
+            nombre: 'Correa simple con regulador',
+            minimo: 70,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Ancho 4cm', escalas: [{ desde: 70, precio: 4900 }, { desde: 100, precio: 4400 }] },
+                { nombre: 'Ancho 3cm', escalas: [{ desde: 70, precio: 4650 }, { desde: 100, precio: 4150 }] },
+            ]
+        },
+        {
+            id: 'correa_premium',
+            nombre: 'Correa premium con regulador',
+            minimo: 70,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 70, precio: 7500 }, { desde: 130, precio: 7000 }] },
+            ]
+        },
+        {
+            id: 'llav_alpino',
+            nombre: 'Llavero 2.5 mosquetón alpino',
+            minimo: 25,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 25, precio: 3700 }] },
+            ]
+        },
+        {
+            id: 'soga',
+            nombre: 'Llavero Soga 4mm',
+            minimo: 500,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Estándar', escalas: [{ desde: 500, precio: 2200 }, { desde: 1000, precio: 1800 }] },
+            ]
+        },
+        {
+            id: 'equipaje',
+            nombre: 'Identificador de Equipaje',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Estándar', escalas: [{ desde: 30, precio: 3000 }, { desde: 100, precio: 2500 }] },
+            ]
+        },
+    ];
 
-        function abrirModal(src) {
-            modal.style.display = 'block';
-            modalImg.src = src;
+    const HOLDER_PRECIOS = { 'Cristal': 250, 'Cuero': 500, 'Goma': 550, 'PU': 300 };
+
+    // ===================== LÓGICA COTIZADOR =====================
+
+    let items = [];
+    let panelVisible = false;
+
+    function getPrecio(variante, cantidad) {
+        const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
+        for (const escala of escalasDesc) {
+            if (cantidad >= escala.desde) return escala.precio;
+        }
+        return variante.escalas[0].precio;
+    }
+
+    function getEscalaLabel(variante, cantidad) {
+        const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
+        for (const escala of escalasDesc) {
+            if (cantidad >= escala.desde) {
+                const precio = escala.precio;
+                if (variante.escalas.length === 1) return `Precio único: $${precio.toLocaleString('es-AR')} c/u`;
+                return `Escala desde ${escala.desde}u: $${precio.toLocaleString('es-AR')} c/u`;
+            }
+        }
+        return '';
+    }
+
+    function initCotizador() {
+        const sel = document.getElementById('cot-producto');
+        PRODUCTOS.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.nombre;
+            sel.appendChild(opt);
+        });
+    }
+
+    function actualizarOpciones() {
+        const prodId = document.getElementById('cot-producto').value;
+        const wrap = document.getElementById('cot-opciones-wrap');
+        wrap.innerHTML = '';
+        document.getElementById('cot-precio-info').style.display = 'none';
+        document.getElementById('cot-min-aviso').style.display = 'none';
+
+        if (!prodId) return;
+
+        const prod = PRODUCTOS.find(p => p.id === prodId);
+        if (!prod) return;
+
+        if (prod.variantes.length > 1) {
+            const label = document.createElement('label');
+            label.style.cssText = 'font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;margin-top:10px;';
+            label.textContent = 'Variante / Material';
+            wrap.appendChild(label);
+
+            const sel = document.createElement('select');
+            sel.id = 'cot-variante';
+            sel.className = 'cot-select';
+            sel.onchange = actualizarPrecioInfo;
+
+            prod.variantes.forEach((v, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = v.nombre;
+                sel.appendChild(opt);
+            });
+            wrap.appendChild(sel);
+        } else {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.id = 'cot-variante';
+            input.value = '0';
+            wrap.appendChild(input);
         }
 
-        function cerrarModalFunc() {
-            modal.style.display = 'none';
+        if (prod.admiteHolder) {
+            const holderWrap = document.createElement('div');
+            holderWrap.style.cssText = 'margin-top:12px;background:#f0f4ff;border-radius:10px;padding:10px 12px;border:1.5px solid #c5d0f5;';
+            holderWrap.innerHTML = `
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <input type="checkbox" id="cot-holder-check" onchange="actualizarPrecioInfo()" style="width:16px;height:16px;cursor:pointer;accent-color:#667eea;">
+                    <label for="cot-holder-check" style="font-size:0.85em;font-weight:700;color:#3a3a8c;cursor:pointer;">📱 ¿Incluir holder para celular?</label>
+                </div>
+                <div id="cot-holder-select-wrap" style="display:none;">
+                    <label style="font-size:0.78em;font-weight:600;color:#555;display:block;margin-bottom:4px;">Material del holder</label>
+                    <select id="cot-holder-material" class="cot-select" onchange="actualizarPrecioInfo()" style="font-size:0.83em;">
+                        <option value="Cristal">Cristal — $250 c/u</option>
+                        <option value="PU">PU — $300 c/u</option>
+                        <option value="Cuero">Cuero — $500 c/u</option>
+                        <option value="Goma">Goma — $550 c/u</option>
+                    </select>
+                </div>
+            `;
+            wrap.appendChild(holderWrap);
+
+            setTimeout(() => {
+                const chk = document.getElementById('cot-holder-check');
+                const selWrap = document.getElementById('cot-holder-select-wrap');
+                if (chk && selWrap) {
+                    chk.addEventListener('change', () => {
+                        selWrap.style.display = chk.checked ? 'block' : 'none';
+                    });
+                }
+            }, 50);
         }
 
-        cerrarModal.onclick = cerrarModalFunc;
-        modal.onclick = function(e) {
-            if (e.target === modal) cerrarModalFunc();
+        const cantInput = document.getElementById('cot-cantidad');
+        cantInput.min = prod.minimo;
+        cantInput.value = prod.minimo;
+
+        actualizarPrecioInfo();
+    }
+
+    function actualizarPrecioInfo() {
+        const prodId = document.getElementById('cot-producto').value;
+        if (!prodId) return;
+
+        const prod = PRODUCTOS.find(p => p.id === prodId);
+        const varIdx = parseInt(document.getElementById('cot-variante')?.value ?? 0);
+        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 0;
+        const variante = prod.variantes[varIdx];
+
+        const infoEl = document.getElementById('cot-precio-info');
+        const avisoEl = document.getElementById('cot-min-aviso');
+        const btnAgregar = document.getElementById('btn-agregar');
+
+        if (cantidad < prod.minimo) {
+            infoEl.style.display = 'none';
+            avisoEl.style.display = 'flex';
+            avisoEl.innerHTML = `⚠️ Cantidad mínima para este producto: <strong>${prod.minimo} unidades</strong>`;
+            btnAgregar.disabled = true;
+            btnAgregar.style.opacity = '0.5';
+            return;
         }
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.style.display === 'block') cerrarModalFunc();
+
+        avisoEl.style.display = 'none';
+        btnAgregar.disabled = false;
+        btnAgregar.style.opacity = '1';
+
+        const precio = getPrecio(variante, cantidad);
+        let subtotal = precio * cantidad;
+        let holderTexto = '';
+
+        const holderCheck = document.getElementById('cot-holder-check');
+        if (prod.admiteHolder && holderCheck && holderCheck.checked) {
+            const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
+            const precioHolder = HOLDER_PRECIOS[material];
+            subtotal += precioHolder * cantidad;
+            holderTexto = ` + Holder ${material} $${precioHolder.toLocaleString('es-AR')} c/u`;
+        }
+
+        infoEl.style.display = 'block';
+        infoEl.innerHTML = `💰 ${getEscalaLabel(variante, cantidad)}${holderTexto}<br><strong>Subtotal: $${subtotal.toLocaleString('es-AR')}</strong>`;
+    }
+
+    function agregarItem() {
+        const prodId = document.getElementById('cot-producto').value;
+        if (!prodId) { alert('Seleccioná un producto primero.'); return; }
+
+        const prod = PRODUCTOS.find(p => p.id === prodId);
+        const varIdx = parseInt(document.getElementById('cot-variante')?.value ?? 0);
+        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 0;
+
+        if (cantidad < prod.minimo) {
+            alert(`La cantidad mínima para "${prod.nombre}" es ${prod.minimo} unidades.`);
+            return;
+        }
+
+        const variante = prod.variantes[varIdx];
+        const precio = getPrecio(variante, cantidad);
+        let subtotal = precio * cantidad;
+        let holderInfo = null;
+
+        const holderCheck = document.getElementById('cot-holder-check');
+        if (prod.admiteHolder && holderCheck && holderCheck.checked) {
+            const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
+            const precioHolder = HOLDER_PRECIOS[material];
+            subtotal += precioHolder * cantidad;
+            holderInfo = { material, precio: precioHolder };
+        }
+
+        items.push({
+            id: Date.now(),
+            productoNombre: prod.nombre,
+            varianteNombre: variante.nombre,
+            cantidad,
+            precioUnitario: precio,
+            holderInfo,
+            subtotal,
         });
 
-        // Función para descargar PDF
-        function descargarPDF() {
-            const element = document.querySelector('.container');
-            const btn = document.querySelector('.btn-pdf');
-            
-            btn.style.display = 'none';
-            
-            const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
-                filename: 'lista_precios_marzo_2026.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true,
-                    letterRendering: true,
-                    logging: false
-                },
-                jsPDF: { 
-                    unit: 'in', 
-                    format: 'a4', 
-                    orientation: 'portrait'
-                },
-                pagebreak: { 
-                    mode: ['avoid-all', 'css'],
-                    avoid: ['.producto-card', '.condiciones']
-                }
-            };
-            
-            html2pdf().set(opt).from(element).save()
-                .then(() => {
-                    btn.style.display = 'flex';
-                })
-                .catch((error) => {
-                    console.error('Error PDF:', error);
-                    btn.style.display = 'flex';
-                    alert('Error al generar el PDF. Intente nuevamente.');
-                });
+        renderItems();
+        actualizarBadge();
+
+        document.getElementById('cot-cantidad').value = prod.minimo;
+        if (holderCheck) holderCheck.checked = false;
+        const holderSelWrap = document.getElementById('cot-holder-select-wrap');
+        if (holderSelWrap) holderSelWrap.style.display = 'none';
+        actualizarPrecioInfo();
+    }
+
+    function renderItems() {
+        const list = document.getElementById('cot-items-list');
+        list.innerHTML = '';
+
+        if (items.length === 0) {
+            const li = document.createElement('li');
+            li.className = 'cot-empty';
+            li.id = 'cot-empty-msg';
+            li.textContent = 'Aún no agregaste productos.';
+            list.appendChild(li);
+            actualizarTotal();
+            return;
         }
+
+        items.forEach(item => {
+            const holderDetalle = item.holderInfo
+                ? `<div class="cot-item-detail" style="color:#667eea;">📱 + Holder ${item.holderInfo.material} · $${item.holderInfo.precio.toLocaleString('es-AR')} c/u</div>`
+                : '';
+            const li = document.createElement('li');
+            li.className = 'cot-item';
+            li.innerHTML = `
+                <div class="cot-item-info">
+                    <div class="cot-item-name">${item.productoNombre}</div>
+                    <div class="cot-item-detail">${item.varianteNombre} · ${item.cantidad} u · $${item.precioUnitario.toLocaleString('es-AR')} c/u</div>
+                    ${holderDetalle}
+                </div>
+                <div class="cot-item-price">$${item.subtotal.toLocaleString('es-AR')}</div>
+                <button class="btn-remove-item" onclick="eliminarItem(${item.id})" title="Eliminar">✕</button>
+            `;
+            list.appendChild(li);
+        });
+
+        actualizarTotal();
+    }
+
+    function eliminarItem(id) {
+        items = items.filter(i => i.id !== id);
+        renderItems();
+        actualizarBadge();
+    }
+
+    function limpiarCotizador() {
+        if (items.length === 0) return;
+        if (!confirm('¿Querés limpiar todo el presupuesto?')) return;
+        items = [];
+        renderItems();
+        actualizarBadge();
+    }
+
+    function actualizarTotal() {
+        const total = items.reduce((acc, i) => acc + i.subtotal, 0);
+        const totalItems = items.reduce((acc, i) => acc + i.cantidad, 0);
+        document.getElementById('cot-total-val').textContent = '$' + total.toLocaleString('es-AR');
+        document.getElementById('cot-total-items').textContent =
+            totalItems === 0 ? '0 productos' :
+            totalItems === 1 ? '1 unidad' : `${totalItems} unidades`;
+    }
+
+    function actualizarBadge() {
+        const badge = document.getElementById('cotizador-badge');
+        if (items.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = items.length;
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    function toggleCotizador() {
+        const panel = document.getElementById('cotizador-panel');
+        panelVisible = !panelVisible;
+        if (panelVisible) {
+            panel.classList.add('visible');
+        } else {
+            panel.classList.remove('visible');
+        }
+    }
+
+    function cerrarCotizador() {
+        panelVisible = false;
+        document.getElementById('cotizador-panel').classList.remove('visible');
+    }
+
+    // ===================== DRAG =====================
+    (function() {
+        const panel = document.getElementById('cotizador-panel');
+        const handle = document.getElementById('cotizador-drag-handle');
+        let isDragging = false, startX, startY, origRight, origBottom;
+
+        handle.addEventListener('mousedown', function(e) {
+            if (e.target.closest('.btn-min, .btn-close-cot')) return;
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = panel.getBoundingClientRect();
+            origRight = window.innerWidth - rect.right;
+            origBottom = window.innerHeight - rect.bottom;
+            handle.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            panel.style.right = Math.max(0, origRight - dx) + 'px';
+            panel.style.bottom = Math.max(0, origBottom - dy) + 'px';
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                handle.style.cursor = 'grab';
+            }
+        });
+
+        handle.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.btn-min, .btn-close-cot')) return;
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            const rect = panel.getBoundingClientRect();
+            origRight = window.innerWidth - rect.right;
+            origBottom = window.innerHeight - rect.bottom;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+            panel.style.right = Math.max(0, origRight - dx) + 'px';
+            panel.style.bottom = Math.max(0, origBottom - dy) + 'px';
+        }, { passive: true });
+
+        document.addEventListener('touchend', function() { isDragging = false; });
+    })();
+
+    // ===================== MODAL LIGHTBOX =====================
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const cerrarModal = document.querySelector('.cerrar-modal');
+
+    function abrirModal(src) {
+        modal.style.display = 'block';
+        modalImg.src = src;
+    }
+
+    function cerrarModalFunc() { modal.style.display = 'none'; }
+
+    cerrarModal.onclick = cerrarModalFunc;
+    modal.onclick = function(e) { if (e.target === modal) cerrarModalFunc(); };
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') cerrarModalFunc();
+    });
+
+    // ===================== PDF CATÁLOGO =====================
+    function descargarPDF() {
+        const element = document.querySelector('.container');
+        const btn = document.querySelector('.btn-pdf');
+        btn.style.display = 'none';
+
+        const opt = {
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: 'lista_precios_marzo_2026.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css'], avoid: ['.producto-card', '.condiciones'] }
+        };
+
+        html2pdf().set(opt).from(element).save()
+            .then(() => { btn.style.display = 'flex'; })
+            .catch((error) => {
+                console.error('Error PDF:', error);
+                btn.style.display = 'flex';
+                alert('Error al generar el PDF. Intente nuevamente.');
+            });
+    }
+
+    // ===================== INIT =====================
+    initCotizador();
     </script>
+
+    <!-- ===================== PWA SERVICE WORKER + INSTALL BANNER ===================== -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        const swCode = `
+            const CACHE = 'latinmerch-v1';
+            const ASSETS = [self.location.href];
+            self.addEventListener('install', e => {
+                e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+                self.skipWaiting();
+            });
+            self.addEventListener('activate', e => {
+                e.waitUntil(caches.keys().then(keys =>
+                    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+                ));
+                self.clients.claim();
+            });
+            self.addEventListener('fetch', e => {
+                e.respondWith(
+                    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => cached))
+                );
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('install-banner').style.display = 'flex';
+    });
+
+    function instalarApp() {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            document.getElementById('install-banner').style.display = 'none';
+        });
+    }
+
+    function cerrarBanner() {
+        document.getElementById('install-banner').style.display = 'none';
+    }
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+    const isInStandalone = window.navigator.standalone;
+    if (isIOS && !isInStandalone) {
+        setTimeout(() => {
+            document.getElementById('install-banner-ios').style.display = 'flex';
+        }, 1500);
+    }
+    </script>
+
+    <!-- Banner Android/Chrome -->
+    <div id="install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.2);">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;">
+            <div style="font-weight:700;font-size:0.95em;">Instalá LatinMerch</div>
+            <div style="font-size:0.78em;opacity:0.85;">Agregá el catálogo a tu pantalla de inicio</div>
+        </div>
+        <button onclick="instalarApp()" style="background:white;color:#667eea;border:none;padding:9px 18px;border-radius:50px;font-weight:700;font-size:0.88em;cursor:pointer;white-space:nowrap;">Instalar</button>
+        <button onclick="cerrarBanner()" style="background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
+    <!-- Banner iOS (Safari) -->
+    <div id="install-banner-ios" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#2c3e50;color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.3);border-radius:16px 16px 0 0;">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;">
+            <div style="font-weight:700;font-size:0.92em;">Agregá LatinMerch a tu inicio</div>
+            <div style="font-size:0.78em;opacity:0.8;margin-top:2px;">Tocá <strong>□↑</strong> (Compartir) y luego <strong>"Agregar a pantalla de inicio"</strong></div>
+        </div>
+        <button onclick="document.getElementById('install-banner-ios').style.display='none'" style="background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
 </body>
 </html>
