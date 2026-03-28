@@ -2,8 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos - Cuero & Accesorios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LatinMerch · Catálogo</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="LatinMerch">
+    <meta name="description" content="Catálogo de precios y cotizador - LatinMerch">
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LatinMerch">
+
+    <!-- Apple touch icon SVG inline como data URI -->
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAADaDylAAAABmJLR0QA/wD/AP+gvaeTAAADXklEQVR4nO3BMQEAAADCoPVP7WsIoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAMBuAABHgAAAABJRU5ErkJggg==">
+
+    <!-- PWA Manifest como blob -->
+    <script>
+    (function() {
+        const manifest = {
+            name: "LatinMerch · Catálogo",
+            short_name: "LatinMerch",
+            description: "Catálogo de precios y cotizador de accesorios en cuero",
+            start_url: "./",
+            display: "standalone",
+            orientation: "portrait",
+            background_color: "#f5f7fa",
+            theme_color: "#667eea",
+            icons: [{
+                src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="80" fill="#667eea"/><text x="256" y="320" font-size="300" text-anchor="middle" fill="white">🏷</text></svg>'),
+                sizes: "512x512",
+                type: "image/svg+xml",
+                purpose: "any maskable"
+            }]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = url;
+        document.head.appendChild(link);
+    })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -579,7 +619,6 @@
         }
 
         .btn-limpiar {
-            width: 100%;
             padding: 10px;
             background: white;
             color: #e74c3c;
@@ -595,6 +634,31 @@
         .btn-limpiar:hover {
             background: #e74c3c;
             color: white;
+        }
+
+        .btn-descargar-pdf {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .btn-descargar-pdf:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-descargar-pdf:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .cot-precio-info {
@@ -893,6 +957,7 @@
             </div>
 
             <div class="cot-precio-info" id="cot-precio-info"></div>
+            <div class="cot-min-aviso" id="cot-min-aviso" style="display:none;background:#fff3cd;color:#856404;border-left:4px solid #ffc107;border-radius:8px;padding:8px 12px;font-size:0.82em;margin-top:8px;align-items:center;gap:6px;"></div>
 
             <div class="cot-row" style="margin-top:12px;">
                 <div>
@@ -901,7 +966,7 @@
                 </div>
             </div>
 
-            <button class="btn-add-item" onclick="agregarItem()">➕ Agregar al presupuesto</button>
+            <button class="btn-add-item" id="btn-agregar" onclick="agregarItem()">➕ Agregar al presupuesto</button>
 
             <hr class="cot-separator">
             <div class="cot-items-title">Presupuesto</div>
@@ -914,12 +979,19 @@
         <div class="cotizador-footer">
             <div class="cot-total-row">
                 <div>
-                    <div class="cot-total-label">Total estimado</div>
+                    <div class="cot-total-label">Total</div>
                     <div class="cot-total-items" id="cot-total-items">0 productos</div>
                 </div>
                 <div class="cot-total-val" id="cot-total-val">$0</div>
             </div>
-            <button class="btn-limpiar" onclick="limpiarCotizador()">🗑️ Limpiar presupuesto</button>
+            <div style="margin-bottom:10px;">
+                <label style="font-size:0.78em;font-weight:700;color:#555;display:block;margin-bottom:4px;">👤 Nombre del cliente <span style="color:#e74c3c;">*</span></label>
+                <input type="text" id="cot-cliente-nombre" class="cot-input" placeholder="Ej: Juan Pérez / Empresa S.A." style="font-size:0.85em;">
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn-limpiar" onclick="limpiarCotizador()" style="flex:1;">🗑️ Limpiar</button>
+                <button class="btn-descargar-pdf" id="btn-descargar-pdf" onclick="descargarPresupuestoPDF()">📄 Descargar presupuesto</button>
+            </div>
         </div>
     </div>
 
@@ -927,13 +999,16 @@
 
     <script>
     // ===================== DATOS DE PRODUCTOS =====================
-    // Estructura: { id, nombre, variantes: [ { nombre, escalas: [{desde, precio}] } ] }
+    // minimo: cantidad mínima requerida para cotizar
+    // admiteHolder: true = mostrar opción de agregar holder
     const PRODUCTOS = [
         {
             id: 'holder',
             nombre: 'Holder para celular',
+            minimo: 1,
+            admiteHolder: false,
             variantes: [
-                { nombre: 'Cristal',  escalas: [{ desde: 1, precio: 250 }] },
+                { nombre: 'Cristal', escalas: [{ desde: 1, precio: 250 }] },
                 { nombre: 'Cuero',   escalas: [{ desde: 1, precio: 500 }] },
                 { nombre: 'Goma',    escalas: [{ desde: 1, precio: 550 }] },
                 { nombre: 'PU',      escalas: [{ desde: 1, precio: 300 }] },
@@ -942,86 +1017,111 @@
         {
             id: 'llav4x15',
             nombre: 'Llavero 4cm x 15',
+            minimo: 20,
+            admiteHolder: true,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 3000 }, { desde: 100, precio: 2500 }, { desde: 300, precio: 2250 }, { desde: 600, precio: 2000 }] },
-                { nombre: 'PU',            escalas: [{ desde: 1, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 300, precio: 2000 }, { desde: 600, precio: 1800 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 20, precio: 3000 }, { desde: 100, precio: 2500 }, { desde: 300, precio: 2250 }, { desde: 600, precio: 2000 }] },
+                { nombre: 'PU',            escalas: [{ desde: 20, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 300, precio: 2000 }, { desde: 600, precio: 1800 }] },
             ]
         },
         {
             id: 'llav4x10',
             nombre: 'Llavero 4cm x 10',
+            minimo: 30,
+            admiteHolder: true,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 400, precio: 2100 }, { desde: 600, precio: 1900 }] },
-                { nombre: 'PU',            escalas: [{ desde: 1, precio: 2700 }, { desde: 100, precio: 2100 }, { desde: 400, precio: 1850 }, { desde: 600, precio: 1700 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 400, precio: 2100 }, { desde: 600, precio: 1900 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2700 }, { desde: 100, precio: 2100 }, { desde: 400, precio: 1850 }, { desde: 600, precio: 1700 }] },
             ]
         },
         {
             id: 'llav25x10mosq',
             nombre: 'Llavero 2.5 x 10 (Mosquetón)',
+            minimo: 30,
+            admiteHolder: false,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 2300 }, { desde: 100, precio: 2000 }, { desde: 400, precio: 1850 }, { desde: 800, precio: 1500 }] },
-                { nombre: 'PU',            escalas: [{ desde: 1, precio: 2100 }, { desde: 100, precio: 1950 }, { desde: 400, precio: 1750 }, { desde: 800, precio: 1450 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2300 }, { desde: 100, precio: 2000 }, { desde: 400, precio: 1850 }, { desde: 800, precio: 1500 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2100 }, { desde: 100, precio: 1950 }, { desde: 400, precio: 1750 }, { desde: 800, precio: 1450 }] },
             ]
         },
         {
             id: 'llav25x10aro',
             nombre: 'Llavero 2.5 x 10 (Aro sin fin)',
+            minimo: 30,
+            admiteHolder: false,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 2300 }, { desde: 100, precio: 1900 }, { desde: 400, precio: 1550 }, { desde: 800, precio: 1450 }] },
-                { nombre: 'PU',            escalas: [{ desde: 1, precio: 2250 }, { desde: 100, precio: 1850 }, { desde: 400, precio: 1450 }, { desde: 800, precio: 1350 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2300 }, { desde: 100, precio: 1900 }, { desde: 400, precio: 1550 }, { desde: 800, precio: 1450 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2250 }, { desde: 100, precio: 1850 }, { desde: 400, precio: 1450 }, { desde: 800, precio: 1350 }] },
             ]
         },
         {
             id: 'llav4x45',
             nombre: 'Llavero 4cm x 45',
+            minimo: 10,
+            admiteHolder: true,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 4900 }, { desde: 100, precio: 3200 }, { desde: 200, precio: 2400 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 10, precio: 4900 }, { desde: 100, precio: 3200 }, { desde: 200, precio: 2400 }] },
             ]
         },
         {
             id: 'llav25x45',
             nombre: 'Llavero 2.5cm x 45',
+            minimo: 10,
+            admiteHolder: true,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 4700 }, { desde: 100, precio: 3050 }, { desde: 200, precio: 2200 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 10, precio: 4700 }, { desde: 100, precio: 3050 }, { desde: 200, precio: 2200 }] },
             ]
         },
         {
             id: 'correa_simple',
             nombre: 'Correa simple con regulador',
+            minimo: 70,
+            admiteHolder: true,
             variantes: [
-                { nombre: 'Ancho 4cm', escalas: [{ desde: 1, precio: 4900 }, { desde: 100, precio: 4400 }] },
-                { nombre: 'Ancho 3cm', escalas: [{ desde: 1, precio: 4650 }, { desde: 100, precio: 4150 }] },
+                { nombre: 'Ancho 4cm', escalas: [{ desde: 70, precio: 4900 }, { desde: 100, precio: 4400 }] },
+                { nombre: 'Ancho 3cm', escalas: [{ desde: 70, precio: 4650 }, { desde: 100, precio: 4150 }] },
             ]
         },
         {
             id: 'correa_premium',
             nombre: 'Correa premium con regulador',
+            minimo: 70,
+            admiteHolder: true,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 7500 }, { desde: 130, precio: 7000 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 70, precio: 7500 }, { desde: 130, precio: 7000 }] },
             ]
         },
         {
             id: 'llav_alpino',
             nombre: 'Llavero 2.5 mosquetón alpino',
+            minimo: 25,
+            admiteHolder: false,
             variantes: [
-                { nombre: 'Cuero genuino', escalas: [{ desde: 1, precio: 3700 }] },
+                { nombre: 'Cuero genuino', escalas: [{ desde: 25, precio: 3700 }] },
             ]
         },
         {
             id: 'soga',
             nombre: 'Llavero Soga 4mm',
+            minimo: 500,
+            admiteHolder: false,
             variantes: [
-                { nombre: 'Estándar', escalas: [{ desde: 1, precio: 2200 }, { desde: 1000, precio: 1800 }] },
+                { nombre: 'Estándar', escalas: [{ desde: 500, precio: 2200 }, { desde: 1000, precio: 1800 }] },
             ]
         },
         {
             id: 'equipaje',
             nombre: 'Identificador de Equipaje',
+            minimo: 30,
+            admiteHolder: false,
             variantes: [
-                { nombre: 'Estándar', escalas: [{ desde: 1, precio: 3000 }, { desde: 100, precio: 2500 }] },
+                { nombre: 'Estándar', escalas: [{ desde: 30, precio: 3000 }, { desde: 100, precio: 2500 }] },
             ]
         },
     ];
+
+    // Precios del holder por material
+    const HOLDER_PRECIOS = { 'Cristal': 250, 'Cuero': 500, 'Goma': 550, 'PU': 300 };
 
     // ===================== LÓGICA COTIZADOR =====================
 
@@ -1029,7 +1129,6 @@
     let panelVisible = false;
 
     function getPrecio(variante, cantidad) {
-        // Escalas ordenadas de mayor a menor para encontrar el precio correcto
         const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
         for (const escala of escalasDesc) {
             if (cantidad >= escala.desde) return escala.precio;
@@ -1037,16 +1136,19 @@
         return variante.escalas[0].precio;
     }
 
-    function getEscalaInfo(variante, cantidad) {
+    function getEscalaInfo(variante, cantidad, prod) {
         const precio = getPrecio(variante, cantidad);
-        // Descripción de la escala aplicada
+        if (variante.escalas.length === 1) return `Precio único: $${precio.toLocaleString('es-AR')} c/u`;
+        return `Escala "desde ${variante.escalas.find(e => e.desde <= cantidad && [...variante.escalas].sort((a,b)=>b.desde-a.desde).find(x=>x.desde<=cantidad)===e)?.desde ?? variante.escalas[0].desde}u": $${precio.toLocaleString('es-AR')} c/u`;
+    }
+
+    function getEscalaLabel(variante, cantidad) {
         const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
         for (const escala of escalasDesc) {
             if (cantidad >= escala.desde) {
-                const idx = variante.escalas.indexOf(escala);
-                const next = variante.escalas[idx + 1];
-                if (escala.desde === 1 && variante.escalas.length === 1) return `Precio único: $${precio.toLocaleString('es-AR')} c/u`;
-                return `Precio por escala "desde ${escala.desde}u": $${precio.toLocaleString('es-AR')} c/u`;
+                const precio = escala.precio;
+                if (variante.escalas.length === 1) return `Precio único: $${precio.toLocaleString('es-AR')} c/u`;
+                return `Escala desde ${escala.desde}u: $${precio.toLocaleString('es-AR')} c/u`;
             }
         }
         return '';
@@ -1068,15 +1170,17 @@
         const wrap = document.getElementById('cot-opciones-wrap');
         wrap.innerHTML = '';
         document.getElementById('cot-precio-info').style.display = 'none';
+        document.getElementById('cot-min-aviso').style.display = 'none';
 
         if (!prodId) return;
 
         const prod = PRODUCTOS.find(p => p.id === prodId);
         if (!prod) return;
 
+        // Selector variante
         if (prod.variantes.length > 1) {
             const label = document.createElement('label');
-            label.style.cssText = 'font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;';
+            label.style.cssText = 'font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;margin-top:10px;';
             label.textContent = 'Variante / Material';
             wrap.appendChild(label);
 
@@ -1093,13 +1197,50 @@
             });
             wrap.appendChild(sel);
         } else {
-            // Una sola variante, hidden
             const input = document.createElement('input');
             input.type = 'hidden';
             input.id = 'cot-variante';
             input.value = '0';
             wrap.appendChild(input);
         }
+
+        // Opción holder (si aplica)
+        if (prod.admiteHolder) {
+            const holderWrap = document.createElement('div');
+            holderWrap.style.cssText = 'margin-top:12px;background:#f0f4ff;border-radius:10px;padding:10px 12px;border:1.5px solid #c5d0f5;';
+            holderWrap.innerHTML = `
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <input type="checkbox" id="cot-holder-check" onchange="actualizarPrecioInfo()" style="width:16px;height:16px;cursor:pointer;accent-color:#667eea;">
+                    <label for="cot-holder-check" style="font-size:0.85em;font-weight:700;color:#3a3a8c;cursor:pointer;">📱 ¿Incluir holder para celular?</label>
+                </div>
+                <div id="cot-holder-select-wrap" style="display:none;">
+                    <label style="font-size:0.78em;font-weight:600;color:#555;display:block;margin-bottom:4px;">Material del holder</label>
+                    <select id="cot-holder-material" class="cot-select" onchange="actualizarPrecioInfo()" style="font-size:0.83em;">
+                        <option value="Cristal">Cristal — $250 c/u</option>
+                        <option value="PU">PU — $300 c/u</option>
+                        <option value="Cuero">Cuero — $500 c/u</option>
+                        <option value="Goma">Goma — $550 c/u</option>
+                    </select>
+                </div>
+            `;
+            wrap.appendChild(holderWrap);
+
+            // Mostrar/ocultar select de material al checkear
+            setTimeout(() => {
+                const chk = document.getElementById('cot-holder-check');
+                const selWrap = document.getElementById('cot-holder-select-wrap');
+                if (chk && selWrap) {
+                    chk.addEventListener('change', () => {
+                        selWrap.style.display = chk.checked ? 'block' : 'none';
+                    });
+                }
+            }, 50);
+        }
+
+        // Setear cantidad mínima del producto
+        const cantInput = document.getElementById('cot-cantidad');
+        cantInput.min = prod.minimo;
+        cantInput.value = prod.minimo;
 
         actualizarPrecioInfo();
     }
@@ -1110,12 +1251,42 @@
 
         const prod = PRODUCTOS.find(p => p.id === prodId);
         const varIdx = parseInt(document.getElementById('cot-variante')?.value ?? 0);
-        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 1;
+        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 0;
         const variante = prod.variantes[varIdx];
 
         const infoEl = document.getElementById('cot-precio-info');
+        const avisoEl = document.getElementById('cot-min-aviso');
+        const btnAgregar = document.getElementById('btn-agregar');
+
+        // Validar mínimo
+        if (cantidad < prod.minimo) {
+            infoEl.style.display = 'none';
+            avisoEl.style.display = 'flex';
+            avisoEl.innerHTML = `⚠️ Cantidad mínima para este producto: <strong>${prod.minimo} unidades</strong>`;
+            btnAgregar.disabled = true;
+            btnAgregar.style.opacity = '0.5';
+            return;
+        }
+
+        avisoEl.style.display = 'none';
+        btnAgregar.disabled = false;
+        btnAgregar.style.opacity = '1';
+
+        const precio = getPrecio(variante, cantidad);
+        let subtotal = precio * cantidad;
+        let holderTexto = '';
+
+        // Sumar holder si aplica
+        const holderCheck = document.getElementById('cot-holder-check');
+        if (prod.admiteHolder && holderCheck && holderCheck.checked) {
+            const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
+            const precioHolder = HOLDER_PRECIOS[material];
+            subtotal += precioHolder * cantidad;
+            holderTexto = ` + Holder ${material} $${precioHolder.toLocaleString('es-AR')} c/u`;
+        }
+
         infoEl.style.display = 'block';
-        infoEl.textContent = '💰 ' + getEscalaInfo(variante, cantidad) + ` · Subtotal: $${(getPrecio(variante, cantidad) * cantidad).toLocaleString('es-AR')}`;
+        infoEl.innerHTML = `💰 ${getEscalaLabel(variante, cantidad)}${holderTexto}<br><strong>Subtotal: $${subtotal.toLocaleString('es-AR')}</strong>`;
     }
 
     function agregarItem() {
@@ -1124,13 +1295,26 @@
 
         const prod = PRODUCTOS.find(p => p.id === prodId);
         const varIdx = parseInt(document.getElementById('cot-variante')?.value ?? 0);
-        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 1;
+        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 0;
 
-        if (cantidad < 1) { alert('La cantidad debe ser al menos 1.'); return; }
+        if (cantidad < prod.minimo) {
+            alert(`La cantidad mínima para "${prod.nombre}" es ${prod.minimo} unidades.`);
+            return;
+        }
 
         const variante = prod.variantes[varIdx];
         const precio = getPrecio(variante, cantidad);
-        const subtotal = precio * cantidad;
+        let subtotal = precio * cantidad;
+        let holderInfo = null;
+
+        // Holder opcional
+        const holderCheck = document.getElementById('cot-holder-check');
+        if (prod.admiteHolder && holderCheck && holderCheck.checked) {
+            const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
+            const precioHolder = HOLDER_PRECIOS[material];
+            subtotal += precioHolder * cantidad;
+            holderInfo = { material, precio: precioHolder };
+        }
 
         items.push({
             id: Date.now(),
@@ -1138,20 +1322,23 @@
             varianteNombre: variante.nombre,
             cantidad,
             precioUnitario: precio,
+            holderInfo,
             subtotal,
         });
 
         renderItems();
         actualizarBadge();
 
-        // Reset cantidad
-        document.getElementById('cot-cantidad').value = 1;
+        // Reset
+        document.getElementById('cot-cantidad').value = prod.minimo;
+        if (holderCheck) holderCheck.checked = false;
+        const holderSelWrap = document.getElementById('cot-holder-select-wrap');
+        if (holderSelWrap) holderSelWrap.style.display = 'none';
         actualizarPrecioInfo();
     }
 
     function renderItems() {
         const list = document.getElementById('cot-items-list');
-        const emptyMsg = document.getElementById('cot-empty-msg');
         list.innerHTML = '';
 
         if (items.length === 0) {
@@ -1165,12 +1352,16 @@
         }
 
         items.forEach(item => {
+            const holderDetalle = item.holderInfo
+                ? `<div class="cot-item-detail" style="color:#667eea;">📱 + Holder ${item.holderInfo.material} · $${item.holderInfo.precio.toLocaleString('es-AR')} c/u</div>`
+                : '';
             const li = document.createElement('li');
             li.className = 'cot-item';
             li.innerHTML = `
                 <div class="cot-item-info">
                     <div class="cot-item-name">${item.productoNombre}</div>
                     <div class="cot-item-detail">${item.varianteNombre} · ${item.cantidad} u · $${item.precioUnitario.toLocaleString('es-AR')} c/u</div>
+                    ${holderDetalle}
                 </div>
                 <div class="cot-item-price">$${item.subtotal.toLocaleString('es-AR')}</div>
                 <button class="btn-remove-item" onclick="eliminarItem(${item.id})" title="Eliminar">✕</button>
@@ -1326,8 +1517,316 @@
             });
     }
 
+    // ===================== PDF PRESUPUESTO =====================
+    function descargarPresupuestoPDF() {
+        if (items.length === 0) {
+            alert('Agregá al menos un producto al presupuesto antes de descargar.');
+            return;
+        }
+
+        const clienteNombre = document.getElementById('cot-cliente-nombre').value.trim();
+        if (!clienteNombre) {
+            document.getElementById('cot-cliente-nombre').focus();
+            document.getElementById('cot-cliente-nombre').style.borderColor = '#e74c3c';
+            setTimeout(() => document.getElementById('cot-cliente-nombre').style.borderColor = '', 2000);
+            alert('Por favor ingresá el nombre del cliente antes de generar el PDF.');
+            return;
+        }
+
+        const btn = document.getElementById('btn-descargar-pdf');
+        btn.disabled = true;
+        btn.textContent = '⏳ Generando...';
+
+        const total = items.reduce((acc, i) => acc + i.subtotal, 0);
+        const totalUnidades = items.reduce((acc, i) => acc + i.cantidad, 0);
+        const fecha = new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+        // Determinar si algún item tiene holder, para mostrar u ocultar esas columnas
+        const hayHolder = items.some(i => i.holderInfo);
+
+        const filasItems = items.map((item, idx) => {
+            const totalLlavero = item.precioUnitario * item.cantidad;
+            const totalHolder = item.holderInfo ? item.holderInfo.precio * item.cantidad : null;
+            const subtotalFinal = totalLlavero + (totalHolder || 0);
+            const bg = idx % 2 === 0 ? '#ffffff' : '#f9f9f9';
+
+            const celdaSubtotalLlavero = hayHolder
+                ? `<td style="padding:10px 12px;text-align:right;color:#1e7e34;font-weight:700;">$${totalLlavero.toLocaleString('es-AR')}</td>`
+                : '';
+
+            const filaLlavero = `
+                <tr style="background:${bg};">
+                    <td style="padding:10px 12px;font-weight:600;color:#2c3e50;">
+                        ${item.productoNombre}<br>
+                        <span style="font-weight:400;font-size:0.82em;color:#666;">${item.varianteNombre}</span>
+                    </td>
+                    <td style="padding:10px 12px;text-align:center;">${item.cantidad}</td>
+                    <td style="padding:10px 12px;text-align:right;">$${item.precioUnitario.toLocaleString('es-AR')}</td>
+                    ${celdaSubtotalLlavero}
+                    <td style="padding:10px 12px;text-align:right;font-weight:800;color:#1e7e34;font-size:1.05em;${item.holderInfo ? 'border-bottom:none;' : ''}">
+                        ${item.holderInfo ? '—' : '$' + subtotalFinal.toLocaleString('es-AR')}
+                    </td>
+                </tr>`;
+
+            const filaHolder = item.holderInfo ? `
+                <tr style="background:#f0f4ff;border-bottom:2px solid #c5d0f5;">
+                    <td style="padding:8px 12px 10px 24px;color:#3a3a8c;font-size:0.88em;">↳ + Holder ${item.holderInfo.material}</td>
+                    <td style="padding:8px 12px;text-align:center;color:#3a3a8c;font-size:0.88em;">${item.cantidad}</td>
+                    <td style="padding:8px 12px;text-align:right;color:#3a3a8c;font-size:0.88em;">$${item.holderInfo.precio.toLocaleString('es-AR')}</td>
+                    <td style="padding:8px 12px;text-align:right;color:#3a3a8c;font-weight:700;font-size:0.88em;">$${totalHolder.toLocaleString('es-AR')}</td>
+                    <td style="padding:8px 12px;text-align:right;font-weight:800;color:#1e7e34;font-size:1.05em;">$${subtotalFinal.toLocaleString('es-AR')}</td>
+                </tr>` : '';
+
+            return filaLlavero + filaHolder;
+        }).join('');
+
+        const thSubtotalParcial = hayHolder
+            ? `<th style="text-align:right;">Subtotal ítem</th>`
+            : '';
+
+        const htmlContent = `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                * { margin:0; padding:0; box-sizing:border-box; }
+                body { font-family: 'Segoe UI', Arial, sans-serif; color: #333; background: white; }
+                .page { padding: 36px 40px; max-width: 780px; margin: 0 auto; }
+
+                .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom: 18px; border-bottom: 3px solid #667eea; margin-bottom: 22px; }
+                .empresa-nombre { font-size: 2em; font-weight: 900; color: #2c3e50; letter-spacing: -1px; }
+                .empresa-subtitulo { font-size: 0.85em; color: #888; margin-top: 2px; }
+                .empresa-contacto { text-align: right; font-size: 0.8em; color: #555; line-height: 1.8; }
+                .empresa-contacto strong { color: #2c3e50; }
+
+                .presup-meta { display:flex; justify-content:space-between; align-items:stretch; gap:14px; margin-bottom: 22px; }
+                .presup-box { flex:1; border-radius: 10px; padding: 12px 16px; }
+                .presup-box.azul { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+                .presup-box.gris { background: #f4f4f4; border: 1.5px solid #e0e0e0; }
+                .presup-box .label { font-size: 0.72em; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+                .presup-box .value { font-size: 1em; font-weight: 700; }
+                .presup-box.gris .label { color: #888; }
+                .presup-box.gris .value { color: #2c3e50; }
+
+                table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.88em; }
+                thead tr { background: #2c3e50; color: white; }
+                thead th { padding: 10px 12px; text-align: left; font-weight: 600; }
+                thead th:nth-child(2) { text-align: center; }
+                thead th:nth-child(3), thead th:nth-child(4) { text-align: right; }
+                tbody tr:last-child td { border-bottom: 2px solid #e0e0e0; }
+
+                .total-box { display:flex; justify-content:flex-end; margin-bottom: 24px; }
+                .total-inner { background: #f8f9fa; border: 2px solid #667eea; border-radius: 10px; padding: 14px 22px; min-width: 260px; }
+                .total-row { display:flex; justify-content:space-between; gap: 30px; font-size: 0.88em; color: #555; margin-bottom: 6px; }
+                .total-final { display:flex; justify-content:space-between; gap: 30px; font-size: 1.15em; font-weight: 800; color: #2c3e50; border-top: 1.5px solid #ddd; padding-top: 8px; margin-top: 2px; }
+                .total-final span:last-child { color: #1e7e34; }
+
+                .validez-box { background:#e8f5e9; border:1.5px solid #a5d6a7; border-radius:8px; padding:10px 16px; margin-bottom:18px; font-size:0.82em; color:#2e7d32; display:flex; align-items:center; gap:8px; }
+
+                .condiciones-box { background: #fffbf0; border: 1.5px solid #ffc107; border-radius: 10px; padding: 14px 18px; margin-bottom: 22px; }
+                .condiciones-box h3 { font-size: 0.9em; color: #856404; margin-bottom: 8px; font-weight: 700; }
+                .condiciones-box ul { list-style: none; padding: 0; }
+                .condiciones-box li { font-size: 0.8em; color: #555; padding: 3px 0 3px 18px; position: relative; line-height: 1.4; }
+                .condiciones-box li:before { content: "✓"; color: #28a745; position: absolute; left: 0; font-weight: bold; }
+
+                .footer { text-align: center; font-size: 0.72em; color: #aaa; border-top: 1px solid #eee; padding-top: 12px; }
+                .footer strong { color: #667eea; }
+            </style>
+        </head>
+        <body>
+        <div class="page">
+
+            <div class="header">
+                <div>
+                    <div class="empresa-nombre">LatinMerch</div>
+                    <div class="empresa-subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
+                </div>
+                <div class="empresa-contacto">
+                    <div>📍 Gral. José G. Artigas 1553, Paternal</div>
+                    <div>📞 <strong>Lauro Ware</strong> · 15 6236-6175</div>
+                    <div>📞 <strong>Martín Urquiza</strong> · 11 5145-7232</div>
+                    <div>✉️ ventas@latinmerch.com.ar</div>
+                </div>
+            </div>
+
+            <div class="presup-meta">
+                <div class="presup-box azul">
+                    <div class="label">Cliente</div>
+                    <div class="value">${clienteNombre}</div>
+                </div>
+                <div class="presup-box gris">
+                    <div class="label">Fecha</div>
+                    <div class="value">${fecha}</div>
+                </div>
+                <div class="presup-box gris">
+                    <div class="label">Unidades totales</div>
+                    <div class="value">${totalUnidades} u</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto / Variante</th>
+                        <th style="text-align:center;">Cant.</th>
+                        <th style="text-align:right;">Precio u.</th>
+                        ${thSubtotalParcial}
+                        <th style="text-align:right;background:#1a5c2e;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${filasItems}
+                </tbody>
+            </table>
+
+            <div class="total-box">
+                <div class="total-inner">
+                    <div class="total-row"><span>Unidades:</span><span>${totalUnidades}</span></div>
+                    <div class="total-final"><span>TOTAL</span><span>$${total.toLocaleString('es-AR')}</span></div>
+                </div>
+            </div>
+
+            <div class="validez-box">
+                ✅ <strong>Este presupuesto tiene validez por 7 días una vez confirmado por el canal de ventas.</strong>
+            </div>
+
+            <div class="condiciones-box">
+                <h3>📋 Condiciones de venta</h3>
+                <ul>
+                    <li>No cobramos el diseño de la cinta. Si contás con diseñador, podés realizarlo vos mismo. ¡Solicitanos las medidas!</li>
+                    <li>Los precios son finales.</li>
+                    <li>Solo realizamos factura C.</li>
+                    <li>Trabajamos con adelanto del 50% y resto contra despacho de la mercadería.</li>
+                    <li>Los plazos dependen del modelo y las cantidades. La fecha de entrega se pacta al momento de la señal.</li>
+                    <li>No incluye envío — Enviamos por Correo Argentino.</li>
+                    <li>Los productos se pueden retirar por Paternal.</li>
+                </ul>
+            </div>
+
+            <div class="footer">
+                Presupuesto generado por <strong>LatinMerch</strong> · ventas@latinmerch.com.ar · Lauro Ware 15 6236-6175 · Martín Urquiza 11 5145-7232
+            </div>
+
+        </div>
+        </body>
+        </html>
+        `;
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        tempDiv.style.position = 'absolute';
+        tempDiv.style.left = '-9999px';
+        tempDiv.style.top = '0';
+        document.body.appendChild(tempDiv);
+
+        const nombreArchivo = clienteNombre.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/g, '').replace(/\s+/g, '_').toLowerCase();
+        const opt = {
+            margin: [0, 0, 0, 0],
+            filename: `presupuesto_latinmerch_${nombreArchivo}_${fecha.replace(/\//g, '-')}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(tempDiv.querySelector('.page') || tempDiv).save()
+            .then(() => {
+                document.body.removeChild(tempDiv);
+                btn.disabled = false;
+                btn.textContent = '📄 Descargar presupuesto';
+            })
+            .catch((err) => {
+                console.error(err);
+                document.body.removeChild(tempDiv);
+                btn.disabled = false;
+                btn.textContent = '📄 Descargar presupuesto';
+                alert('Error al generar el PDF. Intentá de nuevo.');
+            });
+    }
+
     // ===================== INIT =====================
     initCotizador();
     </script>
+    <!-- ===================== PWA SERVICE WORKER + INSTALL BANNER ===================== -->
+    <script>
+    // Service Worker para cache offline
+    if ('serviceWorker' in navigator) {
+        const swCode = `
+            const CACHE = 'latinmerch-v1';
+            const ASSETS = [self.location.href];
+            self.addEventListener('install', e => {
+                e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+                self.skipWaiting();
+            });
+            self.addEventListener('activate', e => {
+                e.waitUntil(caches.keys().then(keys =>
+                    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+                ));
+                self.clients.claim();
+            });
+            self.addEventListener('fetch', e => {
+                e.respondWith(
+                    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => cached))
+                );
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    // Banner de instalación personalizado
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('install-banner').style.display = 'flex';
+    });
+
+    function instalarApp() {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            document.getElementById('install-banner').style.display = 'none';
+        });
+    }
+
+    function cerrarBanner() {
+        document.getElementById('install-banner').style.display = 'none';
+    }
+
+    // En iOS mostrar instrucción manual
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+    const isInStandalone = window.navigator.standalone;
+    if (isIOS && !isInStandalone) {
+        setTimeout(() => {
+            document.getElementById('install-banner-ios').style.display = 'flex';
+        }, 1500);
+    }
+    </script>
+
+    <!-- Banner Android/Chrome -->
+    <div id="install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.2);">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;">
+            <div style="font-weight:700;font-size:0.95em;">Instalá LatinMerch</div>
+            <div style="font-size:0.78em;opacity:0.85;">Agregá el catálogo a tu pantalla de inicio</div>
+        </div>
+        <button onclick="instalarApp()" style="background:white;color:#667eea;border:none;padding:9px 18px;border-radius:50px;font-weight:700;font-size:0.88em;cursor:pointer;white-space:nowrap;">Instalar</button>
+        <button onclick="cerrarBanner()" style="background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
+    <!-- Banner iOS (Safari) -->
+    <div id="install-banner-ios" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#2c3e50;color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.3);border-radius:16px 16px 0 0;">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;">
+            <div style="font-weight:700;font-size:0.92em;">Agregá LatinMerch a tu inicio</div>
+            <div style="font-size:0.78em;opacity:0.8;margin-top:2px;">Tocá <strong>□↑</strong> (Compartir) y luego <strong>"Agregar a pantalla de inicio"</strong></div>
+        </div>
+        <button onclick="document.getElementById('install-banner-ios').style.display='none'" style="background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
 </body>
 </html>
