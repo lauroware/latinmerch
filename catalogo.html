@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>LatinMerch · Catálogo General</title>
-    <meta name="description" content="Catálogo de productos personalizados - LatinMerch">
+    <title>LatinMerch · Catálogo General · Vamos Argentina!</title>
+    <meta name="description" content="Catálogo de productos personalizados - LatinMerch. Alentá a la selección con tu logo y los colores argentinos.">
     <meta name="theme-color" content="#1e3c72">
 
     <style>
@@ -19,6 +19,120 @@
         .btn-pdf { background: linear-gradient(135deg, #2c3e66 0%, #1a2c4e 100%); }
         .btn-cotizar { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); }
         .btn-pdf:hover, .btn-cotizar:hover { transform: translateY(-2px); filter: brightness(1.02); }
+
+        /* NUEVO BANNER ARGENTINA */
+        .banner-argentina {
+            background: linear-gradient(125deg, #ffffff 0%, #eef5ff 30%, #cbe4fe 100%);
+            border-radius: 32px;
+            margin-bottom: 32px;
+            padding: 5px;
+            box-shadow: 0 12px 28px rgba(0, 40, 80, 0.12);
+            border: 1px solid rgba(117, 170, 219, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-argentina::before {
+            content: "⭐⚽⭐";
+            font-size: 120px;
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            opacity: 0.1;
+            pointer-events: none;
+            font-family: monospace;
+            white-space: pre;
+        }
+        .banner-content {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 32px;
+            position: relative;
+            z-index: 2;
+        }
+        .banner-icon {
+            font-size: 4rem;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.1));
+        }
+        .banner-text {
+            flex: 2;
+            min-width: 180px;
+        }
+        .banner-text h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #003d7c, #0070c0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+            display: inline-block;
+        }
+        .banner-text h2::before {
+            content: "🇦🇷 ";
+            background: none;
+            color: #75aadb;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+        }
+        .banner-text p {
+            color: #1e4663;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .banner-btn {
+            background: linear-gradient(135deg, #f5b042, #e07c1f);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 12px rgba(230,126,34,0.3);
+        }
+        .banner-btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #f7b853, #e68a2e);
+            box-shadow: 0 8px 18px rgba(230,126,34,0.4);
+        }
+
+        .banner-mundial-link {
+    display: block;
+    width: 100%;
+    margin-bottom: 32px;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 40, 80, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.banner-mundial-link:hover {
+    transform: scale(1.01);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.banner-mundial-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+        @media (max-width: 750px) {
+            .banner-content { flex-direction: column; text-align: center; padding: 20px; }
+            .banner-text h2 { font-size: 1.5rem; }
+            .banner-icon { font-size: 3rem; }
+            .banner-btn { width: 100%; justify-content: center; }
+        }
+
         .categoria-acordeon { background: white; border-radius: 24px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden; }
         .acordeon-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 16px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: white; font-size: 1.3em; font-weight: bold; }
         .acordeon-header:hover { background: linear-gradient(135deg, #2a4a8a 0%, #3a62a8 100%); }
@@ -63,7 +177,7 @@
         .cot-precio-info { background: #e8f5e9; }
         .cot-min-aviso { background: #fff3cd; color: #856404; }
         @media (max-width: 768px) { .productos-grid { grid-template-columns: 1fr; } .header-section { flex-direction: column; text-align: center; } #cotizador-panel { width: calc(100vw - 20px); right: 10px; bottom: 90px; } }
-        @media print { .btn-pdf, .btn-cotizar, #cotizador-fab, #cotizador-panel { display: none; } }
+        @media print { .btn-pdf, .btn-cotizar, #cotizador-fab, #cotizador-panel, .banner-argentina { display: none; } }
     </style>
 </head>
 <body>
@@ -78,6 +192,11 @@
             <button class="btn-pdf" onclick="descargarPDF()">📄 Descargar PDF</button>
         </div>
     </div>
+
+    <!-- BANNER CON FOTO - Redirige a mundial2026.html (raíz) -->
+<a href="mundial2026.html" class="banner-mundial-link">
+    <img src="/assets/img/portfolio/trabajos/bannernano.jpg" alt="Vamos Argentina! Merch - Alentá a la selección" class="banner-mundial-img">
+</a>
 
     <!-- Modal Lightbox -->
     <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; align-items:center; justify-content:center;">
@@ -107,9 +226,9 @@
         <div class="acordeon-contenido">
             <div class="productos-grid">
                 <div class="producto-card"><div class="producto-header"><h2>Portanotebook</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portanotebook.png')"><img src="/assets/img/portfolio/trabajos/portanotebook.png" alt="Portanotebook"></div><div class="observacion">Cuero ecológico / cordura, personalizado con logo grabado a calor (no incluye matriz) o dtf.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 10u</td><td class="precio">$21.000</td></tr><tr><td>Desde 50u</td><td class="precio">$17.000</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Deskpad</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/pad.png')"><img src="/assets/img/portfolio/trabajos/pad.png" alt="Deskpad"></div><div class="observacion">Superficie antideslizante, bordes cosidos, full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 5u</td><td class="precio">$30.000</td></tr><tr><td>Desde 20u</td><td class="precio">$25.000</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Portablock personalizado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portablock.png')"><img src="/assets/img/portfolio/trabajos/portablock.png" alt="Portablock"></div><div class="observacion">Cuero / PU, cierre imantado, ideal para notas.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Portacuaderno personalizado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portacuaderno.png')"><img src="/assets/img/portfolio/trabajos/portacuaderno.png" alt="Portacuaderno"></div><div class="observacion">Cierre elástico, cuero grabado, A5/A4.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Deskpad</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/pad.png')"><img src="/assets/img/portfolio/trabajos/pad.png" alt="Deskpad"></div><div class="observacion">Superficie antideslizante, bordes cosidos, full color.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 5u</td><td class="precio">$30.000</td></tr><tr><td>Desde 20u</td><td class="precio">$25.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Portablock personalizado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portablock.png')"><img src="/assets/img/portfolio/trabajos/portablock.png" alt="Portablock"></div><div class="observacion">Cuero / PU, cierre imantado, ideal para notas.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Portacuaderno personalizado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portacuaderno.png')"><img src="/assets/img/portfolio/trabajos/portacuaderno.png" alt="Portacuaderno"></div><div class="observacion">Cierre elástico, cuero grabado, A5/A4.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
                 <div class="producto-card"><div class="producto-header"><h2>Pack Posavasos personalizados x4</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/posavaso.png')"><img src="/assets/img/portfolio/trabajos/posavaso.png" alt="Posavasos"></div><div class="observacion">Sublimado, cartón piedra o silicona, full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 5u</td><td class="precio">$16.000</td></tr><tr><td>Desde 20u</td><td class="precio">$11.000</td></tr></table></div></div>
             </div>
         </div>
@@ -121,8 +240,8 @@
         <div class="acordeon-contenido">
             <div class="productos-grid">
                 <div class="producto-card"><div class="producto-header"><h2>Remera de algodón estampada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/remera.png')"><img src="/assets/img/portfolio/trabajos/remera.png" alt="Remera"></div><div class="observacion">Estampada en dtf (algodón).</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">$21.000</td></tr><tr><td>Desde 100u</td><td class="precio">$17.000</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Remera sublimada poliéster (tipo deportiva)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/remera.png')"><img src="/assets/img/portfolio/trabajos/remera.png" alt="Remera sublimada"></div><div class="observacion">Poliéster deportiva full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">$21.000</td></tr><tr><td>Desde 100u</td><td class="precio">$17.000</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Buzo estampado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/buzo.png')"><img src="/assets/img/portfolio/trabajos/buzo.png" alt="Buzo estampado"></div><div class="observacion">Algodón estampada en dtf.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 50u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Remera sublimada poliéster (tipo deportiva)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/remera.png')"><img src="/assets/img/portfolio/trabajos/remera.png" alt="Remera sublimada"></div><div class="observacion">Poliéster deportiva full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 20u</td><td class="precio">$21.000</td></tr><tr><td>Desde 100u</td><td class="precio">$17.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Buzo estampado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/buzo.png')"><img src="/assets/img/portfolio/trabajos/buzo.png" alt="Buzo estampado"></div><div class="observacion">Algodón estampada en dtf.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 50u</td><td class="precio">Cotizar</td></tr></table></div></div>
             </div>
         </div>
     </div>
@@ -132,24 +251,18 @@
         <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Accesorios</span><span class="icono">▼</span></div>
         <div class="acordeon-contenido">
             <div class="productos-grid">
-                <div class="producto-card"><div class="producto-header"><h2>Riñonera personalizada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/rinonera.png')"><img src="/assets/img/portfolio/trabajos/rinonera.png" alt="Riñonera"></div><div class="observacion">Cordura o cuero ecológico, sublimada, varios colores.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Mochila PU (cuero sintético)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/mochipu.png')"><img src="/assets/img/portfolio/trabajos/mochipu.png" alt="Mochila PU"></div><div class="observacion">Elegante, resistente, grabado laser.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 30u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Mochila sublimada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/mochisu.png')"><img src="/assets/img/portfolio/trabajos/mochisu.png" alt="Mochila sublimada"></div><div class="observacion">Diseño envolvente, material poliéster.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Billetera estampada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billestampada.png')"><img src="/assets/img/portfolio/trabajos/billestampada.png" alt="Billetera"></div><div class="observacion">Sublimada, diseño completo, varios compartimentos.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Billetera de cuero</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billehombre.webp')"><img src="/assets/img/portfolio/trabajos/billehombre.webp" alt="Billetera cuero"></div><div class="observacion">Cuero vacuno, grabado a laser, clásica.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Billetera de mujer</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billemujer.webp')"><img src="/assets/img/portfolio/trabajos/billemujer.webp" alt="Billetera mujer"></div><div class="observacion">Diseños modernos, cuero ecológico, cierre monedero.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 80u</td><td class="precio">Cotizar</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Neceser tipo botinero</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/neceserboti.png')"><img src="/assets/img/portfolio/trabajos/neceserboti.png" alt="Neceser"></div><div class="observacion">Tamaño grande, ideal para artículos de higiene o deporte.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 15u</td><td class="precio">$20.000</td></tr><tr><td>Desde 50u</td><td class="precio">$17.600</td></tr></table></div></div>
-
-                <!-- NUEVOS PRODUCTOS -->
-                <div class="producto-card"><div class="producto-header"><h2>💳 Estuche Portalentes</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/estuche.png')"><img src="/assets/img/portfolio/trabajos/estuche.png" alt="Estuche Portalentes"></div><div class="observacion">Simil neoprene sublimado, full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Precio unitario</td><td class="precio">$14.000</td></tr><tr><td>Desde 20u</td><td class="precio">$7.000</td></tr><tr><td>Desde 50u</td><td class="precio">$5.900</td></tr></table></div></div>
-
-                <div class="producto-card"><div class="producto-header"><h2>⭐ Cartuchera / Neceser Neoprene</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/cartuchera.png')"><img src="/assets/img/portfolio/trabajos/cartuchera.png" alt="Cartuchera neoprene"></div><div class="observacion">Sublimada en simil neoprene, full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Precio unitario</td><td class="precio">$14.000</td></tr><tr><td>Desde 20u</td><td class="precio">$9.000</td></tr><tr><td>Desde 50u</td><td class="precio">$8.000</td></tr></table></div></div>
-
-                <div class="producto-card"><div class="producto-header"><h2>⛰️ Portapasaporte</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/sobreportapasaporte.png')"><img src="/assets/img/portfolio/trabajos/sobreportapasaporte.png" alt="Portapasaporte"></div><div class="observacion">Fabricado en cordura, viajá con estilo luciendo tus colores.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Precio unitario</td><td class="precio">$20.000</td></tr><tr><td>Desde 10u</td><td class="precio">$9.000</td></tr><tr><td>Desde 50u</td><td class="precio">$5.900</td></tr></table></div></div>
-
-                <div class="producto-card"><div class="producto-header"><h2>⌚ Matera Cordura</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/matera.png')"><img src="/assets/img/portfolio/trabajos/matera.png" alt="Matera cordura"></div><div class="observacion">Fabricada en cordura, sublimada con materiales de calidad.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Precio unitario</td><td class="precio">$80.000</td></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr></table></div></div>
-
-                <div class="producto-card"><div class="producto-header"><h2>☀️ Set de Mate</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/setdemate.png')"><img src="/assets/img/portfolio/trabajos/setdemate.png" alt="Set de mate"></div><div class="observacion">Incluye mate de vidrio, bombilla tipo tambor, yerbero y estuche personalizado. Opción a cotizar mate de calabaza.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 20u</td><td class="precio">$45.000</td></tr><tr><td>Mayor volumen</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Riñonera personalizada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/rinonera.png')"><img src="/assets/img/portfolio/trabajos/rinonera.png" alt="Riñonera"></div><div class="observacion">Cordura o cuero ecológico, sublimada, varios colores.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Mochila PU (cuero sintético)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/mochipu.png')"><img src="/assets/img/portfolio/trabajos/mochipu.png" alt="Mochila PU"></div><div class="observacion">Elegante, resistente, grabado laser.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 30u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Mochila sublimada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/mochisu.png')"><img src="/assets/img/portfolio/trabajos/mochisu.png" alt="Mochila sublimada"></div><div class="observacion">Diseño envolvente, material poliéster.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Billetera estampada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billestampada.png')"><img src="/assets/img/portfolio/trabajos/billestampada.png" alt="Billetera"></div><div class="observacion">Sublimada, diseño completo, varios compartimentos.</div><div class="tabla-precios"><tr><td><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Billetera de cuero</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billehombre.webp')"><img src="/assets/img/portfolio/trabajos/billehombre.webp" alt="Billetera cuero"></div><div class="observacion">Cuero vacuno, grabado a laser, clásica.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Billetera de mujer</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billemujer.webp')"><img src="/assets/img/portfolio/trabajos/billemujer.webp" alt="Billetera mujer"></div><div class="observacion">Diseños modernos, cuero ecológico, cierre monedero.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 80u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Neceser tipo botinero</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/neceserboti.png')"><img src="/assets/img/portfolio/trabajos/neceserboti.png" alt="Neceser"></div><div class="observacion">Tamaño grande, ideal para artículos de higiene o deporte.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">$20.000</td></tr><tr><td>Desde 50u</td><td class="precio">$17.600</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>💳 Estuche Portalentes</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/estuche.png')"><img src="/assets/img/portfolio/trabajos/estuche.png" alt="Estuche Portalentes"></div><div class="observacion">Simil neoprene sublimado, full color.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th></td> etxekenth: 1 </td><td class="precio">$14.000</td></tr><tr><td>Desde 20u</td><td class="precio">$7.000</td></tr><tr><td>Desde 50u</td><td class="precio">$5.900</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>⭐ Cartuchera / Neceser Neoprene</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/cartuchera.png')"><img src="/assets/img/portfolio/trabajos/cartuchera.png" alt="Cartuchera neoprene"></div><div class="observacion">Sublimada en simil neoprene, full color.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Precio unitario</td><td class="precio">$14.000</td></tr><tr><td>Desde 20u</td><td class="precio">$9.000</td></tr><tr><td>Desde 50u</td><td class="precio">$8.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>⛰️ Portapasaporte</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/sobreportapasaporte.png')"><img src="/assets/img/portfolio/trabajos/sobreportapasaporte.png" alt="Portapasaporte"></div><div class="observacion">Fabricado en cordura, viajá con estilo luciendo tus colores.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Precio unitario</td><td class="precio">$20.000</td></tr><tr><td>Desde 10u</td><td class="precio">$9.000</td></tr><tr><td>Desde 50u</td><td class="precio">$5.900</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>⌚ Matera Cordura</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/matera.png')"><img src="/assets/img/portfolio/trabajos/matera.png" alt="Matera cordura"></div><div class="observacion">Fabricada en cordura, sublimada con materiales de calidad.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Precio unitario</td><td class="precio">$80.000</td></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>☀️ Set de Mate</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/setdemate.png')"><img src="/assets/img/portfolio/trabajos/setdemate.png" alt="Set de mate"></div><div class="observacion">Incluye mate de vidrio, bombilla tipo tambor, yerbero y estuche personalizado. Opción a cotizar mate de calabaza.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 20u</td><td class="precio">$45.000</td></tr><tr><td>Mayor volumen</td><td class="precio">Cotizar</td></tr></table></div></div>
             </div>
         </div>
     </div>
@@ -160,8 +273,8 @@
         <div class="acordeon-contenido">
             <div class="productos-grid">
                 <div class="producto-card"><div class="producto-header"><h2>Botinero deportivo</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/botinero.webp')"><img src="/assets/img/portfolio/trabajos/botinero.webp" alt="Botinero"></div><div class="observacion">Resistente, con ventilación, ideal para equipos.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">$27.000</td></tr><tr><td>Desde 50u</td><td class="precio">$20.000</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Toalla deportiva (30x40)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/toalla.webp')"><img src="/assets/img/portfolio/trabajos/toalla.webp" alt="Toalla dep"></div><div class="observacion">Microfibra, rápida absorción, ideal para gimnasio.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 30u</td><td class="precio">$5.500</td></tr><tr><td>Desde 100u</td><td class="precio">$4.400</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Toalla deportiva (20x30)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/toalla.webp')"><img src="/assets/img/portfolio/trabajos/toalla.webp" alt="Toalla dep"></div><div class="observacion">Microfibra, rápida absorción, ideal para gimnasio.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 30u</td><td class="precio">$4.000</td></tr><tr><td>Desde 100u</td><td class="precio">$3.500</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Toalla deportiva (30x40)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/toalla.webp')"><img src="/assets/img/portfolio/trabajos/toalla.webp" alt="Toalla dep"></div><div class="observacion">Microfibra, rápida absorción, ideal para gimnasio.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></td> etxekenth: 30u </td><td class="precio">$5.500</td></tr><tr><td>Desde 100u</td><td class="precio">$4.400</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Toalla deportiva (20x30)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/toalla.webp')"><img src="/assets/img/portfolio/trabajos/toalla.webp" alt="Toalla dep"></div><div class="observacion">Microfibra, rápida absorción, ideal para gimnasio.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 30u</td><td class="precio">$4.000</td></tr><tr><td>Desde 100u</td><td class="precio">$3.500</td></tr></table></div></div>
             </div>
         </div>
     </div>
@@ -171,9 +284,9 @@
         <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Otros Productos</span><span class="icono">▼</span></div>
         <div class="acordeon-contenido">
             <div class="productos-grid">
-                <div class="producto-card"><div class="producto-header"><h2>Agitador de café</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/agitadores.png')"><img src="/assets/img/portfolio/trabajos/agitadores.png" alt="Agitador de café"></div><div class="observacion">Personalizado con logo, ideal para promociones, cafeterías y eventos.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 100u</td><td class="precio">$400</td></tr><tr><td>Desde 500u</td><td class="precio">$150</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Agitador de café</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/agitadores.png')"><img src="/assets/img/portfolio/trabajos/agitadores.png" alt="Agitador de café"></div><div class="observacion">Personalizado con logo, ideal para promociones, cafeterías y eventos.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Desde 100u</td><td class="precio">$400</td></tr><tr><td>Desde 500u</td><td class="precio">$150</td></tr></table></div></div>
                 <div class="producto-card"><div class="producto-header"><h2>Tarjetas NFC personalizadas</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/tarjeta.png')"><img src="/assets/img/portfolio/trabajos/tarjeta.png" alt="NFC"></div><div class="observacion">Tarjetas con chip NFC, diseño full color, ideal para networking.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 5u</td><td class="precio">$7.000</td></tr><tr><td>Desde 20u</td><td class="precio">$4.000</td></tr></table></div></div>
-                <div class="producto-card"><div class="producto-header"><h2>Bolsas papeleras para el auto</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/bolsapapelera.png')"><img src="/assets/img/portfolio/trabajos/bolsapapelera.png" alt="Papeleras"></div><div class="observacion">100% personalizables. Cuero ecológico o cordura melange.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 10u</td><td class="precio">$13.000</td></tr><tr><td>Desde 50u</td><td class="precio">$9.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Bolsas papeleras para el auto</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/bolsapapelera.png')"><img src="/assets/img/portfolio/trabajos/bolsapapelera.png" alt="Papeleras"></div><div class="observacion">100% personalizables. Cuero ecológico o cordura melange.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Desde 10u</td><td class="precio">$13.000</td></tr><tr><td>Desde 50u</td><td class="precio">$9.000</td></tr></table></div></div>
             </div>
         </div>
     </div>
