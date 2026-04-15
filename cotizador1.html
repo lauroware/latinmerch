@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>LatinMerch · Catálogo + Cotizador con producto manual</title>
+    <title>LatinMerch · Catálogo</title>
     <meta name="application-name" content="LatinMerch">
     <meta name="description" content="Catálogo de precios y cotizador - LatinMerch">
     <meta name="theme-color" content="#667eea">
@@ -11,224 +11,1650 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="LatinMerch">
-    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAADaDylAAAABmJLR0QA/wD/AP+gvaeTAAADXklEQVR4nO3BMQEAAADCoPVP7WsIoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAMBuAABHgAAAABJRU5ErkJggg==">
+
+    <script>
+    (function() {
+        const manifest = {
+            name: "LatinMerch · Catálogo",
+            short_name: "LatinMerch",
+            start_url: "./",
+            display: "standalone",
+            background_color: "#f5f7fa",
+            theme_color: "#667eea",
+            icons: [{ src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="80" fill="#667eea"/><text x="256" y="320" font-size="300" text-anchor="middle" fill="white">🏷</text></svg>'), sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = URL.createObjectURL(blob);
+        document.head.appendChild(link);
+    })();
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 20px; color: #333; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
         .container { max-width: 1400px; margin: 0 auto; }
-        .header-section { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 15px; }
-        .titulos { flex: 1; }
-        h1 { color: #2c3e50; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        .subtitulo { color: #7f8c8d; font-size: 1.1em; }
-        .btn-pdf, .btn-trabajos, .btn-cotizar { color: white; border: none; padding: 12px 24px; border-radius: 50px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: inherit; }
-        .btn-pdf { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); box-shadow: 0 4px 15px rgba(220,53,69,0.3); }
-        .btn-trabajos { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 15px rgba(102,126,234,0.3); }
-        .btn-cotizar { background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%); box-shadow: 0 4px 15px rgba(230,126,34,0.4); animation: pulse-btn 2.5s infinite; }
-        @keyframes pulse-btn { 0%,100% { box-shadow: 0 4px 15px rgba(230,126,34,0.4); } 50% { box-shadow: 0 6px 25px rgba(230,126,34,0.7); } }
-        .btn-pdf:hover, .btn-trabajos:hover, .btn-cotizar:hover { transform: translateY(-2px); }
-        .productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        .producto-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; break-inside: avoid; display: flex; flex-direction: column; }
-        .producto-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
-        .producto-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px 20px; }
+
+        .header-section {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .btn-pdf, .btn-cotizar {
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-cotizar {
+            background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+            animation: pulse-btn 2.5s infinite;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4); }
+            50% { box-shadow: 0 6px 25px rgba(230, 126, 34, 0.7); }
+        }
+
+        .btn-pdf:hover, .btn-cotizar:hover { transform: translateY(-2px); }
+        .btn-cotizar:hover { box-shadow: 0 6px 25px rgba(230, 126, 34, 0.6); animation: none; }
+        .btn-pdf:active, .btn-cotizar:active { transform: translateY(0); }
+
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .producto-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .producto-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+        }
+
         .producto-header h2 { color: white; font-size: 1.2em; margin: 0; text-align: center; }
-        .producto-imagen { background: #f8f9fa; cursor: pointer; overflow: hidden; transition: all 0.3s ease; height: 100px; display: flex; align-items: center; justify-content: center; }
+
+        .producto-imagen {
+            background: #f8f9fa;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .producto-imagen:hover { background: #e9ecef; }
-        .producto-imagen img { width: auto; height: 100%; max-width: 100%; object-fit: contain; display: block; transition: transform 0.3s ease; }
-        .observacion { background: #fff3cd; color: #856404; padding: 10px 15px; margin: 15px; border-radius: 8px; border-left: 4px solid #ffc107; font-size: 0.85em; }
+        .producto-imagen:hover img { transform: scale(1.02); }
+
+        .producto-imagen img {
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .observacion {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px 15px;
+            margin: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            font-size: 0.85em;
+        }
+
         .tabla-precios { padding: 20px; overflow-x: auto; flex: 1; }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0; font-size: 0.9em; }
         th { background-color: #f8f9fa; font-weight: 600; color: #495057; }
         tr:hover { background-color: #f8f9fa; }
         .precio { font-weight: bold; color: #28a745; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); animation: fadeIn 0.3s ease; }
-        .modal-contenido { position: relative; margin: auto; padding: 20px; width: 90%; max-width: 800px; top: 50%; transform: translateY(-50%); }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-contenido {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
         .modal-img { width: 100%; height: auto; border-radius: 10px; animation: zoomIn 0.3s ease; }
-        .cerrar-modal { position: absolute; top: -40px; right: 0; color: white; font-size: 40px; font-weight: bold; cursor: pointer; }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .cerrar-modal {
+            position: absolute;
+            top: -40px; right: 0;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 1001;
+        }
         .cerrar-modal:hover { color: #f44336; }
-        .condiciones { background: white; border-radius: 15px; padding: 25px; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .condiciones h3 { color: #2c3e50; margin-bottom: 15px; font-size: 1.3em; }
-        .condiciones ul { list-style: none; padding-left: 0; }
-        .condiciones li { padding: 8px 0; padding-left: 25px; position: relative; }
-        .condiciones li:before { content: "✓"; color: #28a745; position: absolute; left: 0; font-weight: bold; }
-        /* Cotizador flotante */
-        #cotizador-fab { position: fixed; bottom: 30px; right: 30px; z-index: 9000; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%); color: white; border: none; font-size: 1.6em; cursor: pointer; box-shadow: 0 6px 20px rgba(230,126,34,0.5); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; animation: pulse-fab 2.5s infinite; }
-        #cotizador-fab:hover { transform: scale(1.1); animation: none; }
-        @keyframes pulse-fab { 0%,100% { box-shadow: 0 6px 20px rgba(230,126,34,0.5); } 50% { box-shadow: 0 6px 32px rgba(230,126,34,0.85); } }
-        #cotizador-badge { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7em; font-weight: bold; display: none; align-items: center; justify-content: center; }
-        #cotizador-panel { position: fixed; bottom: 100px; right: 30px; z-index: 9001; width: 450px; max-height: 85vh; background: white; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); display: none; flex-direction: column; overflow: hidden; animation: slideUp 0.3s ease; user-select: none; }
+
+        /* ===== COTIZADOR FLOTANTE ===== */
+        #cotizador-fab {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            z-index: 9000;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%);
+            color: white;
+            border: none;
+            font-size: 1.6em;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(230,126,34,0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-fab 2.5s infinite;
+        }
+
+        #cotizador-fab:hover { transform: scale(1.1); animation: none; box-shadow: 0 8px 28px rgba(230,126,34,0.7); }
+
+        @keyframes pulse-fab {
+            0%, 100% { box-shadow: 0 6px 20px rgba(230,126,34,0.5); }
+            50% { box-shadow: 0 6px 32px rgba(230,126,34,0.85); }
+        }
+
+        #cotizador-badge {
+            position: absolute;
+            top: -4px; right: -4px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 22px; height: 22px;
+            font-size: 0.7em;
+            font-weight: bold;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #cotizador-panel {
+            position: fixed;
+            bottom: 100px; right: 30px;
+            z-index: 9001;
+            width: 420px;
+            max-height: 80vh;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            user-select: none;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         #cotizador-panel.visible { display: flex; }
-        .cotizador-header { background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%); color: white; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; cursor: grab; border-radius: 18px 18px 0 0; }
+
+        .cotizador-header {
+            background: linear-gradient(135deg, #f7971e 0%, #e67e22 100%);
+            color: white;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: grab;
+            border-radius: 18px 18px 0 0;
+        }
+
         .cotizador-header:active { cursor: grabbing; }
-        .cotizador-header-btns { display: flex; gap: 8px; }
-        .btn-min, .btn-close-cot { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 50%; width: 28px; height: 28px; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .cotizador-header h3 { font-size: 1.05em; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .cotizador-header-btns { display: flex; gap: 8px; align-items: center; }
+
+        .btn-min, .btn-close-cot {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 28px; height: 28px;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
         .btn-min:hover, .btn-close-cot:hover { background: rgba(255,255,255,0.4); }
+
         .cotizador-body { padding: 16px; overflow-y: auto; flex: 1; }
-        .cot-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 12px; align-items: end; }
-        .cot-row label { font-size: 0.8em; color: #555; font-weight: 600; margin-bottom: 4px; display: block; }
-        .cot-select, .cot-input { width: 100%; padding: 9px 12px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 0.88em; font-family: inherit; background: #fafafa; transition: border-color 0.2s; outline: none; }
+
+        .cot-select, .cot-input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-family: inherit;
+            color: #333;
+            background: #fafafa;
+            transition: border-color 0.2s;
+            outline: none;
+        }
         .cot-select:focus, .cot-input:focus { border-color: #f7971e; background: white; }
-        .btn-add-item { width: 100%; padding: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 0.9em; font-weight: bold; cursor: pointer; transition: all 0.2s; margin-bottom: 14px; font-family: inherit; }
+
+        .btn-add-item {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 14px;
+            font-family: inherit;
+        }
         .btn-add-item:hover { opacity: 0.9; transform: translateY(-1px); }
+
         .cot-separator { border: none; border-top: 1.5px dashed #e0e0e0; margin: 12px 0; }
         .cot-items-title { font-size: 0.8em; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+
         .cot-items-list { list-style: none; margin: 0 0 12px 0; padding: 0; }
-        .cot-item { display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; border-radius: 10px; padding: 9px 12px; margin-bottom: 7px; font-size: 0.84em; gap: 8px; animation: fadeInItem 0.2s ease; }
-        @keyframes fadeInItem { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+        .cot-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 9px 12px;
+            margin-bottom: 7px;
+            font-size: 0.84em;
+            gap: 8px;
+            animation: fadeInItem 0.2s ease;
+        }
+
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
         .cot-item-info { flex: 1; min-width: 0; }
         .cot-item-name { font-weight: 600; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .cot-item-detail { color: #888; font-size: 0.9em; }
         .cot-item-price { font-weight: 700; color: #28a745; white-space: nowrap; }
-        .btn-remove-item { background: none; border: none; color: #ccc; font-size: 1.1em; cursor: pointer; padding: 2px 5px; border-radius: 5px; transition: color 0.2s; }
+
+        .btn-remove-item {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 5px;
+            transition: color 0.2s;
+            line-height: 1;
+        }
         .btn-remove-item:hover { color: #e74c3c; }
+
         .cot-empty { text-align: center; color: #aaa; font-size: 0.85em; padding: 15px 0; }
+
         .cotizador-footer { background: #f8f9fa; padding: 14px 16px; border-top: 1.5px solid #eee; }
+
         .cot-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .cot-total-label { font-size: 0.9em; font-weight: 600; color: #555; }
         .cot-total-val { font-size: 1.3em; font-weight: 800; color: #2c3e50; }
         .cot-total-items { font-size: 0.78em; color: #999; }
-        .btn-limpiar { padding: 10px; background: white; color: #e74c3c; border: 1.5px solid #e74c3c; border-radius: 10px; font-size: 0.88em; font-weight: bold; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+
+        .btn-limpiar {
+            padding: 10px;
+            background: white;
+            color: #e74c3c;
+            border: 1.5px solid #e74c3c;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
         .btn-limpiar:hover { background: #e74c3c; color: white; }
-        .btn-descargar-pdf { padding: 10px 14px; background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); color: white; border: none; border-radius: 10px; font-size: 0.88em; font-weight: bold; cursor: pointer; transition: all 0.2s; font-family: inherit; white-space: nowrap; }
+
+        .btn-descargar-pdf {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+        }
         .btn-descargar-pdf:hover { opacity: 0.9; transform: translateY(-1px); }
-        .cot-precio-info { background: #e8f5e9; color: #2e7d32; border-radius: 8px; padding: 7px 10px; font-size: 0.8em; margin-top: 8px; display: none; }
-        .custom-section { background: #fef5e8; border-radius: 14px; padding: 12px; margin-top: 12px; margin-bottom: 12px; border: 1px solid #ffe0b5; }
-        .custom-section-title { font-size: 0.85em; font-weight: 800; color: #b45f06; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .custom-input-group { margin-bottom: 10px; }
-        .custom-input-group label { font-size: 0.75em; font-weight: 600; color: #7b5a2e; display: block; margin-bottom: 4px; }
-        .btn-custom-add { background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%); margin-top: 6px; }
+        .btn-descargar-pdf:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .cot-precio-info {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 0.8em;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* Print */
+        @media print {
+            .btn-pdf, .btn-cotizar, #cotizador-panel, #cotizador-fab { display: none !important; }
+            body { background: white; padding: 0; margin: 0; }
+            .container { max-width: 100%; padding: 10px; }
+            .producto-card { break-inside: avoid; page-break-inside: avoid; margin-bottom: 20px; box-shadow: none; border: 1px solid #e0e0e0; }
+            .productos-grid { gap: 15px; }
+            .producto-imagen { height: auto !important; min-height: 80px; padding: 10px 0; }
+            .producto-imagen img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 120px !important; object-fit: contain !important; }
+        }
+
         @media (max-width: 768px) {
             .productos-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 1.8em; }
-            .header-section { flex-direction: column; text-align: center; }
+            .header-section { justify-content: center; }
+            .btn-pdf, .btn-cotizar { padding: 10px 20px; font-size: 0.9em; }
+            .producto-header h2 { font-size: 1em; }
+            th, td { padding: 8px; font-size: 0.8em; }
+            .producto-imagen { height: 100px; }
             #cotizador-panel { width: calc(100vw - 20px); right: 10px; bottom: 90px; }
         }
-        @media print { .btn-pdf, .btn-trabajos, .btn-cotizar, #cotizador-panel, #cotizador-fab { display: none !important; } }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header-section">
-        <div class="titulos">
-            <h1>🏷️ Lista de precios - Marzo 2026</h1>
-            <div class="subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
+    <div class="container">
+        <div class="header-section">
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn-cotizar" onclick="toggleCotizador()">🧮 Cotizador</button>
+                <button class="btn-pdf" onclick="descargarPDF()">📄 Descargar PDF</button>
+            </div>
         </div>
-        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <a href="trabajos.html" class="btn-trabajos">🖼️ Ver trabajos realizados</a>
-            <button class="btn-cotizar" onclick="toggleCotizador()">🧮 Cotizador</button>
-            <button class="btn-pdf" onclick="descargarPDF()">📄 Descargar PDF</button>
+
+        <!-- Modal/Lightbox -->
+        <div id="modal" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal">&times;</span>
+                <img id="modal-img" class="modal-img" src="" alt="Producto ampliado">
+            </div>
+        </div>
+
+        <div class="productos-grid">
+            <!-- Holder para celular -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Holder para celular</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/kV3S2Dkp/Dise-o-sin-t-tulo-37.png" alt="Holder para celular">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio</th></tr>
+                        <tr><td>Cristal</td><td class="precio">$250</td></tr>
+                        <tr><td>Cuero</td><td class="precio">$500</td></tr>
+                        <tr><td>Goma</td><td class="precio">$550</td></tr>
+                        <tr><td>PU</td><td class="precio">$300</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 4cm x 15 -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 4cm x 15</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/gFd455XC/Dise-o-sin-t-tulo-34.png" alt="Llavero 4cm x 15">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>desde 20u</th><th>desde 100u</th><th>desde 300u</th><th>desde 600u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$3000</td><td class="precio">$2500</td><td class="precio">$2250</td><td class="precio">$2000</td></tr>
+                        <tr><td>PU</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2000</td><td class="precio">$1800</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 4cm x 10 -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 4cm x 10</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/6JBgDG6z/Dise-o-sin-t-tulo-35.png" alt="Llavero 4cm x 10">
+                </div>
+                <div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 600u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2100</td><td class="precio">$1900</td></tr>
+                        <tr><td>PU</td><td>$2700</td><td class="precio">$2100</td><td class="precio">$1850</td><td class="precio">$1700</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 2.5 x 10 mosquetón -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 2.5 x 10 (Mosquetón)</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/vxDVR8H4/Dise-o-sin-t-tulo-38.png" alt="Llavero mosquetón">
+                </div>
+                <div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$2000</td><td class="precio">$1850</td><td class="precio">$1500</td></tr>
+                        <tr><td>PU</td><td>$2100</td><td class="precio">$1950</td><td class="precio">$1750</td><td class="precio">$1450</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 2.5 x 10 aro sin fin -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 2.5 x 10 (Aro sin fin)</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/d0Y5z4vK/Dise-o-sin-t-tulo-47.png" alt="Llavero aro sin fin">
+                </div>
+                <div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$1900</td><td class="precio">$1550</td><td class="precio">$1450</td></tr>
+                        <tr><td>PU</td><td>$2250</td><td class="precio">$1850</td><td class="precio">$1450</td><td class="precio">$1350</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 4cm x 45 -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 4cm x 45 (de 10 a 100u: 4x40)</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/9H3rWvkw/Dise-o-sin-t-tulo-40.png" alt="Llavero 4cm x 45">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 10u</th><th>Desde 100u</th><th>Desde 200u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$4900</td><td class="precio">$3200</td><td class="precio">$2400</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero 2.5cm x 45 -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 2.5cm x 45 (de 10 a 100u: 2.5x40)</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/M5BY6xnm/Dise-o-sin-t-tulo-41.png" alt="Llavero 2.5cm x 45">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 10u</th><th>Desde 100u</th><th>Desde 200u</th></tr>
+                        <tr><td>Cuero genuino</td><td>$4700</td><td class="precio">$3050</td><td class="precio">$2200</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Correa simple -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Correa simple cuero genuino con regulador (hold no incluido)</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa simple">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 70u</th><th>Desde 100u</th></tr>
+                        <tr><td>Ancho 4cm</td><td class="precio">$4900</td><td class="precio">$4400</td></tr>
+                        <tr><td>Ancho 3cm</td><td class="precio">$4650</td><td class="precio">$4150</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Correa premium -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Correa premium con regulador (hold no incluido)</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/rKWLPykF/Dise-o-sin-t-tulo-43.png" alt="Correa premium">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Desde 70u</th><th>Desde 130u</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$7500</td><td class="precio">$7000</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero mosquetón alpino -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero 2.5 mosquetón alpino</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/qMMPww0c/Dise-o-sin-t-tulo-44.png" alt="Llavero alpino">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Material</th><th>Precio (25 unidades)</th></tr>
+                        <tr><td>Cuero genuino</td><td class="precio">$3700</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Llavero Soga 4mm -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Llavero Soga 4mm</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/RG6dPWCZ/Dise-o-sin-t-tulo-45.png" alt="Llavero soga">
+                </div>
+                <div class="observacion">📏 Aprox 14 cm de largo</div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio</th></tr>
+                        <tr><td>Desde 500 unidades</td><td class="precio">$2200</td></tr>
+                        <tr><td>1000 unidades</td><td class="precio">$1800</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Identificador de Equipaje -->
+            <div class="producto-card">
+                <div class="producto-header"><h2>Identificador de Equipaje</h2></div>
+                <div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)">
+                    <img src="https://i.ibb.co/C3kGpxFs/Dise-o-sin-t-tulo-46.png" alt="Tag identificador de equipaje">
+                </div>
+                <div class="tabla-precios">
+                    <table>
+                        <tr><th>Cantidad</th><th>Precio</th></tr>
+                        <tr><td>Desde 30 unidades</td><td class="precio">$3000</td></tr>
+                        <tr><td>Desde 100 unidades</td><td class="precio">$2500</td></tr>
+                        <tr><td>Otras unidades</td><td class="precio">Cotizar</td></tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="modal" class="modal"><div class="modal-contenido"><span class="cerrar-modal">&times;</span><img id="modal-img" class="modal-img" src=""></div></div>
+    <!-- Botón FAB -->
+    <button id="cotizador-fab" onclick="toggleCotizador()" title="Abrir cotizador">
+        🧮
+        <span id="cotizador-badge"></span>
+    </button>
 
-    <div class="productos-grid">
-        <!-- Holder para celular -->
-        <div class="producto-card"><div class="producto-header"><h2>Holder para celular</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/kV3S2Dkp/Dise-o-sin-t-tulo-37.png" alt="Holder"></div><div class="tabla-precios"><table><tr><th>Material</th><th>Precio</th></tr><tr><td>Cristal</td><td class="precio">$250</td></tr><tr><td>Cuero</td><td class="precio">$500</td></tr><tr><td>Goma</td><td class="precio">$550</td></tr><tr><td>PU</td><td class="precio">$300</td></tr></table></div></div>
-        <!-- Llavero 4cm x 15 -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 4cm x 15</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/gFd455XC/Dise-o-sin-t-tulo-34.png" alt="Llavero"></div><div class="tabla-precios"><table><tr><th>Material</th><th>desde 20u</th><th>desde 100u</th><th>desde 300u</th><th>desde 600u</th></tr><tr><td>Cuero genuino</td><td>$3000</td><td class="precio">$2500</td><td class="precio">$2250</td><td class="precio">$2000</td></tr><tr><td>PU</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2000</td><td class="precio">$1800</td></tr></table></div></div>
-        <!-- Llavero 4cm x 10 -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 4cm x 10</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/6JBgDG6z/Dise-o-sin-t-tulo-35.png" alt="Llavero"></div><div class="observacion">⚠️ Este modelo no pasa por la muñeca de la mano en caso de querer usarlo con el celular.</div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 600u</th></tr><tr><td>Cuero genuino</td><td>$2850</td><td class="precio">$2350</td><td class="precio">$2100</td><td class="precio">$1900</td></tr><tr><td>PU</td><td>$2700</td><td class="precio">$2100</td><td class="precio">$1850</td><td class="precio">$1700</td></tr></table></div></div>
-        <!-- Llavero 2.5 x 10 Mosquetón -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 2.5 x 10 (Mosquetón)</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/vxDVR8H4/Dise-o-sin-t-tulo-38.png" alt="Llavero"></div><div class="observacion">⚠️ Este modelo no pasa por la muñeca.</div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr><tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$2000</td><td class="precio">$1850</td><td class="precio">$1500</td></tr><tr><td>PU</td><td>$2100</td><td class="precio">$1950</td><td class="precio">$1750</td><td class="precio">$1450</td></tr></table></div></div>
-        <!-- Llavero 2.5 x 10 Aro sin fin -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 2.5 x 10 (Aro sin fin)</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/d0Y5z4vK/Dise-o-sin-t-tulo-47.png" alt="Llavero"></div><div class="observacion">⚠️ No pasa por la muñeca.</div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 30u</th><th>Desde 100u</th><th>Desde 400u</th><th>Desde 800u</th></tr><tr><td>Cuero genuino</td><td>$2300</td><td class="precio">$1900</td><td class="precio">$1550</td><td class="precio">$1450</td></tr><tr><td>PU</td><td>$2250</td><td class="precio">$1850</td><td class="precio">$1450</td><td class="precio">$1350</td></tr></table></div></div>
-        <!-- Llavero 4cm x 45 -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 4cm x 45 (de 10 a 100u: 4x40)</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/9H3rWvkw/Dise-o-sin-t-tulo-40.png" alt="Llavero"></div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 10u</th><th>Desde 100u</th><th>Desde 200u</th></tr><tr><td>Cuero genuino</td><td>$4900</td><td class="precio">$3200</td><td class="precio">$2400</td></tr></table></div></div>
-        <!-- Llavero 2.5cm x 45 -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 2.5cm x 45 (de 10 a 100u: 2.5x40)</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/M5BY6xnm/Dise-o-sin-t-tulo-41.png" alt="Llavero"></div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 10u</th><th>Desde 100u</th><th>Desde 200u</th></tr><tr><td>Cuero genuino</td><td>$4700</td><td class="precio">$3050</td><td class="precio">$2200</td></tr></table></div></div>
-        <!-- Correa simple -->
-        <div class="producto-card"><div class="producto-header"><h2>Correa simple cuero genuino con regulador (hold no incluido)</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/bgqRgMnn/Dise-o-sin-t-tulo-42.png" alt="Correa simple"></div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 70u</th><th>Desde 100u</th></tr><tr><td>Ancho 4cm</td><td class="precio">$4900</td><td class="precio">$4400</td></tr><tr><td>Ancho 3cm</td><td class="precio">$4650</td><td class="precio">$4150</td></tr></table></div></div>
-        <!-- Correa premium -->
-        <div class="producto-card"><div class="producto-header"><h2>Correa premium con regulador (hold no incluido)</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/rKWLPykF/Dise-o-sin-t-tulo-43.png" alt="Correa premium"></div><div class="tabla-precios"><table><tr><th>Material</th><th>Desde 70u</th><th>Desde 130u</th></tr><tr><td>Cuero genuino</td><td class="precio">$7500</td><td class="precio">$7000</td></tr></table></div></div>
-        <!-- Llavero mosquetón alpino -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero 2.5 mosquetón alpino</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/qMMPww0c/Dise-o-sin-t-tulo-44.png" alt="Llavero alpino"></div><div class="tabla-precios"><table><tr><th>Material</th><th>Precio (25 unidades)</th></tr><tr><td>Cuero genuino</td><td class="precio">$3700</td></tr></table></div></div>
-        <!-- Llavero Soga 4mm -->
-        <div class="producto-card"><div class="producto-header"><h2>Llavero Soga 4mm</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/RG6dPWCZ/Dise-o-sin-t-tulo-45.png" alt="Llavero soga"></div><div class="observacion">📏 Aprox 14 cm de largo</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 500 unidades</td><td class="precio">$2200</td></tr><tr><td>1000 unidades</td><td class="precio">$1800</td></tr></table></div></div>
-        <!-- Identificador de Equipaje -->
-        <div class="producto-card"><div class="producto-header"><h2>Identificador de Equipaje</h2></div><div class="producto-imagen" onclick="abrirModal(this.querySelector('img').src)"><img src="https://i.ibb.co/C3kGpxFs/Dise-o-sin-t-tulo-46.png" alt="Tag"></div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 30 unidades</td><td class="precio">$3000</td></tr><tr><td>Desde 100 unidades</td><td class="precio">$2500</td></tr><tr><td>Otras unidades</td><td class="precio">Cotizar</td></tr></table></div></div>
+    <!-- Panel cotizador -->
+    <div id="cotizador-panel">
+        <div class="cotizador-header" id="cotizador-drag-handle">
+            <h3>🧮 Cotizador de productos</h3>
+            <div class="cotizador-header-btns">
+                <button class="btn-min" onclick="toggleCotizador()" title="Minimizar">—</button>
+                <button class="btn-close-cot" onclick="cerrarCotizador()" title="Cerrar">✕</button>
+            </div>
+        </div>
+
+        <div class="cotizador-body">
+            <div>
+                <label style="font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;">Producto</label>
+                <select id="cot-producto" class="cot-select" onchange="actualizarOpciones()">
+                    <option value="">— Seleccioná un producto —</option>
+                </select>
+            </div>
+
+            <div style="margin-top:10px;" id="cot-opciones-wrap"></div>
+
+            <div class="cot-precio-info" id="cot-precio-info"></div>
+            <div id="cot-min-aviso" style="display:none;background:#fff3cd;color:#856404;border-left:4px solid #ffc107;border-radius:8px;padding:8px 12px;font-size:0.82em;margin-top:8px;"></div>
+
+            <div style="margin-top:12px;">
+                <label style="font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;">Cantidad</label>
+                <input type="number" id="cot-cantidad" class="cot-input" min="1" value="1" oninput="actualizarPrecioInfo()">
+            </div>
+
+            <button class="btn-add-item" id="btn-agregar" onclick="agregarItem()" style="margin-top:12px;">➕ Agregar al presupuesto</button>
+
+            <hr class="cot-separator">
+            <div class="cot-items-title">Presupuesto</div>
+
+            <ul class="cot-items-list" id="cot-items-list">
+                <li class="cot-empty">Aún no agregaste productos.</li>
+            </ul>
+        </div>
+
+        <div class="cotizador-footer">
+            <div class="cot-total-row">
+                <div>
+                    <div class="cot-total-label">Total</div>
+                    <div class="cot-total-items" id="cot-total-items">0 productos</div>
+                </div>
+                <div class="cot-total-val" id="cot-total-val">$0</div>
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="font-size:0.78em;font-weight:700;color:#555;display:block;margin-bottom:4px;">👤 Nombre del cliente <span style="color:#e74c3c;">*</span></label>
+                <input type="text" id="cot-cliente-nombre" class="cot-input" placeholder="Ej: Juan Pérez / Empresa S.A." style="font-size:0.85em;">
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn-limpiar" onclick="limpiarCotizador()" style="flex:1;">🗑️ Limpiar</button>
+                <button class="btn-descargar-pdf" id="btn-descargar-pdf" onclick="descargarPresupuestoPDF()">📄 Descargar presupuesto</button>
+            </div>
+        </div>
     </div>
 
-    <div class="condiciones">
-        <h3>📋 Condiciones de venta y preguntas frecuentes</h3>
-        <div class="observacion">⚠️ El precio de cada columna se corresponde al precio "desde" hasta la cantidad de la próxima columna. Consultar cantidades mayores.</div>
-        <ul><li>No cobramos el diseño de la cinta, no obstante si contas con diseñador, podes realizar vos mismo el diseño. Solicitanos las medidas!</li><li>Los precios son finales</li><li>Solo realizamos factura C</li><li>Trabajamos con adelanto del 50% y resto contra despacho de la mercadería</li><li>Los plazos dependen del modelo y de las cantidades. La fecha de entrega se pacta y compromete al momento de la seña</li><li>No incluye envío - Enviamos por Correo Argentino</li><li>Los productos se pueden retirar por Paternal</li></ul>
-    </div>
-</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<button id="cotizador-fab" onclick="toggleCotizador()">🧮<span id="cotizador-badge"></span></button>
-<div id="cotizador-panel">
-    <div class="cotizador-header" id="cotizador-drag-handle"><h3>🧮 Cotizador de productos</h3><div class="cotizador-header-btns"><button class="btn-min" onclick="toggleCotizador()">—</button><button class="btn-close-cot" onclick="cerrarCotizador()">✕</button></div></div>
-    <div class="cotizador-body">
-        <label style="font-size:0.8em;font-weight:600;">Producto catálogo</label>
-        <select id="cot-producto" class="cot-select" onchange="actualizarOpciones()"><option value="">— Seleccioná un producto —</option></select>
-        <div id="cot-opciones-wrap"></div>
-        <div class="cot-precio-info" id="cot-precio-info"></div>
-        <div class="cot-min-aviso" id="cot-min-aviso" style="display:none;"></div>
-        <div class="cot-row" style="margin-top:12px;"><div><label>Cantidad</label><input type="number" id="cot-cantidad" class="cot-input" min="1" value="1" oninput="actualizarPrecioInfo()"></div></div>
-        <button class="btn-add-item" id="btn-agregar" onclick="agregarItem()">➕ Agregar del catálogo</button>
-        <hr class="cot-separator">
-        <div class="custom-section"><div class="custom-section-title">✏️ Producto personalizado (fuera de catálogo)</div><div class="custom-input-group"><label>📦 Nombre del producto *</label><input type="text" id="custom-nombre" class="cot-input" placeholder="Ej: Llavero especial, Correa XL"></div><div class="custom-input-group"><label>💰 Precio unitario (ARS) *</label><input type="number" id="custom-precio" class="cot-input" min="1" step="1" placeholder="Ej: 1250"></div><div class="custom-input-group"><label>🔢 Cantidad *</label><input type="number" id="custom-cantidad" class="cot-input" min="1" value="1"></div><button class="btn-add-item btn-custom-add" onclick="agregarPersonalizado()">✨ Agregar producto personalizado</button></div>
-        <hr class="cot-separator">
-        <div class="cot-items-title">📋 Presupuesto</div>
-        <ul class="cot-items-list" id="cot-items-list"><li class="cot-empty">Aún no agregaste productos.</li></ul>
-    </div>
-    <div class="cotizador-footer">
-        <div class="cot-total-row"><div><div class="cot-total-label">Total</div><div class="cot-total-items" id="cot-total-items">0 productos</div></div><div class="cot-total-val" id="cot-total-val">$0</div></div>
-        <div style="margin-bottom:10px;"><label style="font-size:0.78em;font-weight:700;">👤 Nombre del cliente *</label><input type="text" id="cot-cliente-nombre" class="cot-input" placeholder="Ej: Juan Pérez / Empresa S.A."></div>
-        <div style="display:flex;gap:8px;"><button class="btn-limpiar" onclick="limpiarCotizador()">🗑️ Limpiar</button><button class="btn-descargar-pdf" id="btn-descargar-pdf" onclick="descargarPresupuestoPDF()">📄 Descargar presupuesto</button></div>
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-    // PRODUCTOS (catálogo completo)
+    <script>
+    // ===================== TODOS LOS PRODUCTOS (llaveros + catálogo general) =====================
     const PRODUCTOS = [
-        { id:'holder',nombre:'Holder para celular',minimo:1,admiteHolder:false,variantes:[{nombre:'Cristal',escalas:[{desde:1,precio:250}]},{nombre:'Cuero',escalas:[{desde:1,precio:500}]},{nombre:'Goma',escalas:[{desde:1,precio:550}]},{nombre:'PU',escalas:[{desde:1,precio:300}]}]},
-        { id:'llav4x15',nombre:'Llavero 4cm x 15',minimo:20,admiteHolder:true,variantes:[{nombre:'Cuero genuino',escalas:[{desde:20,precio:3000},{desde:100,precio:2500},{desde:300,precio:2250},{desde:600,precio:2000}]},{nombre:'PU',escalas:[{desde:20,precio:2850},{desde:100,precio:2350},{desde:300,precio:2000},{desde:600,precio:1800}]}]},
-        { id:'llav4x10',nombre:'Llavero 4cm x 10',minimo:30,admiteHolder:true,variantes:[{nombre:'Cuero genuino',escalas:[{desde:30,precio:2850},{desde:100,precio:2350},{desde:400,precio:2100},{desde:600,precio:1900}]},{nombre:'PU',escalas:[{desde:30,precio:2700},{desde:100,precio:2100},{desde:400,precio:1850},{desde:600,precio:1700}]}]},
-        { id:'llav25x10mosq',nombre:'Llavero 2.5 x 10 (Mosquetón)',minimo:30,admiteHolder:false,variantes:[{nombre:'Cuero genuino',escalas:[{desde:30,precio:2300},{desde:100,precio:2000},{desde:400,precio:1850},{desde:800,precio:1500}]},{nombre:'PU',escalas:[{desde:30,precio:2100},{desde:100,precio:1950},{desde:400,precio:1750},{desde:800,precio:1450}]}]},
-        { id:'llav25x10aro',nombre:'Llavero 2.5 x 10 (Aro sin fin)',minimo:30,admiteHolder:false,variantes:[{nombre:'Cuero genuino',escalas:[{desde:30,precio:2300},{desde:100,precio:1900},{desde:400,precio:1550},{desde:800,precio:1450}]},{nombre:'PU',escalas:[{desde:30,precio:2250},{desde:100,precio:1850},{desde:400,precio:1450},{desde:800,precio:1350}]}]},
-        { id:'llav4x45',nombre:'Llavero 4cm x 45',minimo:10,admiteHolder:true,variantes:[{nombre:'Cuero genuino',escalas:[{desde:10,precio:4900},{desde:100,precio:3200},{desde:200,precio:2400}]}]},
-        { id:'llav25x45',nombre:'Llavero 2.5cm x 45',minimo:10,admiteHolder:true,variantes:[{nombre:'Cuero genuino',escalas:[{desde:10,precio:4700},{desde:100,precio:3050},{desde:200,precio:2200}]}]},
-        { id:'correa_simple',nombre:'Correa simple con regulador',minimo:70,admiteHolder:true,variantes:[{nombre:'Ancho 4cm',escalas:[{desde:70,precio:4900},{desde:100,precio:4400}]},{nombre:'Ancho 3cm',escalas:[{desde:70,precio:4650},{desde:100,precio:4150}]}]},
-        { id:'correa_premium',nombre:'Correa premium con regulador',minimo:70,admiteHolder:true,variantes:[{nombre:'Cuero genuino',escalas:[{desde:70,precio:7500},{desde:130,precio:7000}]}]},
-        { id:'llav_alpino',nombre:'Llavero 2.5 mosquetón alpino',minimo:25,admiteHolder:false,variantes:[{nombre:'Cuero genuino',escalas:[{desde:25,precio:3700}]}]},
-        { id:'soga',nombre:'Llavero Soga 4mm',minimo:500,admiteHolder:false,variantes:[{nombre:'Estándar',escalas:[{desde:500,precio:2200},{desde:1000,precio:1800}]}]},
-        { id:'equipaje',nombre:'Identificador de Equipaje',minimo:30,admiteHolder:false,variantes:[{nombre:'Estándar',escalas:[{desde:30,precio:3000},{desde:100,precio:2500}]}]}
+        // --- LLAVEROS Y ACCESORIOS DE CUERO ---
+        {
+            id: 'holder',
+            nombre: 'Holder para celular',
+            categoria: 'Llaveros y accesorios',
+            minimo: 1,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cristal', escalas: [{ desde: 1, precio: 250 }] },
+                { nombre: 'Cuero',   escalas: [{ desde: 1, precio: 500 }] },
+                { nombre: 'Goma',    escalas: [{ desde: 1, precio: 550 }] },
+                { nombre: 'PU',      escalas: [{ desde: 1, precio: 300 }] },
+            ]
+        },
+        {
+            id: 'llav4x15',
+            nombre: 'Llavero 4cm x 15',
+            categoria: 'Llaveros y accesorios',
+            minimo: 20,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 20, precio: 3000 }, { desde: 100, precio: 2500 }, { desde: 300, precio: 2250 }, { desde: 600, precio: 2000 }] },
+                { nombre: 'PU',            escalas: [{ desde: 20, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 300, precio: 2000 }, { desde: 600, precio: 1800 }] },
+            ]
+        },
+        {
+            id: 'llav4x10',
+            nombre: 'Llavero 4cm x 10',
+            categoria: 'Llaveros y accesorios',
+            minimo: 30,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2850 }, { desde: 100, precio: 2350 }, { desde: 400, precio: 2100 }, { desde: 600, precio: 1900 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2700 }, { desde: 100, precio: 2100 }, { desde: 400, precio: 1850 }, { desde: 600, precio: 1700 }] },
+            ]
+        },
+        {
+            id: 'llav25x10mosq',
+            nombre: 'Llavero 2.5 x 10 (Mosquetón)',
+            categoria: 'Llaveros y accesorios',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2300 }, { desde: 100, precio: 2000 }, { desde: 400, precio: 1850 }, { desde: 800, precio: 1500 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2100 }, { desde: 100, precio: 1950 }, { desde: 400, precio: 1750 }, { desde: 800, precio: 1450 }] },
+            ]
+        },
+        {
+            id: 'llav25x10aro',
+            nombre: 'Llavero 2.5 x 10 (Aro sin fin)',
+            categoria: 'Llaveros y accesorios',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 30, precio: 2300 }, { desde: 100, precio: 1900 }, { desde: 400, precio: 1550 }, { desde: 800, precio: 1450 }] },
+                { nombre: 'PU',            escalas: [{ desde: 30, precio: 2250 }, { desde: 100, precio: 1850 }, { desde: 400, precio: 1450 }, { desde: 800, precio: 1350 }] },
+            ]
+        },
+        {
+            id: 'llav4x45',
+            nombre: 'Llavero 4cm x 45',
+            categoria: 'Llaveros y accesorios',
+            minimo: 10,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 10, precio: 4900 }, { desde: 100, precio: 3200 }, { desde: 200, precio: 2400 }] },
+            ]
+        },
+        {
+            id: 'llav25x45',
+            nombre: 'Llavero 2.5cm x 45',
+            categoria: 'Llaveros y accesorios',
+            minimo: 10,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 10, precio: 4700 }, { desde: 100, precio: 3050 }, { desde: 200, precio: 2200 }] },
+            ]
+        },
+        {
+            id: 'correa_simple',
+            nombre: 'Correa simple con regulador',
+            categoria: 'Llaveros y accesorios',
+            minimo: 70,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Ancho 4cm', escalas: [{ desde: 70, precio: 4900 }, { desde: 100, precio: 4400 }] },
+                { nombre: 'Ancho 3cm', escalas: [{ desde: 70, precio: 4650 }, { desde: 100, precio: 4150 }] },
+            ]
+        },
+        {
+            id: 'correa_premium',
+            nombre: 'Correa premium con regulador',
+            categoria: 'Llaveros y accesorios',
+            minimo: 70,
+            admiteHolder: true,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 70, precio: 7500 }, { desde: 130, precio: 7000 }] },
+            ]
+        },
+        {
+            id: 'llav_alpino',
+            nombre: 'Llavero 2.5 mosquetón alpino',
+            categoria: 'Llaveros y accesorios',
+            minimo: 25,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Cuero genuino', escalas: [{ desde: 25, precio: 3700 }] },
+            ]
+        },
+        {
+            id: 'soga',
+            nombre: 'Llavero Soga 4mm',
+            categoria: 'Llaveros y accesorios',
+            minimo: 500,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Estándar', escalas: [{ desde: 500, precio: 2200 }, { desde: 1000, precio: 1800 }] },
+            ]
+        },
+        {
+            id: 'equipaje',
+            nombre: 'Identificador de Equipaje',
+            categoria: 'Llaveros y accesorios',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [
+                { nombre: 'Estándar', escalas: [{ desde: 30, precio: 3000 }, { desde: 100, precio: 2500 }] },
+            ]
+        },
+        // --- PERSONALIZADOS DE OFICINA ---
+        {
+            id: 'portanotebook',
+            nombre: 'Portanotebook',
+            categoria: 'Oficina',
+            minimo: 10,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Estándar', escalas: [{ desde: 10, precio: 21000 }, { desde: 50, precio: 17000 }] }]
+        },
+        {
+            id: 'deskpad',
+            nombre: 'Deskpad',
+            categoria: 'Oficina',
+            minimo: 5,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Base antideslizante', escalas: [{ desde: 5, precio: 30000 }, { desde: 20, precio: 25000 }] }]
+        },
+        {
+            id: 'posavasos',
+            nombre: 'Pack Posavasos x4',
+            categoria: 'Oficina',
+            minimo: 5,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Sublimado', escalas: [{ desde: 5, precio: 16000 }, { desde: 20, precio: 11000 }] }]
+        },
+        // --- ROPA PERSONALIZADA ---
+        {
+            id: 'remera_algodon',
+            nombre: 'Remera de algodón estampada',
+            categoria: 'Ropa',
+            minimo: 20,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Algodón DTF', escalas: [{ desde: 20, precio: 21000 }, { desde: 100, precio: 17000 }] }]
+        },
+        {
+            id: 'remera_sublimada',
+            nombre: 'Remera sublimada poliéster',
+            categoria: 'Ropa',
+            minimo: 20,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Poliéster deportiva', escalas: [{ desde: 20, precio: 21000 }, { desde: 100, precio: 17000 }] }]
+        },
+        // --- ACCESORIOS ---
+        {
+            id: 'neceser_botinero',
+            nombre: 'Neceser tipo botinero',
+            categoria: 'Accesorios',
+            minimo: 15,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Tela resistente', escalas: [{ desde: 15, precio: 20000 }, { desde: 50, precio: 17600 }] }]
+        },
+        {
+            id: 'portalentes',
+            nombre: 'Estuche Portalentes',
+            categoria: 'Accesorios',
+            minimo: 1,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Simil neoprene sublimado', escalas: [{ desde: 1, precio: 14000 }, { desde: 20, precio: 7000 }, { desde: 50, precio: 5900 }] }]
+        },
+        {
+            id: 'cartuchera',
+            nombre: 'Cartuchera / Neceser Neoprene',
+            categoria: 'Accesorios',
+            minimo: 1,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Simil neoprene sublimado', escalas: [{ desde: 1, precio: 14000 }, { desde: 20, precio: 9000 }, { desde: 50, precio: 8000 }] }]
+        },
+        {
+            id: 'portapasaporte',
+            nombre: 'Portapasaporte',
+            categoria: 'Accesorios',
+            minimo: 1,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Cordura', escalas: [{ desde: 1, precio: 20000 }, { desde: 10, precio: 9000 }, { desde: 50, precio: 5900 }] }]
+        },
+        {
+            id: 'matera',
+            nombre: 'Matera Cordura',
+            categoria: 'Accesorios',
+            minimo: 20,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Cordura sublimada', escalas: [{ desde: 20, precio: 80000 }] }]
+        },
+        {
+            id: 'set_mate',
+            nombre: 'Set de Mate',
+            categoria: 'Accesorios',
+            minimo: 20,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Simil neoprene', escalas: [{ desde: 20, precio: 45000 }] }]
+        },
+        // --- DEPORTIVOS ---
+        {
+            id: 'botinero_deportivo',
+            nombre: 'Botinero deportivo',
+            categoria: 'Deportivos',
+            minimo: 10,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Premium', escalas: [{ desde: 10, precio: 27000 }, { desde: 50, precio: 20000 }] }]
+        },
+        {
+            id: 'toalla30x40',
+            nombre: 'Toalla deportiva 30x40',
+            categoria: 'Deportivos',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Microfibra', escalas: [{ desde: 30, precio: 5500 }, { desde: 100, precio: 4400 }] }]
+        },
+        {
+            id: 'toalla20x30',
+            nombre: 'Toalla deportiva 20x30',
+            categoria: 'Deportivos',
+            minimo: 30,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Microfibra', escalas: [{ desde: 30, precio: 4000 }, { desde: 100, precio: 3500 }] }]
+        },
+        // --- OTROS ---
+        {
+            id: 'tarjetas_nfc',
+            nombre: 'Tarjetas NFC personalizadas',
+            categoria: 'Otros',
+            minimo: 5,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Chip NFC', escalas: [{ desde: 5, precio: 7000 }, { desde: 20, precio: 4000 }] }]
+        },
+        {
+            id: 'agitador',
+            nombre: 'Agitador de café',
+            categoria: 'Otros',
+            minimo: 100,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Estándar', escalas: [{ desde: 100, precio: 400 }, { desde: 500, precio: 150 }] }]
+        },
+        {
+            id: 'papeleras',
+            nombre: 'Bolsas papeleras para el auto',
+            categoria: 'Otros',
+            minimo: 10,
+            admiteHolder: false,
+            variantes: [{ nombre: 'Cuero ecológico', escalas: [{ desde: 10, precio: 13000 }, { desde: 50, precio: 9000 }] }]
+        },
     ];
-    const HOLDER_PRECIOS = { 'Cristal':250, 'Cuero':500, 'Goma':550, 'PU':300 };
+
+    const HOLDER_PRECIOS = { 'Cristal': 250, 'Cuero': 500, 'Goma': 550, 'PU': 300 };
+
     let items = [];
     let panelVisible = false;
 
-    function getPrecio(variante,cantidad){ let esc=[...variante.escalas].sort((a,b)=>b.desde-a.desde); for(let e of esc) if(cantidad>=e.desde) return e.precio; return variante.escalas[0].precio; }
-    function getEscalaLabel(variante,cantidad){ let esc=[...variante.escalas].sort((a,b)=>b.desde-a.desde); for(let e of esc) if(cantidad>=e.desde) return `Escala desde ${e.desde}u: $${e.precio.toLocaleString('es-AR')} c/u`; return ''; }
-    function initCotizador(){ let sel=document.getElementById('cot-producto'); PRODUCTOS.forEach(p=>{ let opt=document.createElement('option'); opt.value=p.id; opt.textContent=p.nombre; sel.appendChild(opt); }); }
-    function actualizarOpciones(){ let prodId=document.getElementById('cot-producto').value; let wrap=document.getElementById('cot-opciones-wrap'); wrap.innerHTML=''; document.getElementById('cot-precio-info').style.display='none'; document.getElementById('cot-min-aviso').style.display='none'; if(!prodId) return; let prod=PRODUCTOS.find(p=>p.id===prodId); if(!prod) return; if(prod.variantes.length>1){ let label=document.createElement('label'); label.style.cssText='font-size:0.8em;font-weight:600;margin-top:10px;display:block'; label.textContent='Variante / Material'; wrap.appendChild(label); let sel=document.createElement('select'); sel.id='cot-variante'; sel.className='cot-select'; sel.onchange=actualizarPrecioInfo; prod.variantes.forEach((v,i)=>{ let opt=document.createElement('option'); opt.value=i; opt.textContent=v.nombre; sel.appendChild(opt); }); wrap.appendChild(sel); } else { let hid=document.createElement('input'); hid.type='hidden'; hid.id='cot-variante'; hid.value='0'; wrap.appendChild(hid); } if(prod.admiteHolder){ let holderWrap=document.createElement('div'); holderWrap.style.cssText='margin-top:12px;background:#f0f4ff;border-radius:10px;padding:10px 12px;'; holderWrap.innerHTML=`<div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="cot-holder-check" onchange="actualizarPrecioInfo()"><label>📱 ¿Incluir holder?</label></div><div id="cot-holder-select-wrap" style="display:none;"><label>Material holder</label><select id="cot-holder-material" class="cot-select" onchange="actualizarPrecioInfo()"><option value="Cristal">Cristal $250</option><option value="PU">PU $300</option><option value="Cuero">Cuero $500</option><option value="Goma">Goma $550</option></select></div>`; wrap.appendChild(holderWrap); setTimeout(()=>{ let chk=document.getElementById('cot-holder-check'); let selW=document.getElementById('cot-holder-select-wrap'); if(chk&&selW) chk.addEventListener('change',()=> selW.style.display=chk.checked?'block':'none'); },50); } let cantInput=document.getElementById('cot-cantidad'); cantInput.min=prod.minimo; cantInput.value=prod.minimo; actualizarPrecioInfo(); }
-    function actualizarPrecioInfo(){ let prodId=document.getElementById('cot-producto').value; if(!prodId) return; let prod=PRODUCTOS.find(p=>p.id===prodId); let varIdx=parseInt(document.getElementById('cot-variante')?.value??0); let cantidad=parseInt(document.getElementById('cot-cantidad').value)||0; let variante=prod.variantes[varIdx]; let infoEl=document.getElementById('cot-precio-info'); let avisoEl=document.getElementById('cot-min-aviso'); let btn=document.getElementById('btn-agregar'); if(cantidad<prod.minimo){ infoEl.style.display='none'; avisoEl.style.display='block'; avisoEl.innerHTML=`⚠️ Mínimo ${prod.minimo} unidades`; btn.disabled=true; return; } avisoEl.style.display='none'; btn.disabled=false; let precio=getPrecio(variante,cantidad); let subtotal=precio*cantidad; let holderExtra=''; let holderCheck=document.getElementById('cot-holder-check'); if(prod.admiteHolder&&holderCheck&&holderCheck.checked){ let material=document.getElementById('cot-holder-material')?.value||'Cristal'; let pHolder=HOLDER_PRECIOS[material]; subtotal+=pHolder*cantidad; holderExtra=` + Holder ${material} $${pHolder.toLocaleString('es-AR')} c/u`; } infoEl.style.display='block'; infoEl.innerHTML=`💰 ${getEscalaLabel(variante,cantidad)}${holderExtra}<br><strong>Subtotal: $${subtotal.toLocaleString('es-AR')}</strong>`; }
-    function agregarItem(){ let prodId=document.getElementById('cot-producto').value; if(!prodId){alert('Seleccioná un producto'); return;} let prod=PRODUCTOS.find(p=>p.id===prodId); let varIdx=parseInt(document.getElementById('cot-variante')?.value??0); let cantidad=parseInt(document.getElementById('cot-cantidad').value)||0; if(cantidad<prod.minimo){alert(`Mínimo ${prod.minimo} unidades`);return;} let variante=prod.variantes[varIdx]; let precio=getPrecio(variante,cantidad); let subtotal=precio*cantidad; let holderInfo=null; let holderCheck=document.getElementById('cot-holder-check'); if(prod.admiteHolder&&holderCheck&&holderCheck.checked){ let material=document.getElementById('cot-holder-material')?.value||'Cristal'; let pHolder=HOLDER_PRECIOS[material]; subtotal+=pHolder*cantidad; holderInfo={material,precio:pHolder}; } items.push({ id:Date.now(), productoNombre:prod.nombre, varianteNombre:variante.nombre, cantidad, precioUnitario:precio, holderInfo, subtotal, esPersonalizado:false }); renderItems(); actualizarBadge(); document.getElementById('cot-cantidad').value=prod.minimo; if(holderCheck) holderCheck.checked=false; let selWrap=document.getElementById('cot-holder-select-wrap'); if(selWrap) selWrap.style.display='none'; actualizarPrecioInfo(); }
-    function agregarPersonalizado(){ let nombre=document.getElementById('custom-nombre').value.trim(); let precio=parseFloat(document.getElementById('custom-precio').value); let cantidad=parseInt(document.getElementById('custom-cantidad').value); if(!nombre){ alert('Escribí el nombre del producto personalizado'); return; } if(isNaN(precio)||precio<=0){ alert('Ingresá un precio unitario válido'); return; } if(isNaN(cantidad)||cantidad<1){ alert('Cantidad debe ser al menos 1'); return; } let subtotal=precio*cantidad; items.push({ id:Date.now(), productoNombre:nombre, varianteNombre:'Personalizado', cantidad, precioUnitario:precio, holderInfo:null, subtotal, esPersonalizado:true }); renderItems(); actualizarBadge(); document.getElementById('custom-nombre').value=''; document.getElementById('custom-precio').value=''; document.getElementById('custom-cantidad').value='1'; }
-    function renderItems(){ let list=document.getElementById('cot-items-list'); list.innerHTML=''; if(items.length===0){ let li=document.createElement('li'); li.className='cot-empty'; li.textContent='Aún no agregaste productos.'; list.appendChild(li); actualizarTotal(); return; } items.forEach(item=>{ let holderDetalle=item.holderInfo? `<div class="cot-item-detail" style="color:#667eea;">📱 + Holder ${item.holderInfo.material} · $${item.holderInfo.precio.toLocaleString('es-AR')} c/u</div>`:''; let li=document.createElement('li'); li.className='cot-item'; li.innerHTML=`<div class="cot-item-info"><div class="cot-item-name">${item.productoNombre} ${item.esPersonalizado?'✏️':''}</div><div class="cot-item-detail">${item.varianteNombre} · ${item.cantidad} u · $${item.precioUnitario.toLocaleString('es-AR')} c/u</div>${holderDetalle}</div><div class="cot-item-price">$${item.subtotal.toLocaleString('es-AR')}</div><button class="btn-remove-item" onclick="eliminarItem(${item.id})">✕</button>`; list.appendChild(li); }); actualizarTotal(); }
-    function eliminarItem(id){ items=items.filter(i=>i.id!==id); renderItems(); actualizarBadge(); }
-    function limpiarCotizador(){ if(items.length&&confirm('¿Limpiar todo el presupuesto?')){ items=[]; renderItems(); actualizarBadge(); } }
-    function actualizarTotal(){ let total=items.reduce((a,i)=>a+i.subtotal,0); let totalUnidades=items.reduce((a,i)=>a+i.cantidad,0); document.getElementById('cot-total-val').textContent='$'+total.toLocaleString('es-AR'); document.getElementById('cot-total-items').textContent=totalUnidades===0?'0 productos':(totalUnidades===1?'1 unidad':`${totalUnidades} unidades`); }
-    function actualizarBadge(){ let badge=document.getElementById('cotizador-badge'); if(items.length){ badge.style.display='flex'; badge.textContent=items.length; } else badge.style.display='none'; }
-    function toggleCotizador(){ let panel=document.getElementById('cotizador-panel'); panelVisible=!panelVisible; if(panelVisible) panel.classList.add('visible'); else panel.classList.remove('visible'); }
-    function cerrarCotizador(){ panelVisible=false; document.getElementById('cotizador-panel').classList.remove('visible'); }
-    // Drag del panel
-    (function(){ let panel=document.getElementById('cotizador-panel'); let handle=document.getElementById('cotizador-drag-handle'); let isDragging=false,startX,startY,origRight,origBottom; handle.addEventListener('mousedown',e=>{if(e.target.closest('.btn-min, .btn-close-cot')) return; isDragging=true; startX=e.clientX; startY=e.clientY; let rect=panel.getBoundingClientRect(); origRight=window.innerWidth-rect.right; origBottom=window.innerHeight-rect.bottom; e.preventDefault();}); document.addEventListener('mousemove',e=>{if(!isDragging) return; let dx=e.clientX-startX; let dy=e.clientY-startY; panel.style.right=Math.max(0,origRight-dx)+'px'; panel.style.bottom=Math.max(0,origBottom-dy)+'px';}); document.addEventListener('mouseup',()=>{isDragging=false;}); handle.addEventListener('touchstart',e=>{if(e.target.closest('.btn-min, .btn-close-cot')) return; isDragging=true; startX=e.touches[0].clientX; startY=e.touches[0].clientY; let rect=panel.getBoundingClientRect(); origRight=window.innerWidth-rect.right; origBottom=window.innerHeight-rect.bottom;}); document.addEventListener('touchmove',e=>{if(!isDragging) return; let dx=e.touches[0].clientX-startX; let dy=e.touches[0].clientY-startY; panel.style.right=Math.max(0,origRight-dx)+'px'; panel.style.bottom=Math.max(0,origBottom-dy)+'px';}); document.addEventListener('touchend',()=>{isDragging=false;}); })();
-    // Modal imagen
-    const modal=document.getElementById('modal'); const modalImg=document.getElementById('modal-img'); const cerrarModal=document.querySelector('.cerrar-modal'); function abrirModal(src){ modal.style.display='block'; modalImg.src=src; } cerrarModal.onclick=()=>modal.style.display='none'; modal.onclick=e=>{if(e.target===modal)modal.style.display='none';};
-    // PDF del catálogo
-    function descargarPDF(){ let element=document.querySelector('.container'); let btn=document.querySelector('.btn-pdf'); btn.style.display='none'; html2pdf().set({margin:[0.5,0.5,0.5,0.5],filename:'lista_precios_marzo_2026.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'in',format:'a4',orientation:'portrait'}}).from(element).save().then(()=>btn.style.display='flex').catch(()=>{btn.style.display='flex';alert('Error al generar el PDF.');}); }
-    // PDF del presupuesto (con html2pdf, igual que original)
-    function descargarPresupuestoPDF(){ if(items.length===0){alert('Agregá productos al presupuesto');return;} let cliente=document.getElementById('cot-cliente-nombre').value.trim(); if(!cliente){alert('Ingresá el nombre del cliente');return;} let total=items.reduce((a,i)=>a+i.subtotal,0); let totalUnidades=items.reduce((a,i)=>a+i.cantidad,0); let fecha=new Date().toLocaleDateString('es-AR'); let hayHolder=items.some(i=>i.holderInfo); let filasItems=items.map((item,idx)=>{ let bg=idx%2===0?'#ffffff':'#f9f9f9'; let totalLlavero=item.precioUnitario*item.cantidad; let totalHolder=item.holderInfo?item.holderInfo.precio*item.cantidad:null; let subtotalFinal=totalLlavero+(totalHolder||0); let celdaSubtotalParcial=hayHolder?`<td style="text-align:right;">$${totalLlavero.toLocaleString('es-AR')}</td>`:''; let filaPrincipal=`<tr style="background:${bg};"><td style="padding:10px 12px;"><strong>${item.productoNombre}</strong><br><span style="font-size:0.82em;">${item.varianteNombre}</span></td><td style="text-align:center;">${item.cantidad}</td><td style="text-align:right;">$${item.precioUnitario.toLocaleString('es-AR')}</td>${celdaSubtotalParcial}<td style="text-align:right;font-weight:800;">${item.holderInfo?'—':'$'+subtotalFinal.toLocaleString('es-AR')}</td></tr>`; let filaHolder=item.holderInfo?`<tr style="background:#f0f4ff;"><td style="padding-left:24px;">↳ + Holder ${item.holderInfo.material}</td><td style="text-align:center;">${item.cantidad}</td><td style="text-align:right;">$${item.holderInfo.precio.toLocaleString('es-AR')}</td><td style="text-align:right;">$${totalHolder.toLocaleString('es-AR')}</td><td style="text-align:right;font-weight:800;">$${subtotalFinal.toLocaleString('es-AR')}</td></tr>`:''; return filaPrincipal+filaHolder; }).join(''); let thSubtotal=hayHolder?'<th style="text-align:right;">Subtotal ítem</th>':'';
-        let htmlPres=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Segoe UI,Arial;padding:36px 40px;max-width:780px;margin:0 auto;} .header{display:flex;justify-content:space-between;border-bottom:3px solid #667eea;margin-bottom:22px;} .empresa-nombre{font-size:2em;font-weight:900;} .presup-meta{display:flex;gap:14px;margin-bottom:22px;} .presup-box{flex:1;border-radius:10px;padding:12px 16px;} .azul{background:linear-gradient(135deg,#667eea,#764ba2);color:white;} .gris{background:#f4f4f4;} table{width:100%;border-collapse:collapse;} thead tr{background:#2c3e50;color:white;} th,td{padding:10px 12px;text-align:left;} .total-box{display:flex;justify-content:flex-end;margin-bottom:24px;} .total-inner{background:#f8f9fa;border:2px solid #667eea;border-radius:10px;padding:14px 22px;} .condiciones-box{background:#fffbf0;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin-top:20px;}</style></head><body><div class="header"><div><div class="empresa-nombre">LatinMerch</div><div>Accesorios en cuero</div></div><div><div>📍 Gral. José G. Artigas 1553, Paternal</div><div>📞 Lauro 15 6236-6175 / Martín 11 5145-7232</div></div></div><div class="presup-meta"><div class="presup-box azul"><div>Cliente</div><div><strong>${cliente}</strong></div></div><div class="presup-box gris"><div>Fecha</div><div>${fecha}</div></div><div class="presup-box gris"><div>Unidades</div><div>${totalUnidades}</div></div></div><table><thead><tr><th>Producto</th><th style="text-align:center;">Cant.</th><th style="text-align:right;">Precio u.</th>${thSubtotal}<th style="text-align:right;">Subtotal</th></tr></thead><tbody>${filasItems}</tbody></table><div class="total-box"><div class="total-inner"><div class="total-final"><span>TOTAL</span><span>$${total.toLocaleString('es-AR')}</span></div></div></div><div class="condiciones-box"><strong>✅ Presupuesto válido por 7 días.</strong> Condiciones: 50% adelanto, resto contra entrega. No incluye envío.</div></body></html>`;
-        let btn=document.getElementById('btn-descargar-pdf'); btn.disabled=true; btn.textContent='⏳ Generando...';
-        let tempDiv=document.createElement('div'); tempDiv.innerHTML=htmlPres; tempDiv.style.position='absolute'; tempDiv.style.left='-9999px'; document.body.appendChild(tempDiv);
-        html2pdf().set({margin:[0,0,0,0],filename:`presupuesto_${cliente.replace(/[^a-z0-9]/gi,'_')}_${fecha.replace(/\//g,'-')}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2},jsPDF:{unit:'in',format:'a4',orientation:'portrait'}}).from(tempDiv).save().then(()=>{document.body.removeChild(tempDiv); btn.disabled=false; btn.textContent='📄 Descargar presupuesto';}).catch(err=>{document.body.removeChild(tempDiv); btn.disabled=false; btn.textContent='📄 Descargar presupuesto'; alert('Error al generar el PDF');});
+    function getPrecio(variante, cantidad) {
+        const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
+        for (const escala of escalasDesc) {
+            if (cantidad >= escala.desde) return escala.precio;
+        }
+        return variante.escalas[0].precio;
     }
+
+    function getEscalaLabel(variante, cantidad) {
+        const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
+        for (const escala of escalasDesc) {
+            if (cantidad >= escala.desde) {
+                const precio = escala.precio;
+                if (variante.escalas.length === 1) return `Precio único: $${precio.toLocaleString('es-AR')} c/u`;
+                return `Escala desde ${escala.desde}u: $${precio.toLocaleString('es-AR')} c/u`;
+            }
+        }
+        return '';
+    }
+
+    function initCotizador() {
+        const sel = document.getElementById('cot-producto');
+        // Agrupar por categoría
+        const categorias = {};
+        PRODUCTOS.forEach(p => {
+            if (!categorias[p.categoria]) categorias[p.categoria] = [];
+            categorias[p.categoria].push(p);
+        });
+
+        Object.entries(categorias).forEach(([cat, prods]) => {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = cat;
+            prods.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.nombre;
+                optgroup.appendChild(opt);
+            });
+            sel.appendChild(optgroup);
+        });
+    }
+
+    function actualizarOpciones() {
+        const prodId = document.getElementById('cot-producto').value;
+        const wrap = document.getElementById('cot-opciones-wrap');
+        wrap.innerHTML = '';
+        document.getElementById('cot-precio-info').style.display = 'none';
+        document.getElementById('cot-min-aviso').style.display = 'none';
+
+        if (!prodId) return;
+
+        const prod = PRODUCTOS.find(p => p.id === prodId);
+        if (!prod) return;
+
+        if (prod.variantes.length > 1) {
+            const label = document.createElement('label');
+            label.style.cssText = 'font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;margin-top:10px;';
+            label.textContent = 'Variante / Material';
+            wrap.appendChild(label);
+
+            const sel = document.createElement('select');
+            sel.id = 'cot-variante';
+            sel.className = 'cot-select';
+            sel.onchange = actualizarPrecioInfo;
+            prod.variantes.forEach((v, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = v.nombre;
+                sel.appendChild(opt);
+            });
+            wrap.appendChild(sel);
+        } else {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.id = 'cot-variante';
+            input.value = '0';
+            wrap.appendChild(input);
+        }
+
+        if (prod.admiteHolder) {
+            const holderWrap = document.createElement('div');
+            holderWrap.style.cssText = 'margin-top:12px;background:#f0f4ff;border-radius:10px;padding:10px 12px;border:1.5px solid #c5d0f5;';
+            holderWrap.innerHTML = `
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <input type="checkbox" id="cot-holder-check" onchange="actualizarPrecioInfo()" style="width:16px;height:16px;cursor:pointer;accent-color:#667eea;">
+                    <label for="cot-holder-check" style="font-size:0.85em;font-weight:700;color:#3a3a8c;cursor:pointer;">📱 ¿Incluir holder para celular?</label>
+                </div>
+                <div id="cot-holder-select-wrap" style="display:none;">
+                    <label style="font-size:0.78em;font-weight:600;color:#555;display:block;margin-bottom:4px;">Material del holder</label>
+                    <select id="cot-holder-material" class="cot-select" onchange="actualizarPrecioInfo()" style="font-size:0.83em;">
+                        <option value="Cristal">Cristal — $250 c/u</option>
+                        <option value="PU">PU — $300 c/u</option>
+                        <option value="Cuero">Cuero — $500 c/u</option>
+                        <option value="Goma">Goma — $550 c/u</option>
+                    </select>
+                </div>
+            `;
+            wrap.appendChild(holderWrap);
+
+            setTimeout(() => {
+                const chk = document.getElementById('cot-holder-check');
+                const selWrap = document.getElementById('cot-holder-select-wrap');
+                if (chk && selWrap) {
+                    chk.addEventListener('change', () => {
+                        selWrap.style.display = chk.checked ? 'block' : 'none';
+                    });
+                }
+            }, 50);
+        }
+
+        const cantInput = document.getElementById('cot-cantidad');
+        cantInput.min = prod.minimo;
+        cantInput.value = prod.minimo;
+
+        actualizarPrecioInfo();
+    }
+
+    function actualizarPrecioInfo() {
+        const prodId = document.getElementById('cot-producto').value;
+        if (!prodId) return;
+
+        const prod = PRODUCTOS.find(p => p.id === prodId);
+        const varIdx = parseInt(document.getElementById('cot-variante')?.value ?? 0);
+        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 0;
+        const variante = prod.variantes[varIdx];
+
+        const infoEl = document.getElementById('cot-precio-info');
+        const avisoEl = document.getElementById('cot-min-aviso');
+        const btnAgregar = document.getElementById('btn-agregar');
+
+        if (cantidad < prod.minimo) {
+            infoEl.style.display = 'none';
+            avisoEl.style.display = 'block';
+            avisoEl.innerHTML = `⚠️ Cantidad mínima para este producto: <strong>${prod.minimo} unidades</strong>`;
+            btnAgregar.disabled = true;
+            btnAgregar.style.opacity = '0.5';
+            return;
+        }
+
+        avisoEl.style.display = 'none';
+        btnAgregar.disabled = false;
+        btnAgregar.style.opacity = '1';
+
+        const precio = getPrecio(variante, cantidad);
+        let subtotal = precio * cantidad;
+        let holderTexto = '';
+
+        const holderCheck = document.getElementById('cot-holder-check');
+        if (prod.admiteHolder && holderCheck && holderCheck.checked) {
+            const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
+            const precioHolder = HOLDER_PRECIOS[material];
+            subtotal += precioHolder * cantidad;
+            holderTexto = ` + Holder ${material} $${precioHolder.toLocaleString('es-AR')} c/u`;
+        }
+
+        infoEl.style.display = 'block';
+        infoEl.innerHTML = `💰 ${getEscalaLabel(variante, cantidad)}${holderTexto}<br><strong>Subtotal: $${subtotal.toLocaleString('es-AR')}</strong>`;
+    }
+
+    function agregarItem() {
+        const prodId = document.getElementById('cot-producto').value;
+        if (!prodId) { alert('Seleccioná un producto primero.'); return; }
+
+        const prod = PRODUCTOS.find(p => p.id === prodId);
+        const varIdx = parseInt(document.getElementById('cot-variante')?.value ?? 0);
+        const cantidad = parseInt(document.getElementById('cot-cantidad').value) || 0;
+
+        if (cantidad < prod.minimo) {
+            alert(`La cantidad mínima para "${prod.nombre}" es ${prod.minimo} unidades.`);
+            return;
+        }
+
+        const variante = prod.variantes[varIdx];
+        const precio = getPrecio(variante, cantidad);
+        let subtotal = precio * cantidad;
+        let holderInfo = null;
+
+        const holderCheck = document.getElementById('cot-holder-check');
+        if (prod.admiteHolder && holderCheck && holderCheck.checked) {
+            const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
+            const precioHolder = HOLDER_PRECIOS[material];
+            subtotal += precioHolder * cantidad;
+            holderInfo = { material, precio: precioHolder };
+        }
+
+        items.push({
+            id: Date.now(),
+            productoNombre: prod.nombre,
+            varianteNombre: variante.nombre,
+            cantidad,
+            precioUnitario: precio,
+            holderInfo,
+            subtotal,
+        });
+
+        renderItems();
+        actualizarBadge();
+
+        document.getElementById('cot-cantidad').value = prod.minimo;
+        if (holderCheck) holderCheck.checked = false;
+        const holderSelWrap = document.getElementById('cot-holder-select-wrap');
+        if (holderSelWrap) holderSelWrap.style.display = 'none';
+        actualizarPrecioInfo();
+    }
+
+    function renderItems() {
+        const list = document.getElementById('cot-items-list');
+        list.innerHTML = '';
+
+        if (items.length === 0) {
+            const li = document.createElement('li');
+            li.className = 'cot-empty';
+            li.textContent = 'Aún no agregaste productos.';
+            list.appendChild(li);
+            actualizarTotal();
+            return;
+        }
+
+        items.forEach(item => {
+            const holderDetalle = item.holderInfo
+                ? `<div class="cot-item-detail" style="color:#667eea;">📱 + Holder ${item.holderInfo.material} · $${item.holderInfo.precio.toLocaleString('es-AR')} c/u</div>`
+                : '';
+            const li = document.createElement('li');
+            li.className = 'cot-item';
+            li.innerHTML = `
+                <div class="cot-item-info">
+                    <div class="cot-item-name">${item.productoNombre}</div>
+                    <div class="cot-item-detail">${item.varianteNombre} · ${item.cantidad} u · $${item.precioUnitario.toLocaleString('es-AR')} c/u</div>
+                    ${holderDetalle}
+                </div>
+                <div class="cot-item-price">$${item.subtotal.toLocaleString('es-AR')}</div>
+                <button class="btn-remove-item" onclick="eliminarItem(${item.id})" title="Eliminar">✕</button>
+            `;
+            list.appendChild(li);
+        });
+
+        actualizarTotal();
+    }
+
+    function eliminarItem(id) {
+        items = items.filter(i => i.id !== id);
+        renderItems();
+        actualizarBadge();
+    }
+
+    function limpiarCotizador() {
+        if (items.length === 0) return;
+        if (!confirm('¿Querés limpiar todo el presupuesto?')) return;
+        items = [];
+        renderItems();
+        actualizarBadge();
+    }
+
+    function actualizarTotal() {
+        const total = items.reduce((acc, i) => acc + i.subtotal, 0);
+        const totalItems = items.reduce((acc, i) => acc + i.cantidad, 0);
+        document.getElementById('cot-total-val').textContent = '$' + total.toLocaleString('es-AR');
+        document.getElementById('cot-total-items').textContent =
+            totalItems === 0 ? '0 productos' :
+            totalItems === 1 ? '1 unidad' : `${totalItems} unidades`;
+    }
+
+    function actualizarBadge() {
+        const badge = document.getElementById('cotizador-badge');
+        if (items.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = items.length;
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    function toggleCotizador() {
+        const panel = document.getElementById('cotizador-panel');
+        panelVisible = !panelVisible;
+        panel.classList.toggle('visible', panelVisible);
+    }
+
+    function cerrarCotizador() {
+        panelVisible = false;
+        document.getElementById('cotizador-panel').classList.remove('visible');
+    }
+
+    // ===================== DRAG =====================
+    (function() {
+        const panel = document.getElementById('cotizador-panel');
+        const handle = document.getElementById('cotizador-drag-handle');
+        let isDragging = false, startX, startY, origRight, origBottom;
+
+        handle.addEventListener('mousedown', function(e) {
+            if (e.target.closest('.btn-min, .btn-close-cot')) return;
+            isDragging = true;
+            startX = e.clientX; startY = e.clientY;
+            const rect = panel.getBoundingClientRect();
+            origRight = window.innerWidth - rect.right;
+            origBottom = window.innerHeight - rect.bottom;
+            handle.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            panel.style.right = Math.max(0, origRight - (e.clientX - startX)) + 'px';
+            panel.style.bottom = Math.max(0, origBottom - (e.clientY - startY)) + 'px';
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging) { isDragging = false; handle.style.cursor = 'grab'; }
+        });
+
+        handle.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.btn-min, .btn-close-cot')) return;
+            isDragging = true;
+            startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+            const rect = panel.getBoundingClientRect();
+            origRight = window.innerWidth - rect.right;
+            origBottom = window.innerHeight - rect.bottom;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            panel.style.right = Math.max(0, origRight - (e.touches[0].clientX - startX)) + 'px';
+            panel.style.bottom = Math.max(0, origBottom - (e.touches[0].clientY - startY)) + 'px';
+        }, { passive: true });
+
+        document.addEventListener('touchend', function() { isDragging = false; });
+    })();
+
+    // ===================== MODAL =====================
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const cerrarModalBtn = document.querySelector('.cerrar-modal');
+
+    function abrirModal(src) { modal.style.display = 'block'; modalImg.src = src; }
+    function cerrarModalFunc() { modal.style.display = 'none'; }
+
+    cerrarModalBtn.onclick = cerrarModalFunc;
+    modal.onclick = function(e) { if (e.target === modal) cerrarModalFunc(); };
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') cerrarModalFunc();
+    });
+
+    // ===================== PDF CATÁLOGO =====================
+    function descargarPDF() {
+        const element = document.querySelector('.container');
+        const btn = document.querySelector('.btn-pdf');
+        const fab = document.getElementById('cotizador-fab');
+        const panel = document.getElementById('cotizador-panel');
+        btn.style.display = 'none';
+        fab.style.display = 'none';
+        panel.style.display = 'none';
+
+        const opt = {
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: 'lista_precios_marzo_2026.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css'], avoid: ['.producto-card'] }
+        };
+
+        html2pdf().set(opt).from(element).save()
+            .then(() => {
+                btn.style.display = 'flex';
+                fab.style.display = 'flex';
+            })
+            .catch(() => {
+                btn.style.display = 'flex';
+                fab.style.display = 'flex';
+                alert('Error al generar el PDF.');
+            });
+    }
+
+    // ===================== PDF PRESUPUESTO =====================
+    function descargarPresupuestoPDF() {
+        if (items.length === 0) {
+            alert('Agregá al menos un producto al presupuesto antes de descargar.');
+            return;
+        }
+
+        const clienteNombre = document.getElementById('cot-cliente-nombre').value.trim();
+        if (!clienteNombre) {
+            document.getElementById('cot-cliente-nombre').focus();
+            document.getElementById('cot-cliente-nombre').style.borderColor = '#e74c3c';
+            setTimeout(() => document.getElementById('cot-cliente-nombre').style.borderColor = '', 2000);
+            alert('Por favor ingresá el nombre del cliente antes de generar el PDF.');
+            return;
+        }
+
+        const btn = document.getElementById('btn-descargar-pdf');
+        btn.disabled = true;
+        btn.textContent = '⏳ Generando...';
+
+        const total = items.reduce((acc, i) => acc + i.subtotal, 0);
+        const sena = Math.round(total * 0.5);
+        const totalUnidades = items.reduce((acc, i) => acc + i.cantidad, 0);
+        const fecha = new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+        const hayHolder = items.some(i => i.holderInfo);
+
+        const filasItems = items.map((item, idx) => {
+            const totalLlavero = item.precioUnitario * item.cantidad;
+            const totalHolder = item.holderInfo ? item.holderInfo.precio * item.cantidad : null;
+            const subtotalFinal = totalLlavero + (totalHolder || 0);
+            const bg = idx % 2 === 0 ? '#ffffff' : '#f9f9f9';
+
+            const celdaSubtotalLlavero = hayHolder
+                ? `<td style="padding:10px 12px;text-align:right;color:#1e7e34;font-weight:700;">$${totalLlavero.toLocaleString('es-AR')}</td>`
+                : '';
+
+            const filaLlavero = `
+                <tr style="background:${bg};">
+                    <td style="padding:10px 12px;font-weight:600;color:#2c3e50;">
+                        ${item.productoNombre}<br>
+                        <span style="font-weight:400;font-size:0.82em;color:#666;">${item.varianteNombre}</span>
+                    </td>
+                    <td style="padding:10px 12px;text-align:center;">${item.cantidad}</td>
+                    <td style="padding:10px 12px;text-align:right;">$${item.precioUnitario.toLocaleString('es-AR')}</td>
+                    ${celdaSubtotalLlavero}
+                    <td style="padding:10px 12px;text-align:right;font-weight:800;color:#1e7e34;font-size:1.05em;${item.holderInfo ? 'border-bottom:none;' : ''}">
+                        ${item.holderInfo ? '—' : '$' + subtotalFinal.toLocaleString('es-AR')}
+                    </td>
+                </tr>`;
+
+            const filaHolder = item.holderInfo ? `
+                <tr style="background:#f0f4ff;border-bottom:2px solid #c5d0f5;">
+                    <td style="padding:8px 12px 10px 24px;color:#3a3a8c;font-size:0.88em;">↳ + Holder ${item.holderInfo.material}</td>
+                    <td style="padding:8px 12px;text-align:center;color:#3a3a8c;font-size:0.88em;">${item.cantidad}</td>
+                    <td style="padding:8px 12px;text-align:right;color:#3a3a8c;font-size:0.88em;">$${item.holderInfo.precio.toLocaleString('es-AR')}</td>
+                    <td style="padding:8px 12px;text-align:right;color:#3a3a8c;font-weight:700;font-size:0.88em;">$${totalHolder.toLocaleString('es-AR')}</td>
+                    <td style="padding:8px 12px;text-align:right;font-weight:800;color:#1e7e34;font-size:1.05em;">$${subtotalFinal.toLocaleString('es-AR')}</td>
+                </tr>` : '';
+
+            return filaLlavero + filaHolder;
+        }).join('');
+
+        const thSubtotalParcial = hayHolder ? `<th style="text-align:right;">Subtotal ítem</th>` : '';
+
+        const htmlContent = `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                * { margin:0; padding:0; box-sizing:border-box; }
+                body { font-family: 'Segoe UI', Arial, sans-serif; color: #333; background: white; }
+                .page { padding: 36px 40px; max-width: 780px; margin: 0 auto; }
+
+                .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom: 18px; border-bottom: 3px solid #667eea; margin-bottom: 22px; }
+                .empresa-nombre { font-size: 2em; font-weight: 900; color: #2c3e50; letter-spacing: -1px; }
+                .empresa-subtitulo { font-size: 0.85em; color: #888; margin-top: 2px; }
+                .empresa-contacto { text-align: right; font-size: 0.8em; color: #555; line-height: 1.8; }
+                .empresa-contacto strong { color: #2c3e50; }
+
+                .presup-meta { display:flex; justify-content:space-between; align-items:stretch; gap:14px; margin-bottom: 22px; }
+                .presup-box { flex:1; border-radius: 10px; padding: 12px 16px; }
+                .presup-box.azul { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+                .presup-box.gris { background: #f4f4f4; border: 1.5px solid #e0e0e0; }
+                .presup-box .label { font-size: 0.72em; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+                .presup-box .value { font-size: 1em; font-weight: 700; }
+                .presup-box.gris .label { color: #888; }
+                .presup-box.gris .value { color: #2c3e50; }
+
+                table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.88em; }
+                thead tr { background: #2c3e50; color: white; }
+                thead th { padding: 10px 12px; text-align: left; font-weight: 600; }
+                thead th:nth-child(2) { text-align: center; }
+                thead th:nth-child(3), thead th:nth-child(4) { text-align: right; }
+                tbody tr:last-child td { border-bottom: 2px solid #e0e0e0; }
+
+                .total-sena-wrap { display:flex; justify-content:flex-end; margin-bottom: 20px; }
+                .total-inner { background: #f8f9fa; border: 2px solid #667eea; border-radius: 10px; padding: 16px 22px; min-width: 280px; }
+                .total-row { display:flex; justify-content:space-between; gap: 30px; font-size: 0.88em; color: #555; margin-bottom: 6px; }
+                .total-final { display:flex; justify-content:space-between; gap: 30px; font-size: 1.15em; font-weight: 800; color: #2c3e50; border-top: 1.5px solid #ddd; padding-top: 8px; margin-top: 6px; }
+                .total-final span:last-child { color: #1e7e34; }
+
+                .sena-box { margin-top: 12px; background: #fff8e1; border: 1.5px solid #ffc107; border-radius: 10px; padding: 12px 16px; }
+                .sena-titulo { font-size: 0.82em; font-weight: 700; color: #856404; margin-bottom: 6px; }
+                .sena-monto { font-size: 1.2em; font-weight: 900; color: #e67e22; }
+                .sena-nota { font-size: 0.75em; color: #888; margin-top: 4px; }
+                .alias-box { margin-top: 10px; background: #e8f5e9; border: 1.5px solid #a5d6a7; border-radius: 8px; padding: 8px 14px; display:flex; align-items:center; gap:8px; }
+                .alias-label { font-size: 0.75em; color: #555; }
+                .alias-val { font-size: 1em; font-weight: 800; color: #1b5e20; letter-spacing: 0.04em; }
+
+                .validez-box { background:#e8f5e9; border:1.5px solid #a5d6a7; border-radius:8px; padding:10px 16px; margin-bottom:18px; font-size:0.82em; color:#2e7d32; }
+
+                .condiciones-box { background: #fffbf0; border: 1.5px solid #ffc107; border-radius: 10px; padding: 14px 18px; margin-bottom: 22px; }
+                .condiciones-box h3 { font-size: 0.9em; color: #856404; margin-bottom: 8px; font-weight: 700; }
+                .condiciones-box ul { list-style: none; padding: 0; }
+                .condiciones-box li { font-size: 0.8em; color: #555; padding: 3px 0 3px 18px; position: relative; line-height: 1.4; }
+                .condiciones-box li:before { content: "✓"; color: #28a745; position: absolute; left: 0; font-weight: bold; }
+
+                .footer { text-align: center; font-size: 0.72em; color: #aaa; border-top: 1px solid #eee; padding-top: 12px; }
+                .footer strong { color: #667eea; }
+            </style>
+        </head>
+        <body>
+        <div class="page">
+
+            <div class="header">
+                <div>
+                    <div class="empresa-nombre">LatinMerch</div>
+                    <div class="empresa-subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
+                </div>
+                <div class="empresa-contacto">
+                    <div>📍 Gral. José G. Artigas 1553, Paternal</div>
+                    <div>📞 <strong>Lauro Ware</strong> · 15 6236-6175</div>
+                    <div>📞 <strong>Martín Urquiza</strong> · 11 5145-7232</div>
+                    <div>✉️ ventas@latinmerch.com.ar</div>
+                </div>
+            </div>
+
+            <div class="presup-meta">
+                <div class="presup-box azul">
+                    <div class="label">Cliente</div>
+                    <div class="value">${clienteNombre}</div>
+                </div>
+                <div class="presup-box gris">
+                    <div class="label">Fecha</div>
+                    <div class="value">${fecha}</div>
+                </div>
+                <div class="presup-box gris">
+                    <div class="label">Unidades totales</div>
+                    <div class="value">${totalUnidades} u</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto / Variante</th>
+                        <th style="text-align:center;">Cant.</th>
+                        <th style="text-align:right;">Precio u.</th>
+                        ${thSubtotalParcial}
+                        <th style="text-align:right;background:#1a5c2e;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${filasItems}
+                </tbody>
+            </table>
+
+            <div class="total-sena-wrap">
+                <div class="total-inner">
+                    <div class="total-row"><span>Unidades:</span><span>${totalUnidades}</span></div>
+                    <div class="total-final"><span>TOTAL</span><span>$${total.toLocaleString('es-AR')}</span></div>
+
+                    <div class="sena-box">
+                        <div class="sena-titulo">💰 Seña solicitada para comenzar el trabajo:</div>
+                        <div class="sena-monto">$${sena.toLocaleString('es-AR')}</div>
+                        <div class="sena-nota">(No incluye envío)</div>
+                    </div>
+
+                    <div class="alias-box">
+                        <span class="alias-label">🏦 Alias bancario:</span>
+                        <span class="alias-val">latinmerch</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="validez-box">
+                ✅ <strong>Este presupuesto tiene validez por 7 días una vez confirmado por el canal de ventas.</strong>
+            </div>
+
+            <div class="condiciones-box">
+                <h3>📋 Condiciones de venta</h3>
+                <ul>
+                    <li>No cobramos el diseño de la cinta. Si contás con diseñador, podés realizarlo vos mismo. ¡Solicitanos las medidas!</li>
+                    <li>Los precios son finales.</li>
+                    <li>Solo realizamos factura C.</li>
+                    <li>Trabajamos con adelanto del 50% y resto contra despacho de la mercadería.</li>
+                    <li>Los plazos dependen del modelo y las cantidades. La fecha de entrega se pacta al momento de la señal.</li>
+                    <li>No incluye envío — Enviamos por Correo Argentino.</li>
+                    <li>Los productos se pueden retirar por Paternal.</li>
+                </ul>
+            </div>
+
+            <div class="footer">
+                Presupuesto generado por <strong>LatinMerch</strong> · ventas@latinmerch.com.ar · Lauro Ware 15 6236-6175 · Martín Urquiza 11 5145-7232
+            </div>
+
+        </div>
+        </body>
+        </html>
+        `;
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        tempDiv.style.cssText = 'position:absolute;left:-9999px;top:0;';
+        document.body.appendChild(tempDiv);
+
+        const nombreArchivo = clienteNombre.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/g, '').replace(/\s+/g, '_').toLowerCase();
+        const opt = {
+            margin: [0, 0, 0, 0],
+            filename: `presupuesto_latinmerch_${nombreArchivo}_${fecha.replace(/\//g, '-')}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(tempDiv.querySelector('.page') || tempDiv).save()
+            .then(() => {
+                document.body.removeChild(tempDiv);
+                btn.disabled = false;
+                btn.textContent = '📄 Descargar presupuesto';
+            })
+            .catch((err) => {
+                console.error(err);
+                document.body.removeChild(tempDiv);
+                btn.disabled = false;
+                btn.textContent = '📄 Descargar presupuesto';
+                alert('Error al generar el PDF. Intentá de nuevo.');
+            });
+    }
+
+    // ===================== INIT =====================
     initCotizador();
-</script>
+    </script>
+
+    <!-- PWA Service Worker -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        const swCode = `
+            const CACHE = 'latinmerch-v1';
+            self.addEventListener('install', e => { self.skipWaiting(); });
+            self.addEventListener('activate', e => { self.clients.claim(); });
+            self.addEventListener('fetch', e => {
+                e.respondWith(caches.match(e.request).then(cached => cached || fetch(e.request)));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('install-banner').style.display = 'flex';
+    });
+    function instalarApp() {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            document.getElementById('install-banner').style.display = 'none';
+        });
+    }
+    function cerrarBanner() { document.getElementById('install-banner').style.display = 'none'; }
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS && !window.navigator.standalone) {
+        setTimeout(() => { document.getElementById('install-banner-ios').style.display = 'flex'; }, 1500);
+    }
+    </script>
+
+    <div id="install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.2);">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:0.95em;">Instalá LatinMerch</div><div style="font-size:0.78em;opacity:0.85;">Agregá el catálogo a tu pantalla de inicio</div></div>
+        <button onclick="instalarApp()" style="background:white;color:#667eea;border:none;padding:9px 18px;border-radius:50px;font-weight:700;font-size:0.88em;cursor:pointer;">Instalar</button>
+        <button onclick="cerrarBanner()" style="background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
+    <div id="install-banner-ios" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#2c3e50;color:white;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.3);border-radius:16px 16px 0 0;">
+        <div style="font-size:1.8em;">🏷️</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:0.92em;">Agregá LatinMerch a tu inicio</div><div style="font-size:0.78em;opacity:0.8;margin-top:2px;">Tocá <strong>□↑</strong> (Compartir) y luego <strong>"Agregar a pantalla de inicio"</strong></div></div>
+        <button onclick="document.getElementById('install-banner-ios').style.display='none'" style="background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
 </body>
 </html>
