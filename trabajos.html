@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel Cuadrado - Galería de Fotos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .carousel-container {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Esto hace que sea cuadrado */
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            background: #000;
+        }
+
+        .carousel-track-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Información superpuesta */
+        .slide-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: white;
+            padding: 30px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .carousel-slide:hover .slide-info {
+            transform: translateY(0);
+        }
+
+        .slide-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .slide-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Botones de navegación */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #764ba2;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-prev {
+            left: 15px;
+        }
+
+        .btn-next {
+            right: 15px;
+        }
+
+        /* Indicadores (puntos) */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: white;
+            width: 25px;
+            border-radius: 10px;
+            transform: scale(1.2);
+        }
+
+        .carousel-indicator:hover {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Miniaturas cuadradas */
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            padding: 5px;
+        }
+
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+            transform: scale(1.08);
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: white;
+            transform: scale(1.08);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Control de reproducción automática */
+        .autoplay-control {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .autoplay-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .autoplay-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Contador de imágenes */
+        .image-counter {
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .carousel-container {
+                max-width: 95%;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            
+            .slide-info h3 {
+                font-size: 1.2rem;
+            }
+            
+            .slide-info p {
+                font-size: 0.8rem;
+            }
+            
+            .carousel-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            
+            .thumbnail {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .slide-info {
+                padding: 20px 15px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .thumbnail {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .carousel-nav {
+                gap: 8px;
+            }
+            
+            .slide-info h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <h1>Trabajos realizados</h1>
+        
+        <div class="carousel">
+            <div class="carousel-track-container">
+                <div class="carousel-track" id="carouselTrack"></div>
+            </div>
+            
+            <button class="carousel-btn btn-prev" id="prevBtn">❮</button>
+            <button class="carousel-btn btn-next" id="nextBtn">❯</button>
+        </div>
+        
+        <div class="carousel-nav" id="carouselNav"></div>
+        
+        <div class="thumbnails" id="thumbnails"></div>
+        
+        <div class="autoplay-control">
+            <button class="autoplay-btn" id="autoplayBtn">⏸ Pausar</button>
+        </div>
+        
+        <div class="image-counter" id="imageCounter"></div>
+    </div>
+
+    <script>
+        // Datos de las imágenes (cuadradas)
+        const slides = [
+            {
+                url: "assets/img/portfolio/trabajos/llavero1.jpg",
+                title: "Llavero 4x15 con holder",
+                description: "Llavero 4x15 con holder"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero2.jpg",
+                title: "Llavero 4x10",
+                description: "Llavero 4x10"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero3.jpg",
+                title: "llavero 4x15",
+                description: "llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero4.jpg",
+                title: "Llavero 4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero5.jpg",
+                title: "Llavero 4x15 con puntera grabada en calor",
+                description: "Llavero 4x15 puntera grabada en calor"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero6.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero7.jpg",
+                title: "Llavero 4x15 con holder",
+                description: "Llavero 4x15 con holder"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero8.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero9.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero10.jpg",
+                title: "Neceser con tiracierre personalizado",
+                description: "Neceser con tiracierre personalizado"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero11.jpg",
+                title: "Llavero 4x15 con holder  de goma",
+                description: "Llavero 4x15 con holder de goma"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero12.jpg",
+                title: "Correa para celular regulable personalizada colgante 3 cm",
+                description: "Correa para celular regulable personalizada colgante 3 cm"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero13.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero14.jpg",
+                title: "Correa 4x60",
+                description: "Correa 4x60"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero15.jpg",
+                title: "llavero 4x15 por holder",
+                description: "Llavero 4x15 con holder de goma"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero16.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero17.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero19.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero20.jpg",
+                title: "Llavero 2.5 con aro sin fin",
+                description: "Llavero 2.5x10 con aro sin fin"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero21.jpg",
+                title: "4x15 con holder",
+                description: "Llavero 4x15 con holder"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero22.jpg",
+                title: "Llavero 4x40",
+                description: "Llavero 4x40"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero23.jpg",
+                title: "2.5x40",
+                description: "Colgante 2.5x40"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero24.jpg",
+                title: "Correa ajustable con holder",
+                description: "Correa ajustable con holder"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero25.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero26.jpg",
+                title: "Llavero cordón",
+                description: "Llavero cordón"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero27.jpg",
+                title: "Correa ajustable premium",
+                description: "Correa ajustable premium"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero28.jpg",
+                title: "Correa ajustable personalizada",
+                description: "Correa ajustable personalizada"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero29.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero30.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero31.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+            {
+                url: "assets/img/portfolio/trabajos/llavero32.jpg",
+                title: "4x15",
+                description: "Llavero 4x15"
+            },
+             {
+                url: "assets/img/portfolio/trabajos/llavero33.webp",
+                title: "Tag de equipaje personalizado",
+                description: "Tag de equipaje personalizado"
+            },
+        ];
+
+        let currentIndex = 0;
+        let autoplayInterval;
+        let isAutoplay = true;
+        const track = document.getElementById('carouselTrack');
+        const nav = document.getElementById('carouselNav');
+        const thumbnailsContainer = document.getElementById('thumbnails');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const autoplayBtn = document.getElementById('autoplayBtn');
+        const imageCounter = document.getElementById('imageCounter');
+
+        // Crear slides
+        function createSlides() {
+            slides.forEach((slide, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'carousel-slide';
+                
+                const img = document.createElement('img');
+                img.src = slide.url;
+                img.alt = slide.title;
+                img.loading = "lazy";
+                
+                const info = document.createElement('div');
+                info.className = 'slide-info';
+                info.innerHTML = `
+                    <h3>${slide.title}</h3>
+                    <p>${slide.description}</p>
+                `;
+                
+                slideDiv.appendChild(img);
+                slideDiv.appendChild(info);
+                track.appendChild(slideDiv);
+            });
+        }
+
+        // Crear indicadores (puntos)
+        function createIndicators() {
+            for (let i = 0; i < slides.length; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'carousel-indicator';
+                if (i === currentIndex) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSlide(i));
+                nav.appendChild(indicator);
+            }
+        }
+
+        // Crear miniaturas
+        function createThumbnails() {
+            slides.forEach((slide, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = slide.url;
+                thumb.alt = slide.title;
+                thumb.className = 'thumbnail';
+                if (index === currentIndex) thumb.classList.add('active');
+                thumb.addEventListener('click', () => goToSlide(index));
+                thumbnailsContainer.appendChild(thumb);
+            });
+        }
+
+        // Actualizar contador
+        function updateCounter() {
+            imageCounter.textContent = `${currentIndex + 1} / ${slides.length}`;
+        }
+
+        // Ir a slide específico
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+            resetAutoplay();
+        }
+
+        // Actualizar carrusel
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Actualizar indicadores
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            indicators.forEach((ind, i) => {
+                if (i === currentIndex) {
+                    ind.classList.add('active');
+                } else {
+                    ind.classList.remove('active');
+                }
+            });
+            
+            // Actualizar miniaturas
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, i) => {
+                if (i === currentIndex) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+            
+            // Actualizar contador
+            updateCounter();
+        }
+
+        // Siguiente slide
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+        }
+
+        // Anterior slide
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+
+        // Iniciar reproducción automática
+        function startAutoplay() {
+            if (autoplayInterval) clearInterval(autoplayInterval);
+            autoplayInterval = setInterval(nextSlide, 4000);
+        }
+
+        // Detener reproducción automática
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+        }
+
+        // Reiniciar reproducción automática
+        function resetAutoplay() {
+            if (isAutoplay) {
+                stopAutoplay();
+                startAutoplay();
+            }
+        }
+
+        // Toggle autoplay
+        function toggleAutoplay() {
+            if (isAutoplay) {
+                stopAutoplay();
+                autoplayBtn.textContent = '▶ Reproducir';
+                isAutoplay = false;
+            } else {
+                startAutoplay();
+                autoplayBtn.textContent = '⏸ Pausar';
+                isAutoplay = true;
+            }
+        }
+
+        // Eventos
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoplay();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoplay();
+        });
+        
+        autoplayBtn.addEventListener('click', toggleAutoplay);
+
+        // Inicializar
+        createSlides();
+        createIndicators();
+        createThumbnails();
+        updateCounter();
+        startAutoplay();
+
+        // Ajustar al redimensionar (mantiene el cuadrado)
+        window.addEventListener('resize', () => {
+            updateCarousel();
+        });
+    </script>
+</body>
+</html>

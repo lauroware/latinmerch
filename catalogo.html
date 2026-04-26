@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LatinMerch · Catálogo General · Vamos Argentina!</title>
+    <meta name="description" content="Catálogo de productos personalizados - LatinMerch. Alentá a la selección con tu logo y los colores argentinos.">
+    <meta name="theme-color" content="#1e3c72">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f0f2f5 0%, #dce3ec 100%); padding: 20px; color: #1a2a3a; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header-section { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 25px; gap: 15px; background: rgba(255,255,255,0.96); padding: 20px 30px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .titulos { flex: 1; }
+        h1 { color: #1e3c72; font-size: 2.3em; display: flex; align-items: center; gap: 10px; }
+        .subtitulo { color: #2c5a7a; font-size: 1em; margin-top: 5px; }
+        .btn-pdf, .btn-cotizar { color: white; border: none; padding: 12px 28px; border-radius: 50px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease; }
+        .btn-pdf { background: linear-gradient(135deg, #2c3e66 0%, #1a2c4e 100%); }
+        .btn-cotizar { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); }
+        .btn-pdf:hover, .btn-cotizar:hover { transform: translateY(-2px); filter: brightness(1.02); }
+
+        /* NUEVO BANNER ARGENTINA */
+        .banner-argentina {
+            background: linear-gradient(125deg, #ffffff 0%, #eef5ff 30%, #cbe4fe 100%);
+            border-radius: 32px;
+            margin-bottom: 32px;
+            padding: 5px;
+            box-shadow: 0 12px 28px rgba(0, 40, 80, 0.12);
+            border: 1px solid rgba(117, 170, 219, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-argentina::before {
+            content: "⭐⚽⭐";
+            font-size: 120px;
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            opacity: 0.1;
+            pointer-events: none;
+            font-family: monospace;
+            white-space: pre;
+        }
+        .banner-content {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 32px;
+            position: relative;
+            z-index: 2;
+        }
+        .banner-icon {
+            font-size: 4rem;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.1));
+        }
+        .banner-text {
+            flex: 2;
+            min-width: 180px;
+        }
+        .banner-text h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #003d7c, #0070c0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+            display: inline-block;
+        }
+        .banner-text h2::before {
+            content: "🇦🇷 ";
+            background: none;
+            color: #75aadb;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+        }
+        .banner-text p {
+            color: #1e4663;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .banner-btn {
+            background: linear-gradient(135deg, #f5b042, #e07c1f);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 12px rgba(230,126,34,0.3);
+        }
+        .banner-btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #f7b853, #e68a2e);
+            box-shadow: 0 8px 18px rgba(230,126,34,0.4);
+        }
+
+        .banner-mundial-link {
+    display: block;
+    width: 100%;
+    margin-bottom: 32px;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 40, 80, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.banner-mundial-link:hover {
+    transform: scale(1.01);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.banner-mundial-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+        @media (max-width: 750px) {
+            .banner-content { flex-direction: column; text-align: center; padding: 20px; }
+            .banner-text h2 { font-size: 1.5rem; }
+            .banner-icon { font-size: 3rem; }
+            .banner-btn { width: 100%; justify-content: center; }
+        }
+
+        .categoria-acordeon { background: white; border-radius: 24px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden; }
+        .acordeon-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 16px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: white; font-size: 1.3em; font-weight: bold; }
+        .acordeon-header:hover { background: linear-gradient(135deg, #2a4a8a 0%, #3a62a8 100%); }
+        .acordeon-header .icono { transition: transform 0.3s; }
+        .acordeon-contenido { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; padding: 0 20px; }
+        .categoria-acordeon.abierto .acordeon-contenido { max-height: 5000px; padding: 20px; }
+        .categoria-acordeon.abierto .acordeon-header .icono { transform: rotate(180deg); }
+        .productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; }
+        .producto-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; border: 1px solid #eef2ff; }
+        .producto-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+        .producto-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 12px 16px; text-align: center; }
+        .producto-header h2 { color: white; font-size: 1.1em; margin: 0; }
+        .producto-imagen { background: #f4f7fc; cursor: pointer; overflow: hidden; width: 100%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; }
+        .producto-imagen img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s; }
+        .producto-imagen:hover img { transform: scale(1.02); }
+        .observacion { background: #fff9e0; color: #b45f06; padding: 8px 12px; margin: 12px 12px 0; border-radius: 16px; border-left: 4px solid #f1c40f; font-size: 0.8em; }
+        .tabla-precios { padding: 14px; overflow-x: auto; flex: 1; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid #e9ecef; font-size: 0.8em; }
+        th { background: #eef2ff; color: #1e3c72; }
+        .precio { font-weight: 800; color: #2c6e2f; }
+        .btn-llavero-catalogo { background: linear-gradient(135deg, #6c5ce7 0%, #4b3cb0 100%); color: white; border: none; padding: 8px 16px; border-radius: 40px; font-weight: bold; font-size: 0.8em; cursor: pointer; margin: 8px 14px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; text-align: center; }
+        .sin-precio-mensaje { text-align: center; padding: 12px; font-weight: 600; color: #e67e22; background: #fef5e8; border-radius: 16px; margin: 8px 12px; font-size: 0.85em; }
+        .condiciones { background: white; border-radius: 28px; padding: 24px; margin-top: 30px; border-top: 6px solid #f39c12; }
+        .condiciones ul { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 8px; }
+        .condiciones li { padding-left: 24px; position: relative; }
+        .condiciones li:before { content: "✨"; position: absolute; left: 0; }
+        #cotizador-fab { position: fixed; bottom: 30px; right: 30px; z-index: 9000; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #f7971e, #e67e22); color: white; border: none; font-size: 1.6em; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(230,126,34,0.5); }
+        #cotizador-badge { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7em; display: none; align-items: center; justify-content: center; }
+        #cotizador-panel { position: fixed; bottom: 100px; right: 30px; z-index: 9001; width: 420px; max-height: 80vh; background: white; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; overflow: hidden; }
+        #cotizador-panel.visible { display: flex; }
+        .cotizador-header { background: linear-gradient(135deg, #f7971e, #e67e22); color: white; padding: 12px 16px; display: flex; justify-content: space-between; cursor: grab; }
+        .cotizador-body { padding: 16px; overflow-y: auto; }
+        .cot-select, .cot-input { width: 100%; padding: 8px 12px; border: 1.5px solid #e0e0e0; border-radius: 12px; margin-bottom: 8px; }
+        .btn-add-item { width: 100%; padding: 10px; background: #1e3c72; color: white; border: none; border-radius: 12px; font-weight: bold; margin: 8px 0; cursor: pointer; }
+        .cot-items-list { list-style: none; margin: 8px 0; padding: 0; max-height: 250px; overflow-y: auto; }
+        .cot-item { display: flex; justify-content: space-between; background: #f8f9fa; border-radius: 12px; padding: 8px; margin-bottom: 6px; font-size: 0.8em; }
+        .btn-remove-item { background: none; border: none; color: #e74c3c; cursor: pointer; }
+        .cot-total-val { font-size: 1.4em; font-weight: 800; }
+        .btn-limpiar { width: 100%; padding: 8px; background: white; border: 1.5px solid #e74c3c; color: #e74c3c; border-radius: 12px; margin-top: 8px; cursor: pointer; }
+        .cot-precio-info, .cot-min-aviso { font-size: 0.8em; padding: 6px; border-radius: 10px; margin: 6px 0; display: none; }
+        .cot-precio-info { background: #e8f5e9; }
+        .cot-min-aviso { background: #fff3cd; color: #856404; }
+        @media (max-width: 768px) { .productos-grid { grid-template-columns: 1fr; } .header-section { flex-direction: column; text-align: center; } #cotizador-panel { width: calc(100vw - 20px); right: 10px; bottom: 90px; } }
+        @media print { .btn-pdf, .btn-cotizar, #cotizador-fab, #cotizador-panel, .banner-argentina { display: none; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-section">
+        <div class="titulos">
+            <h1>✨ LatinMerch · Catálogo de Productos Personalizados ✨</h1>
+            <div class="subtitulo">Accesorios, indumentaria, office & más — Cotizá sin compromiso</div>
+        </div>
+        <div style="display: flex; gap: 12px;">
+            <button class="btn-cotizar" onclick="toggleCotizador()">🧮 Cotizador</button>
+            <button class="btn-pdf" onclick="descargarPDF()">📄 Descargar PDF</button>
+        </div>
+    </div>
+
+    <!-- BANNER CON FOTO - Redirige a mundial2026.html (raíz) -->
+<a href="mundial2026.html" class="banner-mundial-link">
+    <img src="/assets/img/portfolio/trabajos/bannernano.jpg" alt="Vamos Argentina! Merch - Alentá a la selección" class="banner-mundial-img">
+</a>
+
+    <!-- Modal Lightbox -->
+    <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; align-items:center; justify-content:center;">
+        <div style="position:relative;"><span id="cerrar-modal" style="position:absolute; top:-40px; right:0; color:white; font-size:40px; cursor:pointer;">&times;</span><img id="modal-img" style="max-width:90vw; max-height:90vh; border-radius:16px;"></div>
+    </div>
+
+    <!-- 1. LLAVEROS -->
+    <div class="categoria-acordeon" id="cat-llaveros">
+        <div class="acordeon-header" onclick="toggleAcordeon(this)">
+            <span>Llaveros personalizados</span><span class="icono">▼</span>
+        </div>
+        <div class="acordeon-contenido">
+            <div class="productos-grid">
+                <div class="producto-card">
+                    <div class="producto-header"><h2>Catálogo completo de llaveros</h2></div>
+                    <div class="observacion">Gran variedad: 4x15, 4x10, mosquetón alpino, soga, aro sin fin, etc.</div>
+                    <div class="sin-precio-mensaje">Para ver todos los modelos y variedad, visitá el catálogo especial.</div>
+                    <a href="catalogollaveros.html" class="btn-llavero-catalogo" target="_blank">Ver todos los llaveros →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. PERSONALIZADOS DE OFICINA -->
+    <div class="categoria-acordeon" id="cat-oficina">
+        <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Personalizados de Oficina</span><span class="icono">▼</span></div>
+        <div class="acordeon-contenido">
+            <div class="productos-grid">
+                <div class="producto-card"><div class="producto-header"><h2>Portanotebook</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portanotebook.png')"><img src="/assets/img/portfolio/trabajos/portanotebook.png" alt="Portanotebook"></div><div class="observacion">Cuero ecológico / cordura, personalizado con logo grabado a calor (no incluye matriz) o dtf.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 10u</td><td class="precio">$21.000</td></tr><tr><td>Desde 50u</td><td class="precio">$17.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Deskpad</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/pad.png')"><img src="/assets/img/portfolio/trabajos/pad.png" alt="Deskpad"></div><div class="observacion">Superficie antideslizante, bordes cosidos, full color.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 5u</td><td class="precio">$30.000</td></tr><tr><td>Desde 20u</td><td class="precio">$25.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Portablock personalizado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portablock.png')"><img src="/assets/img/portfolio/trabajos/portablock.png" alt="Portablock"></div><div class="observacion">Cuero / PU, cierre imantado, ideal para notas.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Portacuaderno personalizado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/portacuaderno.png')"><img src="/assets/img/portfolio/trabajos/portacuaderno.png" alt="Portacuaderno"></div><div class="observacion">Cierre elástico, cuero grabado, A5/A4.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Pack Posavasos personalizados x4</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/posavaso.png')"><img src="/assets/img/portfolio/trabajos/posavaso.png" alt="Posavasos"></div><div class="observacion">Sublimado, cartón piedra o silicona, full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 5u</td><td class="precio">$16.000</td></tr><tr><td>Desde 20u</td><td class="precio">$11.000</td></tr></table></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ROPA PERSONALIZADA -->
+    <div class="categoria-acordeon" id="cat-ropa">
+        <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Ropa Personalizada</span><span class="icono">▼</span></div>
+        <div class="acordeon-contenido">
+            <div class="productos-grid">
+                <div class="producto-card"><div class="producto-header"><h2>Remera de algodón estampada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/remera.png')"><img src="/assets/img/portfolio/trabajos/remera.png" alt="Remera"></div><div class="observacion">Estampada en dtf (algodón).</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">$21.000</td></tr><tr><td>Desde 100u</td><td class="precio">$17.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Remera sublimada poliéster (tipo deportiva)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/remera.png')"><img src="/assets/img/portfolio/trabajos/remera.png" alt="Remera sublimada"></div><div class="observacion">Poliéster deportiva full color.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 20u</td><td class="precio">$21.000</td></tr><tr><td>Desde 100u</td><td class="precio">$17.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Buzo estampado</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/buzo.png')"><img src="/assets/img/portfolio/trabajos/buzo.png" alt="Buzo estampado"></div><div class="observacion">Algodón estampada en dtf.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 50u</td><td class="precio">Cotizar</td></tr></table></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ACCESORIOS -->
+    <div class="categoria-acordeon" id="cat-accesorios">
+        <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Accesorios</span><span class="icono">▼</span></div>
+        <div class="acordeon-contenido">
+            <div class="productos-grid">
+                <div class="producto-card"><div class="producto-header"><h2>Riñonera personalizada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/rinonera.png')"><img src="/assets/img/portfolio/trabajos/rinonera.png" alt="Riñonera"></div><div class="observacion">Cordura o cuero ecológico, sublimada, varios colores.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Mochila PU (cuero sintético)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/mochipu.png')"><img src="/assets/img/portfolio/trabajos/mochipu.png" alt="Mochila PU"></div><div class="observacion">Elegante, resistente, grabado laser.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 30u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Mochila sublimada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/mochisu.png')"><img src="/assets/img/portfolio/trabajos/mochisu.png" alt="Mochila sublimada"></div><div class="observacion">Diseño envolvente, material poliéster.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Billetera estampada</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billestampada.png')"><img src="/assets/img/portfolio/trabajos/billestampada.png" alt="Billetera"></div><div class="observacion">Sublimada, diseño completo, varios compartimentos.</div><div class="tabla-precios"><tr><td><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 100u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Billetera de cuero</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billehombre.webp')"><img src="/assets/img/portfolio/trabajos/billehombre.webp" alt="Billetera cuero"></div><div class="observacion">Cuero vacuno, grabado a laser, clásica.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 60u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Billetera de mujer</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/billemujer.webp')"><img src="/assets/img/portfolio/trabajos/billemujer.webp" alt="Billetera mujer"></div><div class="observacion">Diseños modernos, cuero ecológico, cierre monedero.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr><tr><td>Desde 80u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Neceser tipo botinero</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/neceserboti.png')"><img src="/assets/img/portfolio/trabajos/neceserboti.png" alt="Neceser"></div><div class="observacion">Tamaño grande, ideal para artículos de higiene o deporte.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 15u</td><td class="precio">$20.000</td></tr><tr><td>Desde 50u</td><td class="precio">$17.600</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>💳 Estuche Portalentes</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/estuche.png')"><img src="/assets/img/portfolio/trabajos/estuche.png" alt="Estuche Portalentes"></div><div class="observacion">Simil neoprene sublimado, full color.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th></td> etxekenth: 1 </td><td class="precio">$14.000</td></tr><tr><td>Desde 20u</td><td class="precio">$7.000</td></tr><tr><td>Desde 50u</td><td class="precio">$5.900</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>⭐ Cartuchera / Neceser Neoprene</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/cartuchera.png')"><img src="/assets/img/portfolio/trabajos/cartuchera.png" alt="Cartuchera neoprene"></div><div class="observacion">Sublimada en simil neoprene, full color.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Precio unitario</td><td class="precio">$14.000</td></tr><tr><td>Desde 20u</td><td class="precio">$9.000</td></tr><tr><td>Desde 50u</td><td class="precio">$8.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>⛰️ Portapasaporte</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/sobreportapasaporte.png')"><img src="/assets/img/portfolio/trabajos/sobreportapasaporte.png" alt="Portapasaporte"></div><div class="observacion">Fabricado en cordura, viajá con estilo luciendo tus colores.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Precio unitario</td><td class="precio">$20.000</td></tr><tr><td>Desde 10u</td><td class="precio">$9.000</td></tr><tr><td>Desde 50u</td><td class="precio">$5.900</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>⌚ Matera Cordura</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/matera.png')"><img src="/assets/img/portfolio/trabajos/matera.png" alt="Matera cordura"></div><div class="observacion">Fabricada en cordura, sublimada con materiales de calidad.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Precio unitario</td><td class="precio">$80.000</td></tr><tr><td>Desde 20u</td><td class="precio">Cotizar</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>☀️ Set de Mate</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/setdemate.png')"><img src="/assets/img/portfolio/trabajos/setdemate.png" alt="Set de mate"></div><div class="observacion">Incluye mate de vidrio, bombilla tipo tambor, yerbero y estuche personalizado. Opción a cotizar mate de calabaza.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 20u</td><td class="precio">$45.000</td></tr><tr><td>Mayor volumen</td><td class="precio">Cotizar</td></tr></table></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. PERSONALIZADOS DEPORTIVOS -->
+    <div class="categoria-acordeon" id="cat-deportivos">
+        <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Personalizados Deportivos</span><span class="icono">▼</span></div>
+        <div class="acordeon-contenido">
+            <div class="productos-grid">
+                <div class="producto-card"><div class="producto-header"><h2>Botinero deportivo</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/botinero.webp')"><img src="/assets/img/portfolio/trabajos/botinero.webp" alt="Botinero"></div><div class="observacion">Resistente, con ventilación, ideal para equipos.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></tr><tr><td>Desde 10u</td><td class="precio">$27.000</td></tr><tr><td>Desde 50u</td><td class="precio">$20.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Toalla deportiva (30x40)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/toalla.webp')"><img src="/assets/img/portfolio/trabajos/toalla.webp" alt="Toalla dep"></div><div class="observacion">Microfibra, rápida absorción, ideal para gimnasio.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio</th></td> etxekenth: 30u </td><td class="precio">$5.500</td></tr><tr><td>Desde 100u</td><td class="precio">$4.400</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Toalla deportiva (20x30)</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/toalla.webp')"><img src="/assets/img/portfolio/trabajos/toalla.webp" alt="Toalla dep"></div><div class="observacion">Microfibra, rápida absorción, ideal para gimnasio.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio</th><tr><tr><td>Desde 30u</td><td class="precio">$4.000</td></tr><tr><td>Desde 100u</td><td class="precio">$3.500</td></tr></table></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. OTROS PRODUCTOS -->
+    <div class="categoria-acordeon" id="cat-otros">
+        <div class="acordeon-header" onclick="toggleAcordeon(this)"><span>Otros Productos</span><span class="icono">▼</span></div>
+        <div class="acordeon-contenido">
+            <div class="productos-grid">
+                <div class="producto-card"><div class="producto-header"><h2>Agitador de café</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/agitadores.png')"><img src="/assets/img/portfolio/trabajos/agitadores.png" alt="Agitador de café"></div><div class="observacion">Personalizado con logo, ideal para promociones, cafeterías y eventos.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Desde 100u</td><td class="precio">$400</td></tr><tr><td>Desde 500u</td><td class="precio">$150</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Tarjetas NFC personalizadas</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/tarjeta.png')"><img src="/assets/img/portfolio/trabajos/tarjeta.png" alt="NFC"></div><div class="observacion">Tarjetas con chip NFC, diseño full color, ideal para networking.</div><div class="tabla-precios"><table><tr><th>Cantidad</th><th>Precio unitario</th></tr><tr><td>Desde 5u</td><td class="precio">$7.000</td></tr><tr><td>Desde 20u</td><td class="precio">$4.000</td></tr></table></div></div>
+                <div class="producto-card"><div class="producto-header"><h2>Bolsas papeleras para el auto</h2></div><div class="producto-imagen" onclick="abrirModal('/assets/img/portfolio/trabajos/bolsapapelera.png')"><img src="/assets/img/portfolio/trabajos/bolsapapelera.png" alt="Papeleras"></div><div class="observacion">100% personalizables. Cuero ecológico o cordura melange.</div><div class="tabla-precios"><tr><tr><th>Cantidad</th><th>Precio unitario</th><tr><tr><td>Desde 10u</td><td class="precio">$13.000</td></tr><tr><td>Desde 50u</td><td class="precio">$9.000</td></tr></table></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Condiciones -->
+    <div class="condiciones">
+        <h3>CONDICIONES DE VENTA</h3>
+        <ul>
+            <li>Diseño sin cargo. Medidas exactas para arte.</li>
+            <li>Precios finales + Factura C.</li>
+            <li>Seña 50% al realizar el pedido; saldo contra entrega.</li>
+            <li>Plazos según producto y cantidades.</li>
+            <li>Envíos a todo el país / retiro en CABA.</li>
+        </ul>
+        <div style="background:#eef2ff; padding:12px; border-radius:28px; text-align:center; margin-top:12px;">Completá los precios en las tablas y usá el cotizador para armar tu presupuesto</div>
+    </div>
+</div>
+
+<!-- Botón flotante cotizador -->
+<button id="cotizador-fab" onclick="toggleCotizador()">🧮<span id="cotizador-badge"></span></button>
+<div id="cotizador-panel">
+    <div class="cotizador-header" id="drag-handle"><h3>Cotizador</h3><div><button class="btn-min" onclick="toggleCotizador()">—</button><button class="btn-close-cot" onclick="cerrarCotizador()">✕</button></div></div>
+    <div class="cotizador-body">
+        <select id="cot-producto" class="cot-select"><option value="">— Seleccioná un producto —</option></select>
+        <div id="cot-opciones-wrap"></div>
+        <div id="cot-precio-info" class="cot-precio-info"></div>
+        <div id="cot-min-aviso" class="cot-min-aviso"></div>
+        <div><label>Cantidad</label><input type="number" id="cot-cantidad" class="cot-input" min="1" value="1"></div>
+        <button id="btn-agregar" class="btn-add-item" onclick="agregarItem()">Agregar al presupuesto</button>
+        <hr><div class="cot-items-title">Presupuesto</div>
+        <ul id="cot-items-list" class="cot-items-list"><li style="text-align:center;">Sin productos aún</li></ul>
+        <div class="cot-total-row"><span>Total</span><span id="cot-total-val" class="cot-total-val">$0</span></div>
+        <button class="btn-limpiar" onclick="limpiarCotizador()">Limpiar todo</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    function toggleAcordeon(header) {
+        const parent = header.closest('.categoria-acordeon');
+        parent.classList.toggle('abierto');
+    }
+    
+    function abrirModal(src) { 
+        const modalDiv = document.getElementById('modal'); 
+        modalDiv.style.display='flex'; 
+        document.getElementById('modal-img').src=src; 
+    }
+    document.getElementById('cerrar-modal')?.addEventListener('click',()=>{ document.getElementById('modal').style.display='none'; });
+    document.getElementById('modal')?.addEventListener('click',(e)=>{ if(e.target===document.getElementById('modal')) document.getElementById('modal').style.display='none'; });
+
+    const PRODUCTOS_COT = [
+        { id:'portanotebook', nombre:'Portanotebook', minimo:10, variantes:[{ nombre:'Estándar', escalas:[{desde:10,precio:21000},{desde:50,precio:17000}] }] },
+        { id:'deskpad', nombre:'Deskpad', minimo:5, variantes:[{ nombre:'Base antideslizante', escalas:[{desde:5,precio:30000},{desde:20,precio:25000}] }] },
+        { id:'portablock', nombre:'Portablock', minimo:20, variantes:[{ nombre:'Cuero/PU', escalas:[{desde:20,precio:0},{desde:100,precio:0}] }] },
+        { id:'portacuaderno', nombre:'Portacuaderno', minimo:15, variantes:[{ nombre:'Cuero grabado', escalas:[{desde:15,precio:0},{desde:60,precio:0}] }] },
+        { id:'posavasos', nombre:'Posavasos x4', minimo:5, variantes:[{ nombre:'Sublimado', escalas:[{desde:5,precio:16000},{desde:20,precio:11000}] }] },
+        { id:'remera_algodon', nombre:'Remera de algodón estampada', minimo:20, variantes:[{ nombre:'Algodón DTF', escalas:[{desde:20,precio:21000},{desde:100,precio:17000}] }] },
+        { id:'remera_sublimada', nombre:'Remera sublimada poliéster', minimo:20, variantes:[{ nombre:'Poliéster deportiva', escalas:[{desde:20,precio:21000},{desde:100,precio:17000}] }] },
+        { id:'buzo', nombre:'Buzo estampado', minimo:10, variantes:[{ nombre:'Algodón DTF', escalas:[{desde:10,precio:0},{desde:50,precio:0}] }] },
+        { id:'toalla20x30', nombre:'Toalla deportiva 20x30', minimo:30, variantes:[{ nombre:'Microfibra', escalas:[{desde:30,precio:4000},{desde:100,precio:3500}] }] },
+        { id:'toalla30x40', nombre:'Toalla deportiva 30x40', minimo:30, variantes:[{ nombre:'Microfibra', escalas:[{desde:30,precio:5500},{desde:100,precio:4400}] }] },
+        { id:'rinonera', nombre:'Riñonera', minimo:20, variantes:[{ nombre:'Cordura', escalas:[{desde:20,precio:0},{desde:100,precio:0}] }] },
+        { id:'mochila_pu', nombre:'Mochila PU', minimo:10, variantes:[{ nombre:'Cuero sintético', escalas:[{desde:10,precio:0},{desde:30,precio:0}] }] },
+        { id:'mochila_sublimada', nombre:'Mochila sublimada', minimo:15, variantes:[{ nombre:'Poliéster', escalas:[{desde:15,precio:0},{desde:60,precio:0}] }] },
+        { id:'billetera_estampada', nombre:'Billetera estampada', minimo:20, variantes:[{ nombre:'Sublimada', escalas:[{desde:20,precio:0},{desde:100,precio:0}] }] },
+        { id:'billetera_cuero', nombre:'Billetera cuero', minimo:15, variantes:[{ nombre:'Cuero vacuno', escalas:[{desde:15,precio:0},{desde:60,precio:0}] }] },
+        { id:'billetera_mujer', nombre:'Billetera mujer', minimo:20, variantes:[{ nombre:'Ecológico', escalas:[{desde:20,precio:0},{desde:80,precio:0}] }] },
+        { id:'neceser_botinero', nombre:'Neceser tipo botinero', minimo:15, variantes:[{ nombre:'Tela resistente', escalas:[{desde:15,precio:20000},{desde:50,precio:17600}] }] },
+        { id:'botinero_deportivo', nombre:'Botinero deportivo', minimo:10, variantes:[{ nombre:'Premium', escalas:[{desde:10,precio:27000},{desde:50,precio:20000}] }] },
+        { id:'tarjetas_nfc', nombre:'Tarjetas NFC', minimo:5, variantes:[{ nombre:'Chip NFC', escalas:[{desde:5,precio:7000},{desde:20,precio:4000}] }] },
+        { id:'agitador', nombre:'Agitador de café', minimo:100, variantes:[{ nombre:'Estándar', escalas:[{desde:100,precio:400},{desde:500,precio:150}] }] },
+        { id:'papeleras', nombre:'Bolsas papeleras auto', minimo:10, variantes:[{ nombre:'Cuero ecológico', escalas:[{desde:10,precio:13000},{desde:50,precio:9000}] }] },
+        { id:'portalentes', nombre:'Estuche portalentes', minimo:1, variantes:[{ nombre:'Simil neoprene sublimado', escalas:[{desde:1,precio:14000},{desde:20,precio:7000},{desde:50,precio:5900}] }] },
+        { id:'cartuchera', nombre:'Cartuchera / Neceser neoprene', minimo:1, variantes:[{ nombre:'Simil neoprene sublimado', escalas:[{desde:1,precio:14000},{desde:20,precio:9000},{desde:50,precio:8000}] }] },
+        { id:'portapasaporte', nombre:'Portapasaporte', minimo:1, variantes:[{ nombre:'Cordura', escalas:[{desde:1,precio:20000},{desde:10,precio:9000},{desde:50,precio:5900}] }] },
+        { id:'matera', nombre:'Matera cordura', minimo:20, variantes:[{ nombre:'Cordura sublimada', escalas:[{desde:20,precio:80000}] }] },
+        { id:'set_mate', nombre:'Set de mate', minimo:20, variantes:[{ nombre:'Simil neoprene', escalas:[{desde:20,precio:45000}] }] }
+    ];
+
+    let items = [], panelVisible=false;
+    function getPrecio(variante,cant){ let esc=[...variante.escalas].sort((a,b)=>b.desde-a.desde); for(let e of esc) if(cant>=e.desde) return e.precio; return variante.escalas[0].precio; }
+    function initSelect(){ let sel=document.getElementById('cot-producto'); PRODUCTOS_COT.forEach(p=>{ let opt=document.createElement('option'); opt.value=p.id; opt.textContent=p.nombre; sel.appendChild(opt);});}
+    function actualizarOpciones(){
+        let prodId=document.getElementById('cot-producto').value, wrap=document.getElementById('cot-opciones-wrap'); wrap.innerHTML='';
+        if(!prodId) return; let prod=PRODUCTOS_COT.find(p=>p.id===prodId);
+        if(prod.variantes.length===1) wrap.innerHTML='<input type="hidden" id="cot-variante" value="0">';
+        else{ let sel=document.createElement('select'); sel.id='cot-variante'; sel.className='cot-select'; prod.variantes.forEach((v,i)=>{ let op=document.createElement('option'); op.value=i; op.textContent=v.nombre; sel.appendChild(op);}); wrap.appendChild(sel);}
+        let cantInp=document.getElementById('cot-cantidad'); cantInp.min=prod.minimo; cantInp.value=prod.minimo;
+        actualizarPrecioInfo();
+    }
+    function actualizarPrecioInfo(){
+        let prodId=document.getElementById('cot-producto').value; if(!prodId) return;
+        let prod=PRODUCTOS_COT.find(p=>p.id===prodId); let varIdx=parseInt(document.getElementById('cot-variante')?.value||0);
+        let cant=parseInt(document.getElementById('cot-cantidad').value)||0; let variante=prod.variantes[varIdx];
+        let infoDiv=document.getElementById('cot-precio-info'), avisoDiv=document.getElementById('cot-min-aviso');
+        if(cant<prod.minimo){ infoDiv.style.display='none'; avisoDiv.style.display='block'; avisoDiv.innerHTML=`Mínimo: ${prod.minimo} unidades`; document.getElementById('btn-agregar').disabled=true; return;}
+        avisoDiv.style.display='none'; document.getElementById('btn-agregar').disabled=false;
+        let precio=getPrecio(variante,cant); 
+        if(precio===0) infoDiv.innerHTML=`Precio a consultar.`;
+        else infoDiv.innerHTML=`Precio unitario: $${precio.toLocaleString('es-AR')}<br>Subtotal: $${(precio*cant).toLocaleString('es-AR')}`;
+        infoDiv.style.display='block';
+    }
+    function agregarItem(){
+        let prodId=document.getElementById('cot-producto').value; if(!prodId){alert('Seleccioná producto');return;}
+        let prod=PRODUCTOS_COT.find(p=>p.id===prodId); let varIdx=parseInt(document.getElementById('cot-variante')?.value||0);
+        let cant=parseInt(document.getElementById('cot-cantidad').value); if(cant<prod.minimo){alert(`Mínimo ${prod.minimo} unidades`);return;}
+        let variante=prod.variantes[varIdx]; let precio=getPrecio(variante,cant);
+        if(precio===0){ alert('Este producto aún no tiene precio definido. Consultanos para cotizarlo.'); return; }
+        let subtotal=precio*cant; items.push({id:Date.now(), nombre:prod.nombre, variante:variante.nombre, cantidad:cant, precioUnitario:precio, subtotal});
+        renderItems(); actualizarBadge(); document.getElementById('cot-cantidad').value=prod.minimo; actualizarPrecioInfo();
+    }
+    function renderItems(){ let list=document.getElementById('cot-items-list'); list.innerHTML=''; if(items.length===0){ list.innerHTML='<li style="text-align:center;">Sin productos aún</li>'; actualizarTotal(); return;}
+        items.forEach(it=>{ let li=document.createElement('li'); li.className='cot-item'; li.innerHTML=`<div><strong>${it.nombre}</strong><br>${it.variante} · ${it.cantidad} u · $${it.precioUnitario.toLocaleString('es-AR')} c/u</div><div>$${it.subtotal.toLocaleString('es-AR')}<button class="btn-remove-item" onclick="eliminarItem(${it.id})">✕</button></div>`; list.appendChild(li);}); actualizarTotal();}
+    function eliminarItem(id){ items=items.filter(i=>i.id!==id); renderItems(); actualizarBadge();}
+    function limpiarCotizador(){ if(items.length && confirm('¿Limpiar todo?')){ items=[]; renderItems(); actualizarBadge();}}
+    function actualizarTotal(){ let total=items.reduce((a,i)=>a+i.subtotal,0); document.getElementById('cot-total-val').textContent='$'+total.toLocaleString('es-AR');}
+    function actualizarBadge(){ let badge=document.getElementById('cotizador-badge'); if(items.length){ badge.style.display='flex'; badge.textContent=items.length;} else badge.style.display='none';}
+    function toggleCotizador(){ panelVisible=!panelVisible; document.getElementById('cotizador-panel').classList.toggle('visible',panelVisible);}
+    function cerrarCotizador(){ panelVisible=false; document.getElementById('cotizador-panel').classList.remove('visible');}
+    
+    (function(){ let panel=document.getElementById('cotizador-panel'), handle=document.getElementById('drag-handle'), isDrag=false, startX,startY, origR, origB;
+        handle.addEventListener('mousedown',(e)=>{ if(e.target.closest('.btn-min,.btn-close-cot')) return; isDrag=true; startX=e.clientX; startY=e.clientY; let rect=panel.getBoundingClientRect(); origR=window.innerWidth-rect.right; origB=window.innerHeight-rect.bottom; e.preventDefault();});
+        document.addEventListener('mousemove',(e)=>{ if(!isDrag) return; let dx=e.clientX-startX, dy=e.clientY-startY; panel.style.right=Math.max(0,origR-dx)+'px'; panel.style.bottom=Math.max(0,origB-dy)+'px';});
+        document.addEventListener('mouseup',()=>{ isDrag=false;});
+    })();
+    
+    function descargarPDF(){ let element=document.querySelector('.container'); let btn=document.querySelector('.btn-pdf'); btn.style.display='none'; html2pdf().set({margin:[0.4,0.4,0.4,0.4], filename:'catalogo_latinmerch.pdf', image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2}, jsPDF:{unit:'in',format:'a4',orientation:'portrait'}, pagebreak:{mode:['avoid-all','css'],avoid:['.producto-card','.condiciones']}}).from(element).save().then(()=>btn.style.display='flex').catch(()=>{btn.style.display='flex'; alert('Error');});}
+    
+    window.onload=()=>{ initSelect(); actualizarOpciones(); document.getElementById('cot-producto').addEventListener('change',actualizarOpciones); document.getElementById('cot-cantidad').addEventListener('input',actualizarPrecioInfo); };
+</script>
+</body>
+</html>

@@ -619,6 +619,7 @@
         }
 
         .btn-limpiar {
+            width: 100%;
             padding: 10px;
             background: white;
             color: #e74c3c;
@@ -634,31 +635,6 @@
         .btn-limpiar:hover {
             background: #e74c3c;
             color: white;
-        }
-
-        .btn-descargar-pdf {
-            padding: 10px 14px;
-            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.88em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            white-space: nowrap;
-        }
-
-        .btn-descargar-pdf:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .btn-descargar-pdf:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .cot-precio-info {
@@ -984,14 +960,7 @@
                 </div>
                 <div class="cot-total-val" id="cot-total-val">$0</div>
             </div>
-            <div style="margin-bottom:10px;">
-                <label style="font-size:0.78em;font-weight:700;color:#555;display:block;margin-bottom:4px;">👤 Nombre del cliente <span style="color:#e74c3c;">*</span></label>
-                <input type="text" id="cot-cliente-nombre" class="cot-input" placeholder="Ej: Juan Pérez / Empresa S.A." style="font-size:0.85em;">
-            </div>
-            <div style="display:flex;gap:8px;">
-                <button class="btn-limpiar" onclick="limpiarCotizador()" style="flex:1;">🗑️ Limpiar</button>
-                <button class="btn-descargar-pdf" id="btn-descargar-pdf" onclick="descargarPresupuestoPDF()">📄 Descargar presupuesto</button>
-            </div>
+            <button class="btn-limpiar" onclick="limpiarCotizador()">🗑️ Limpiar presupuesto</button>
         </div>
     </div>
 
@@ -999,8 +968,6 @@
 
     <script>
     // ===================== DATOS DE PRODUCTOS =====================
-    // minimo: cantidad mínima requerida para cotizar
-    // admiteHolder: true = mostrar opción de agregar holder
     const PRODUCTOS = [
         {
             id: 'holder',
@@ -1120,7 +1087,6 @@
         },
     ];
 
-    // Precios del holder por material
     const HOLDER_PRECIOS = { 'Cristal': 250, 'Cuero': 500, 'Goma': 550, 'PU': 300 };
 
     // ===================== LÓGICA COTIZADOR =====================
@@ -1136,12 +1102,6 @@
         return variante.escalas[0].precio;
     }
 
-    function getEscalaInfo(variante, cantidad, prod) {
-        const precio = getPrecio(variante, cantidad);
-        if (variante.escalas.length === 1) return `Precio único: $${precio.toLocaleString('es-AR')} c/u`;
-        return `Escala "desde ${variante.escalas.find(e => e.desde <= cantidad && [...variante.escalas].sort((a,b)=>b.desde-a.desde).find(x=>x.desde<=cantidad)===e)?.desde ?? variante.escalas[0].desde}u": $${precio.toLocaleString('es-AR')} c/u`;
-    }
-
     function getEscalaLabel(variante, cantidad) {
         const escalasDesc = [...variante.escalas].sort((a, b) => b.desde - a.desde);
         for (const escala of escalasDesc) {
@@ -1154,7 +1114,6 @@
         return '';
     }
 
-    // Poblar select de productos
     function initCotizador() {
         const sel = document.getElementById('cot-producto');
         PRODUCTOS.forEach(p => {
@@ -1177,7 +1136,6 @@
         const prod = PRODUCTOS.find(p => p.id === prodId);
         if (!prod) return;
 
-        // Selector variante
         if (prod.variantes.length > 1) {
             const label = document.createElement('label');
             label.style.cssText = 'font-size:0.8em;font-weight:600;color:#555;display:block;margin-bottom:4px;margin-top:10px;';
@@ -1204,7 +1162,6 @@
             wrap.appendChild(input);
         }
 
-        // Opción holder (si aplica)
         if (prod.admiteHolder) {
             const holderWrap = document.createElement('div');
             holderWrap.style.cssText = 'margin-top:12px;background:#f0f4ff;border-radius:10px;padding:10px 12px;border:1.5px solid #c5d0f5;';
@@ -1225,7 +1182,6 @@
             `;
             wrap.appendChild(holderWrap);
 
-            // Mostrar/ocultar select de material al checkear
             setTimeout(() => {
                 const chk = document.getElementById('cot-holder-check');
                 const selWrap = document.getElementById('cot-holder-select-wrap');
@@ -1237,7 +1193,6 @@
             }, 50);
         }
 
-        // Setear cantidad mínima del producto
         const cantInput = document.getElementById('cot-cantidad');
         cantInput.min = prod.minimo;
         cantInput.value = prod.minimo;
@@ -1258,7 +1213,6 @@
         const avisoEl = document.getElementById('cot-min-aviso');
         const btnAgregar = document.getElementById('btn-agregar');
 
-        // Validar mínimo
         if (cantidad < prod.minimo) {
             infoEl.style.display = 'none';
             avisoEl.style.display = 'flex';
@@ -1276,7 +1230,6 @@
         let subtotal = precio * cantidad;
         let holderTexto = '';
 
-        // Sumar holder si aplica
         const holderCheck = document.getElementById('cot-holder-check');
         if (prod.admiteHolder && holderCheck && holderCheck.checked) {
             const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
@@ -1307,7 +1260,6 @@
         let subtotal = precio * cantidad;
         let holderInfo = null;
 
-        // Holder opcional
         const holderCheck = document.getElementById('cot-holder-check');
         if (prod.admiteHolder && holderCheck && holderCheck.checked) {
             const material = document.getElementById('cot-holder-material')?.value || 'Cristal';
@@ -1329,7 +1281,6 @@
         renderItems();
         actualizarBadge();
 
-        // Reset
         document.getElementById('cot-cantidad').value = prod.minimo;
         if (holderCheck) holderCheck.checked = false;
         const holderSelWrap = document.getElementById('cot-holder-select-wrap');
@@ -1420,7 +1371,7 @@
         document.getElementById('cotizador-panel').classList.remove('visible');
     }
 
-    // ===================== DRAG (mover panel flotante) =====================
+    // ===================== DRAG =====================
     (function() {
         const panel = document.getElementById('cotizador-panel');
         const handle = document.getElementById('cotizador-drag-handle');
@@ -1453,7 +1404,6 @@
             }
         });
 
-        // Touch
         handle.addEventListener('touchstart', function(e) {
             if (e.target.closest('.btn-min, .btn-close-cot')) return;
             isDragging = true;
@@ -1493,7 +1443,7 @@
         if (e.key === 'Escape' && modal.style.display === 'block') cerrarModalFunc();
     });
 
-    // ===================== PDF =====================
+    // ===================== PDF CATÁLOGO =====================
     function descargarPDF() {
         const element = document.querySelector('.container');
         const btn = document.querySelector('.btn-pdf');
@@ -1517,239 +1467,12 @@
             });
     }
 
-    // ===================== PDF PRESUPUESTO =====================
-    function descargarPresupuestoPDF() {
-        if (items.length === 0) {
-            alert('Agregá al menos un producto al presupuesto antes de descargar.');
-            return;
-        }
-
-        const clienteNombre = document.getElementById('cot-cliente-nombre').value.trim();
-        if (!clienteNombre) {
-            document.getElementById('cot-cliente-nombre').focus();
-            document.getElementById('cot-cliente-nombre').style.borderColor = '#e74c3c';
-            setTimeout(() => document.getElementById('cot-cliente-nombre').style.borderColor = '', 2000);
-            alert('Por favor ingresá el nombre del cliente antes de generar el PDF.');
-            return;
-        }
-
-        const btn = document.getElementById('btn-descargar-pdf');
-        btn.disabled = true;
-        btn.textContent = '⏳ Generando...';
-
-        const total = items.reduce((acc, i) => acc + i.subtotal, 0);
-        const totalUnidades = items.reduce((acc, i) => acc + i.cantidad, 0);
-        const fecha = new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-        // Determinar si algún item tiene holder, para mostrar u ocultar esas columnas
-        const hayHolder = items.some(i => i.holderInfo);
-
-        const filasItems = items.map((item, idx) => {
-            const totalLlavero = item.precioUnitario * item.cantidad;
-            const totalHolder = item.holderInfo ? item.holderInfo.precio * item.cantidad : null;
-            const subtotalFinal = totalLlavero + (totalHolder || 0);
-            const bg = idx % 2 === 0 ? '#ffffff' : '#f9f9f9';
-
-            const celdaSubtotalLlavero = hayHolder
-                ? `<td style="padding:10px 12px;text-align:right;color:#1e7e34;font-weight:700;">$${totalLlavero.toLocaleString('es-AR')}</td>`
-                : '';
-
-            const filaLlavero = `
-                <tr style="background:${bg};">
-                    <td style="padding:10px 12px;font-weight:600;color:#2c3e50;">
-                        ${item.productoNombre}<br>
-                        <span style="font-weight:400;font-size:0.82em;color:#666;">${item.varianteNombre}</span>
-                    </td>
-                    <td style="padding:10px 12px;text-align:center;">${item.cantidad}</td>
-                    <td style="padding:10px 12px;text-align:right;">$${item.precioUnitario.toLocaleString('es-AR')}</td>
-                    ${celdaSubtotalLlavero}
-                    <td style="padding:10px 12px;text-align:right;font-weight:800;color:#1e7e34;font-size:1.05em;${item.holderInfo ? 'border-bottom:none;' : ''}">
-                        ${item.holderInfo ? '—' : '$' + subtotalFinal.toLocaleString('es-AR')}
-                    </td>
-                </tr>`;
-
-            const filaHolder = item.holderInfo ? `
-                <tr style="background:#f0f4ff;border-bottom:2px solid #c5d0f5;">
-                    <td style="padding:8px 12px 10px 24px;color:#3a3a8c;font-size:0.88em;">↳ + Holder ${item.holderInfo.material}</td>
-                    <td style="padding:8px 12px;text-align:center;color:#3a3a8c;font-size:0.88em;">${item.cantidad}</td>
-                    <td style="padding:8px 12px;text-align:right;color:#3a3a8c;font-size:0.88em;">$${item.holderInfo.precio.toLocaleString('es-AR')}</td>
-                    <td style="padding:8px 12px;text-align:right;color:#3a3a8c;font-weight:700;font-size:0.88em;">$${totalHolder.toLocaleString('es-AR')}</td>
-                    <td style="padding:8px 12px;text-align:right;font-weight:800;color:#1e7e34;font-size:1.05em;">$${subtotalFinal.toLocaleString('es-AR')}</td>
-                </tr>` : '';
-
-            return filaLlavero + filaHolder;
-        }).join('');
-
-        const thSubtotalParcial = hayHolder
-            ? `<th style="text-align:right;">Subtotal ítem</th>`
-            : '';
-
-        const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <style>
-                * { margin:0; padding:0; box-sizing:border-box; }
-                body { font-family: 'Segoe UI', Arial, sans-serif; color: #333; background: white; }
-                .page { padding: 36px 40px; max-width: 780px; margin: 0 auto; }
-
-                .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom: 18px; border-bottom: 3px solid #667eea; margin-bottom: 22px; }
-                .empresa-nombre { font-size: 2em; font-weight: 900; color: #2c3e50; letter-spacing: -1px; }
-                .empresa-subtitulo { font-size: 0.85em; color: #888; margin-top: 2px; }
-                .empresa-contacto { text-align: right; font-size: 0.8em; color: #555; line-height: 1.8; }
-                .empresa-contacto strong { color: #2c3e50; }
-
-                .presup-meta { display:flex; justify-content:space-between; align-items:stretch; gap:14px; margin-bottom: 22px; }
-                .presup-box { flex:1; border-radius: 10px; padding: 12px 16px; }
-                .presup-box.azul { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-                .presup-box.gris { background: #f4f4f4; border: 1.5px solid #e0e0e0; }
-                .presup-box .label { font-size: 0.72em; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
-                .presup-box .value { font-size: 1em; font-weight: 700; }
-                .presup-box.gris .label { color: #888; }
-                .presup-box.gris .value { color: #2c3e50; }
-
-                table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.88em; }
-                thead tr { background: #2c3e50; color: white; }
-                thead th { padding: 10px 12px; text-align: left; font-weight: 600; }
-                thead th:nth-child(2) { text-align: center; }
-                thead th:nth-child(3), thead th:nth-child(4) { text-align: right; }
-                tbody tr:last-child td { border-bottom: 2px solid #e0e0e0; }
-
-                .total-box { display:flex; justify-content:flex-end; margin-bottom: 24px; }
-                .total-inner { background: #f8f9fa; border: 2px solid #667eea; border-radius: 10px; padding: 14px 22px; min-width: 260px; }
-                .total-row { display:flex; justify-content:space-between; gap: 30px; font-size: 0.88em; color: #555; margin-bottom: 6px; }
-                .total-final { display:flex; justify-content:space-between; gap: 30px; font-size: 1.15em; font-weight: 800; color: #2c3e50; border-top: 1.5px solid #ddd; padding-top: 8px; margin-top: 2px; }
-                .total-final span:last-child { color: #1e7e34; }
-
-                .validez-box { background:#e8f5e9; border:1.5px solid #a5d6a7; border-radius:8px; padding:10px 16px; margin-bottom:18px; font-size:0.82em; color:#2e7d32; display:flex; align-items:center; gap:8px; }
-
-                .condiciones-box { background: #fffbf0; border: 1.5px solid #ffc107; border-radius: 10px; padding: 14px 18px; margin-bottom: 22px; }
-                .condiciones-box h3 { font-size: 0.9em; color: #856404; margin-bottom: 8px; font-weight: 700; }
-                .condiciones-box ul { list-style: none; padding: 0; }
-                .condiciones-box li { font-size: 0.8em; color: #555; padding: 3px 0 3px 18px; position: relative; line-height: 1.4; }
-                .condiciones-box li:before { content: "✓"; color: #28a745; position: absolute; left: 0; font-weight: bold; }
-
-                .footer { text-align: center; font-size: 0.72em; color: #aaa; border-top: 1px solid #eee; padding-top: 12px; }
-                .footer strong { color: #667eea; }
-            </style>
-        </head>
-        <body>
-        <div class="page">
-
-            <div class="header">
-                <div>
-                    <div class="empresa-nombre">LatinMerch</div>
-                    <div class="empresa-subtitulo">Accesorios en cuero genuino y materiales de calidad</div>
-                </div>
-                <div class="empresa-contacto">
-                    <div>📍 Gral. José G. Artigas 1553, Paternal</div>
-                    <div>📞 <strong>Lauro Ware</strong> · 15 6236-6175</div>
-                    <div>📞 <strong>Martín Urquiza</strong> · 11 5145-7232</div>
-                    <div>✉️ ventas@latinmerch.com.ar</div>
-                </div>
-            </div>
-
-            <div class="presup-meta">
-                <div class="presup-box azul">
-                    <div class="label">Cliente</div>
-                    <div class="value">${clienteNombre}</div>
-                </div>
-                <div class="presup-box gris">
-                    <div class="label">Fecha</div>
-                    <div class="value">${fecha}</div>
-                </div>
-                <div class="presup-box gris">
-                    <div class="label">Unidades totales</div>
-                    <div class="value">${totalUnidades} u</div>
-                </div>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Producto / Variante</th>
-                        <th style="text-align:center;">Cant.</th>
-                        <th style="text-align:right;">Precio u.</th>
-                        ${thSubtotalParcial}
-                        <th style="text-align:right;background:#1a5c2e;">Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${filasItems}
-                </tbody>
-            </table>
-
-            <div class="total-box">
-                <div class="total-inner">
-                    <div class="total-row"><span>Unidades:</span><span>${totalUnidades}</span></div>
-                    <div class="total-final"><span>TOTAL</span><span>$${total.toLocaleString('es-AR')}</span></div>
-                </div>
-            </div>
-
-            <div class="validez-box">
-                ✅ <strong>Este presupuesto tiene validez por 7 días una vez confirmado por el canal de ventas.</strong>
-            </div>
-
-            <div class="condiciones-box">
-                <h3>📋 Condiciones de venta</h3>
-                <ul>
-                    <li>No cobramos el diseño de la cinta. Si contás con diseñador, podés realizarlo vos mismo. ¡Solicitanos las medidas!</li>
-                    <li>Los precios son finales.</li>
-                    <li>Solo realizamos factura C.</li>
-                    <li>Trabajamos con adelanto del 50% y resto contra despacho de la mercadería.</li>
-                    <li>Los plazos dependen del modelo y las cantidades. La fecha de entrega se pacta al momento de la señal.</li>
-                    <li>No incluye envío — Enviamos por Correo Argentino.</li>
-                    <li>Los productos se pueden retirar por Paternal.</li>
-                </ul>
-            </div>
-
-            <div class="footer">
-                Presupuesto generado por <strong>LatinMerch</strong> · ventas@latinmerch.com.ar · Lauro Ware 15 6236-6175 · Martín Urquiza 11 5145-7232
-            </div>
-
-        </div>
-        </body>
-        </html>
-        `;
-
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
-        tempDiv.style.position = 'absolute';
-        tempDiv.style.left = '-9999px';
-        tempDiv.style.top = '0';
-        document.body.appendChild(tempDiv);
-
-        const nombreArchivo = clienteNombre.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/g, '').replace(/\s+/g, '_').toLowerCase();
-        const opt = {
-            margin: [0, 0, 0, 0],
-            filename: `presupuesto_latinmerch_${nombreArchivo}_${fecha.replace(/\//g, '-')}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opt).from(tempDiv.querySelector('.page') || tempDiv).save()
-            .then(() => {
-                document.body.removeChild(tempDiv);
-                btn.disabled = false;
-                btn.textContent = '📄 Descargar presupuesto';
-            })
-            .catch((err) => {
-                console.error(err);
-                document.body.removeChild(tempDiv);
-                btn.disabled = false;
-                btn.textContent = '📄 Descargar presupuesto';
-                alert('Error al generar el PDF. Intentá de nuevo.');
-            });
-    }
-
     // ===================== INIT =====================
     initCotizador();
     </script>
+
     <!-- ===================== PWA SERVICE WORKER + INSTALL BANNER ===================== -->
     <script>
-    // Service Worker para cache offline
     if ('serviceWorker' in navigator) {
         const swCode = `
             const CACHE = 'latinmerch-v1';
@@ -1775,7 +1498,6 @@
         navigator.serviceWorker.register(swUrl).catch(() => {});
     }
 
-    // Banner de instalación personalizado
     let deferredPrompt = null;
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -1797,7 +1519,6 @@
         document.getElementById('install-banner').style.display = 'none';
     }
 
-    // En iOS mostrar instrucción manual
     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
     const isInStandalone = window.navigator.standalone;
     if (isIOS && !isInStandalone) {
