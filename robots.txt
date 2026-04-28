@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /assets/
+Disallow: /vendor/
+Disallow: /zohoverify/
+
+Sitemap: https://latinmerch.com.ar/sitemap.xml
